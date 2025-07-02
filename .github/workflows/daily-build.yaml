@@ -31,6 +31,11 @@ jobs:
         # Get latest release tag
         LATEST_TAG=$(curl -s https://api.github.com/repos/$OWNER/$REPO/releases/latest | jq -r .tag_name)
 
+        if [ "$LATEST_TAG" = "null" ] || [ -z "$LATEST_TAG" ]; then
+          echo "No release found or API error"
+          exit 0
+        fi
+
         if [ "$LATEST_TAG" = "$LAST_TAG" ]; then
           echo "No new release. Last checked: $LAST_TAG"
           exit 0
@@ -50,8 +55,14 @@ jobs:
         # Download jar
         curl -L -o app.jar "$ASSET_URL"
 
-        # Create flux-kotlin-single project
-        rm -rf flux-kotlin-single && java -jar app.jar init --name flux-kotlin-single --template flux-kotlin-single 
+        # Get list of all templates
+        TEMPLATES=$(java -jar app.jar templates list)
+
+        # Generate example project for each template
+        for template in $TEMPLATES; do
+          echo "Generating example for template: $template"
+          rm -rf "$template" && java -jar app.jar init --name "$template" --template "$template"
+        done
 
         # Save and commit the latest tag
         echo "$LATEST_TAG" > $LAST_TAG_FILE
