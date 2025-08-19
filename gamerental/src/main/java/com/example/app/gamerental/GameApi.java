@@ -5,6 +5,7 @@ import com.example.app.gamerental.api.GetGame;
 import com.example.app.gamerental.api.GetGameStats;
 import com.example.app.gamerental.api.RegisterGame;
 import com.example.app.gamerental.api.RentGame;
+import com.example.app.gamerental.api.ReturnGame;
 import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameDetails;
 import com.example.app.gamerental.api.common.GameId;
@@ -53,7 +54,7 @@ public class GameApi {
 
     @HandlePost("/{gameId}/return")
     CompletableFuture<Void> returnGame(@PathParam GameId gameId) {
-        return FluxCapacitor.sendCommand(new RentGame(gameId));
+        return FluxCapacitor.sendCommand(new ReturnGame(gameId));
     }
 
 }
