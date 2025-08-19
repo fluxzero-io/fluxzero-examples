@@ -53,7 +53,7 @@ public class GameApi {
 
     @HandlePost("/{gameId}/return")
     CompletableFuture<Void> returnGame(@PathParam GameId gameId) {
-        return FluxCapacitor.sendCommand(new RentGame(gameId));
+        return FluxCapacitor.sendCommand(new ReturnGame(gameId));
     }
 
 }
