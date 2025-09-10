@@ -1,7 +1,7 @@
 package com.example.app.user;
 
 import com.example.app.authentication.Role;
-import io.fluxcapacitor.javaclient.modeling.Aggregate;
+import io.fluxzero.sdk.modeling.Aggregate;
 import lombok.Builder;
 
 @Aggregate(searchable = true)

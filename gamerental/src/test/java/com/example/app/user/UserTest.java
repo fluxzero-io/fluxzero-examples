@@ -1,7 +1,7 @@
 package com.example.app.user;
 
-import io.fluxcapacitor.javaclient.test.TestFixture;
-import io.fluxcapacitor.javaclient.tracking.handling.authentication.UnauthorizedException;
+import io.fluxzero.sdk.test.TestFixture;
+import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package com.example.app.gamerental.api;
 
 import com.example.app.gamerental.api.common.Game;
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleQuery;
-import io.fluxcapacitor.javaclient.tracking.handling.Request;
+import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.tracking.handling.HandleQuery;
+import io.fluxzero.sdk.tracking.handling.Request;
 import jakarta.annotation.Nullable;
 
 import java.util.List;

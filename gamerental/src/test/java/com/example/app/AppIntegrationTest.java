@@ -1,7 +1,7 @@
 package com.example.app;
 
 import com.example.app.gamerental.announcer.GameAnnouncement;
-import io.fluxcapacitor.javaclient.test.TestFixture;
+import io.fluxzero.sdk.test.TestFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

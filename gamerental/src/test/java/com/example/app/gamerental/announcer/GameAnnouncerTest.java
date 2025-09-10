@@ -1,7 +1,7 @@
 package com.example.app.gamerental.announcer;
 
 import com.example.app.gamerental.api.GameUpdate;
-import io.fluxcapacitor.javaclient.test.TestFixture;
+import io.fluxzero.sdk.test.TestFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.example.app.authentication;
 
 import com.example.app.user.UserId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.fluxcapacitor.javaclient.tracking.handling.authentication.User;
+import io.fluxzero.sdk.tracking.handling.authentication.User;
 import lombok.Builder;
 import lombok.NonNull;
 

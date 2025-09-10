@@ -2,9 +2,9 @@ package com.example.app.user;
 
 import com.example.app.authentication.RequiresRole;
 import com.example.app.authentication.Role;
-import io.fluxcapacitor.javaclient.modeling.AssertLegal;
-import io.fluxcapacitor.javaclient.persisting.eventsourcing.Apply;
-import io.fluxcapacitor.javaclient.tracking.handling.IllegalCommandException;
+import io.fluxzero.sdk.modeling.AssertLegal;
+import io.fluxzero.sdk.persisting.eventsourcing.Apply;
+import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

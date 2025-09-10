@@ -20,9 +20,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>io.flux-capacitor</groupId>
-				<artifactId>flux-capacitor-bom</artifactId>
-				<version>0.1199.1</version>
+				<groupId>io.fluxzero</groupId>
+				<artifactId>fluxzero-bom</artifactId>
+				<version>1.0.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -37,22 +37,22 @@
 
 		<!--flux capacitor -->
 		<dependency>
-			<groupId>io.flux-capacitor</groupId>
-			<artifactId>java-client</artifactId>
+			<groupId>io.fluxzero</groupId>
+			<artifactId>sdk</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.flux-capacitor</groupId>
-			<artifactId>java-client</artifactId>
+			<groupId>io.fluxzero</groupId>
+			<artifactId>sdk</artifactId>
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>
 		<dependency>
-			<groupId>io.flux-capacitor</groupId>
+			<groupId>io.fluxzero</groupId>
 			<artifactId>test-server</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.flux-capacitor</groupId>
+			<groupId>io.fluxzero</groupId>
 			<artifactId>proxy</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -94,8 +94,8 @@
 							<artifactId>lombok</artifactId>
 						</path>
 						<path>
-							<groupId>io.flux-capacitor</groupId>
-							<artifactId>java-client</artifactId>
+							<groupId>io.fluxzero</groupId>
+							<artifactId>sdk</artifactId>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -129,7 +129,7 @@
 							<goal>sources</goal>
 						</goals>
 						<configuration>
-							<includeGroupIds>io.flux-capacitor</includeGroupIds>
+							<includeGroupIds>io.fluxzero</includeGroupIds>
 							<excludeClassifiers>tests</excludeClassifiers>
 							<silent>true</silent>
 						</configuration>

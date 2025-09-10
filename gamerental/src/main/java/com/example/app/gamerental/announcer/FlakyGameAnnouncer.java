@@ -1,9 +1,9 @@
 package com.example.app.gamerental.announcer;
 
 import com.example.app.gamerental.api.RegisterGame;
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.tracking.Consumer;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleEvent;
+import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.tracking.Consumer;
+import io.fluxzero.sdk.tracking.handling.HandleEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;

@@ -6,9 +6,9 @@ import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameDetails;
 import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.persisting.eventsourcing.Apply;
-import io.fluxcapacitor.javaclient.tracking.handling.Request;
+import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.persisting.eventsourcing.Apply;
+import io.fluxzero.sdk.tracking.handling.Request;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

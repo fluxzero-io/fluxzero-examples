@@ -1,10 +1,10 @@
 package com.example.app.gamerental.api;
 
 import com.example.app.gamerental.api.common.Game;
-import io.fluxcapacitor.common.api.search.FacetStats;
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleQuery;
-import io.fluxcapacitor.javaclient.tracking.handling.Request;
+import io.fluxzero.common.api.search.FacetStats;
+import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.tracking.handling.HandleQuery;
+import io.fluxzero.sdk.tracking.handling.Request;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.example.app.gamerental.api.common;
 
 import com.example.app.authentication.Sender;
-import io.fluxcapacitor.common.search.Facet;
-import io.fluxcapacitor.javaclient.modeling.Aggregate;
-import io.fluxcapacitor.javaclient.modeling.EntityId;
+import io.fluxzero.common.search.Facet;
+import io.fluxzero.sdk.modeling.Aggregate;
+import io.fluxzero.sdk.modeling.EntityId;
 import lombok.Builder;
 
 @Aggregate(searchable = true, timestampPath = "details/releaseDate")

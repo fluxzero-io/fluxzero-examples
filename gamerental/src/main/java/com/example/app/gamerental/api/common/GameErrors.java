@@ -1,6 +1,6 @@
 package com.example.app.gamerental.api.common;
 
-import io.fluxcapacitor.javaclient.tracking.handling.IllegalCommandException;
+import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 
 public interface GameErrors {
     IllegalCommandException alreadyExists = illegalCommandException("Game already exists"),

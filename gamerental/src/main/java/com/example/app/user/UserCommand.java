@@ -1,8 +1,8 @@
 package com.example.app.user;
 
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.tracking.TrackSelf;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleCommand;
+import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.tracking.TrackSelf;
+import io.fluxzero.sdk.tracking.handling.HandleCommand;
 import jakarta.validation.constraints.NotNull;
 
 @TrackSelf
