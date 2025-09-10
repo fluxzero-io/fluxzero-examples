@@ -1,0 +1,200 @@
+name: Build Examples (changed only)
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: "Force build all projects"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  discover:
+    name: Discover changed projects
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Compute changed projects matrix
+        id: set-matrix
+        shell: bash
+        env:
+          GH_EVENT_NAME: ${{ github.event_name }}
+          GH_BASE_REF: ${{ github.base_ref }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GIT_SHA: ${{ github.sha }}
+          FORCE_ALL: ${{ inputs.force_all }}
+        run: |
+          set -euo pipefail
+
+          # List top-level project directories (exclude .git and .github)
+          mapfile -t PROJECTS < <(ls -1d */ 2>/dev/null | sed 's:/$::' | grep -vE '^\\.git$|^\\.github$' || true)
+
+          if [ ${#PROJECTS[@]} -eq 0 ]; then
+            echo "No project directories found."
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Optionally force build all projects (workflow_dispatch input)
+          force_all_flag="${FORCE_ALL:-false}"
+          if [ "$force_all_flag" = "true" ]; then
+            echo "Force build enabled; selecting all projects."
+            selected=("${PROJECTS[@]}")
+          else
+            # Determine diff file list robustly
+            changed_files_tmp="$(mktemp)"
+            if [ "$GH_EVENT_NAME" = "pull_request" ]; then
+              # Ensure base branch is available locally; then use triple-dot diff
+              base_ref="${GH_BASE_REF:-}" # e.g., main
+              head_sha="${PR_HEAD_SHA:-$GIT_SHA}"
+              if [ -n "$base_ref" ]; then
+                git fetch --no-tags --prune --depth=0 origin "$base_ref":"refs/remotes/origin/$base_ref"
+                git diff --name-only "origin/$base_ref...$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
+                echo "Diffing changed files against origin/$base_ref...$head_sha"
+              else
+                # Fallback: compare with first commit
+                first_commit="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+                git diff --name-only "$first_commit" "$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
+                echo "Diffing changed files between $first_commit and $head_sha (fallback)"
+              fi
+            else
+              base_sha="${PUSH_BEFORE_SHA:-}"
+              head_sha="$GIT_SHA"
+              if [ -n "$base_sha" ] && git cat-file -e "$base_sha^{commit}" 2>/dev/null; then
+                git diff --name-only "$base_sha" "$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
+                echo "Diffing changed files between $base_sha and $head_sha"
+              else
+                # Fallbacks: previous commit if available, else initial commit
+                if prev="$(git rev-parse HEAD^ 2>/dev/null)"; then
+                  git diff --name-only "$prev" "$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
+                  echo "Diffing changed files between $prev and $head_sha (fallback)"
+                else
+                  first_commit="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+                  git diff --name-only "$first_commit" "$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
+                  echo "Diffing changed files between $first_commit and $head_sha (fallback)"
+                fi
+              fi
+            fi
+
+          # Determine which project directories have changes
+          selected=()
+            for p in "${PROJECTS[@]}"; do
+              if grep -E "^$p/" "$changed_files_tmp" >/dev/null 2>&1; then
+                selected+=("$p")
+              fi
+            done
+          fi
+
+          if [ ${#selected[@]} -eq 0 ]; then
+            echo "No project changes detected; nothing to build."
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Build JSON matrix with dir and java (from .java-version if present)
+          items=()
+          for dir in "${selected[@]}"; do
+            if [ -f "$dir/.java-version" ]; then
+              java_ver="$(tr -d '\n' < "$dir/.java-version" | sed 's/[^0-9].*$//')"
+            else
+              java_ver="21"
+            fi
+            if [ -z "$java_ver" ]; then java_ver="21"; fi
+            items+=("{\"dir\":\"$dir\",\"java\":\"$java_ver\"}")
+          done
+
+          json="["$(IFS=,; echo "${items[*]}")"]"
+          echo "matrix=$json" | tee -a "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.dir }} (Java ${{ matrix.java }})
+    needs: discover
+    if: needs.discover.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Setup Java ${{ matrix.java }} (Gradle cache)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: gradle
+
+      - name: Validate Gradle Wrapper(s)
+        uses: gradle/wrapper-validation-action@v3
+
+      - name: Verify Gradle wrapper
+        working-directory: ${{ matrix.dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -x ./gradlew ]; then
+            ls -l ./gradlew || true
+            ls -l gradle/wrapper || true
+            if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
+              echo "gradle-wrapper.jar is missing. If you use Git LFS, ensure LFS is enabled in checkout (lfs: true)." >&2
+              exit 1
+            fi
+            chmod +x ./gradlew
+          else
+            echo "No Gradle wrapper script found; skipping verification."
+          fi
+
+      - name: Build with Gradle
+        working-directory: ${{ matrix.dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Gradle build in $(pwd)"
+          if [ -x ./gradlew ]; then
+            ./gradlew --version
+            ./gradlew --no-daemon clean build
+          else
+            echo "No Gradle wrapper; skipping Gradle build."
+          fi
+
+      - name: Setup Java ${{ matrix.java }} (Maven cache)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Build with Maven
+        working-directory: ${{ matrix.dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Maven build in $(pwd)"
+          if [ -x ./mvnw ]; then
+            ./mvnw -v
+            ./mvnw -B -ntp -DskipTests=false clean package
+          elif [ -f pom.xml ]; then
+            mvn -v
+            mvn -B -ntp -DskipTests=false clean package
+          else
+            echo "No Maven project; skipping Maven build."
+          fi
