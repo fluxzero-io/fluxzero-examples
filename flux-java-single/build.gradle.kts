@@ -23,16 +23,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     
     // Flux Capacitor
-    implementation("io.fluxzero:java-client")
+    implementation("io.fluxzero:sdk")
     
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("io.fluxzero:java-client")
+    annotationProcessor("io.fluxzero:sdk")
     
     // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.fluxzero:java-client") {
+    testImplementation("io.fluxzero:sdk") {
         artifact {
             classifier = "tests"
         }
