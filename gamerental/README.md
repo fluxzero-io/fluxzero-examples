@@ -131,7 +131,7 @@ Flux Capacitor makes it:
 
 ## 📎 Related Docs
 
-- [Flux Capacitor Java Client README](https://github.com/flux-capacitor-io/flux-capacitor-client)
+- [Flux Capacitor Java Client README](https://github.com/fluxzero-io/flux-capacitor-client)
 - [Introduction to Message Handling](https://flux-capacitor.io/docs/message-handling)
 - [DLQ and Error Recovery](https://flux-capacitor.io/docs/dlq)
 - [Test Fixtures](https://flux-capacitor.io/docs/testing)
