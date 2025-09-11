@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>gamerental</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Game Rental Demo</name>
+	<description>Game Rental sample app for Fluxzero</description>
 	<properties>
 		<java.version>24</java.version>
 	</properties>
@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
