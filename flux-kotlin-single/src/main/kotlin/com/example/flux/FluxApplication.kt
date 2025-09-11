@@ -26,7 +26,7 @@ class FluxApplication {
     }
 
     @Bean
-    fun FluxzeroClient(
+    fun fluxzeroClient(
         @Value("\${FLUX_BASE_URL:ws://localhost:8888}") fluxBaseUrl: String,
     ): Client =
         WebSocketClient.newInstance(
