@@ -1,6 +1,6 @@
 package com.example.app.gamerental.api.common;
 
-import io.fluxcapacitor.common.search.Facet;
+import io.fluxzero.common.search.Facet;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.Instant;

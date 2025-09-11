@@ -14,7 +14,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("io.flux-capacitor:flux-capacitor-bom:0.1199.1")
+        mavenBom("io.fluxzero:fluxzero-bom:1.0.0")
     }
 }
 
@@ -23,22 +23,22 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     
     // Flux Capacitor
-    implementation("io.flux-capacitor:java-client")
+    implementation("io.fluxzero:sdk")
     
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("io.flux-capacitor:java-client")
+    annotationProcessor("io.fluxzero:sdk")
     
     // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.flux-capacitor:java-client") {
+    testImplementation("io.fluxzero:sdk") {
         artifact {
             classifier = "tests"
         }
     }
-    testImplementation("io.flux-capacitor:test-server")
-    testImplementation("io.flux-capacitor:proxy")
+    testImplementation("io.fluxzero:test-server")
+    testImplementation("io.fluxzero:proxy")
 }
 
 tasks.withType<Test> {

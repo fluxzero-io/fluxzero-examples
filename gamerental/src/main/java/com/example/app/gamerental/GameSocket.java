@@ -3,12 +3,12 @@ package com.example.app.gamerental;
 import com.example.app.gamerental.api.GetGameCatalog;
 import com.example.app.gamerental.api.RegisterGame;
 import com.example.app.gamerental.api.common.Game;
-import io.fluxcapacitor.javaclient.FluxCapacitor;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleNotification;
-import io.fluxcapacitor.javaclient.web.HandleSocketOpen;
-import io.fluxcapacitor.javaclient.web.Path;
-import io.fluxcapacitor.javaclient.web.SocketEndpoint;
-import io.fluxcapacitor.javaclient.web.SocketSession;
+import io.fluxzero.sdk.Fluxzero;
+import io.fluxzero.sdk.tracking.handling.HandleNotification;
+import io.fluxzero.sdk.web.HandleSocketOpen;
+import io.fluxzero.sdk.web.Path;
+import io.fluxzero.sdk.web.SocketEndpoint;
+import io.fluxzero.sdk.web.SocketSession;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public record GameSocket(SocketSession session) {
     @HandleSocketOpen
     static GameSocket onOpen(SocketSession session) {
-        session.sendMessage(FluxCapacitor.queryAndWait(new GetGameCatalog()));
+        session.sendMessage(Fluxzero.queryAndWait(new GetGameCatalog()));
         return new GameSocket(session);
     }
 

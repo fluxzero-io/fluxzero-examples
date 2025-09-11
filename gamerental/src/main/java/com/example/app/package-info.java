@@ -1,4 +1,4 @@
 @RegisterType
 package com.example.app;
 
-import io.fluxcapacitor.common.serialization.RegisterType;
+import io.fluxzero.common.serialization.RegisterType;

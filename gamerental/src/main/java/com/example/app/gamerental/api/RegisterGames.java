@@ -2,7 +2,7 @@ package com.example.app.gamerental.api;
 
 import com.example.app.authentication.RequiresRole;
 import com.example.app.authentication.Role;
-import io.fluxcapacitor.javaclient.tracking.handling.HandleCommand;
+import io.fluxzero.sdk.tracking.handling.HandleCommand;
 import jakarta.validation.Valid;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.example.flux.tasks
 
-import io.fluxcapacitor.javaclient.modeling.Id
+import io.fluxzero.sdk.modeling.Id
 
 data class TaskId(
     val taskId: String,

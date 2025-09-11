@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
     <name>Flux Kotlin Single</name>
-    <description>A Flux Capacitor application with Kotlin</description>
+    <description>An empty Fluxzero application with Kotlin</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,7 +25,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <kotlin.version>2.1.20</kotlin.version>
         <kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
-        <flux-capacitor.version>0.1139.0</flux-capacitor.version>
+        <fluxzero.version>1.0.1</fluxzero.version>
         <kotlin-logging.version>7.0.3</kotlin-logging.version>
         <detekt.version>1.23.8</detekt.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,9 +50,9 @@
 
         <!-- Flux Capacitor -->
         <dependency>
-            <groupId>io.flux-capacitor</groupId>
-            <artifactId>java-client</artifactId>
-            <version>${flux-capacitor.version}</version>
+            <groupId>io.fluxzero</groupId>
+            <artifactId>sdk</artifactId>
+            <version>${fluxzero.version}</version>
         </dependency>
 
         <!-- Jackson Kotlin module -->
@@ -75,22 +75,22 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.flux-capacitor</groupId>
-            <artifactId>java-client</artifactId>
-            <version>${flux-capacitor.version}</version>
+            <groupId>io.fluxzero</groupId>
+            <artifactId>sdk</artifactId>
+            <version>${fluxzero.version}</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.flux-capacitor</groupId>
+            <groupId>io.fluxzero</groupId>
             <artifactId>test-server</artifactId>
-            <version>${flux-capacitor.version}</version>
+            <version>${fluxzero.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.flux-capacitor</groupId>
+            <groupId>io.fluxzero</groupId>
             <artifactId>proxy</artifactId>
-            <version>${flux-capacitor.version}</version>
+            <version>${fluxzero.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

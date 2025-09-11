@@ -2,7 +2,7 @@ name: Build Examples (changed only)
 
 on:
   push:
-    branches: ["**"]
+    branches: ["main"]
   pull_request:
     branches: ["**"]
   workflow_dispatch:
@@ -40,6 +40,16 @@ jobs:
         run: |
           set -euo pipefail
 
+          echo "== Context =========================================="
+          echo "Event: ${GH_EVENT_NAME:-}"
+          echo "Base ref: ${GH_BASE_REF:-}"
+          echo "PR base SHA: ${PR_BASE_SHA:-}"
+          echo "PR head SHA: ${PR_HEAD_SHA:-}"
+          echo "Push before SHA: ${PUSH_BEFORE_SHA:-}"
+          echo "GIT_SHA (current): ${GIT_SHA:-}"
+          echo "Repo shallow: $(git rev-parse --is-shallow-repository 2>/dev/null || echo unknown)"
+          echo "HEAD: $(git rev-parse --short HEAD 2>/dev/null || echo '?') - $(git show -s --format=%s HEAD 2>/dev/null || echo '?')"
+
           # List top-level project directories (exclude .git and .github)
           mapfile -t PROJECTS < <(ls -1d */ 2>/dev/null | sed 's:/$::' | grep -vE '^\\.git$|^\\.github$' || true)
 
@@ -48,6 +58,8 @@ jobs:
             echo "matrix=[]" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
+          echo "Found ${#PROJECTS[@]} project(s): ${PROJECTS[*]}"
 
           # Optionally force build all projects (workflow_dispatch input)
           force_all_flag="${FORCE_ALL:-false}"
@@ -58,18 +70,31 @@ jobs:
             # Determine diff file list robustly
             changed_files_tmp="$(mktemp)"
             if [ "$GH_EVENT_NAME" = "pull_request" ]; then
-              # Ensure base branch is available locally; then use triple-dot diff
-              base_ref="${GH_BASE_REF:-}" # e.g., main
-              head_sha="${PR_HEAD_SHA:-$GIT_SHA}"
-              if [ -n "$base_ref" ]; then
-                git fetch --no-tags --prune --depth=0 origin "$base_ref":"refs/remotes/origin/$base_ref"
-                git diff --name-only "origin/$base_ref...$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
-                echo "Diffing changed files against origin/$base_ref...$head_sha"
+              # Prefer diffing by base SHA from the event payload; this avoids relying on local branch names
+              base_sha="${PR_BASE_SHA:-}"
+              if [ -n "$base_sha" ] && git cat-file -e "$base_sha^{commit}" 2>/dev/null; then
+                git diff --name-only "$base_sha...HEAD" | sed '/^$/d' > "$changed_files_tmp" || true
+                echo "Diffing changed files against base SHA $base_sha...HEAD"
               else
-                # Fallback: compare with first commit
-                first_commit="$(git rev-list --max-parents=0 HEAD | tail -n1)"
-                git diff --name-only "$first_commit" "$head_sha" | sed '/^$/d' > "$changed_files_tmp" || true
-                echo "Diffing changed files between $first_commit and $head_sha (fallback)"
+                # Fallback: use the base ref name if available; fetch it if missing
+                base_ref="${GH_BASE_REF:-}"
+                if [ -n "$base_ref" ]; then
+                  # Try to ensure the remote-tracking ref exists locally; don't fail the build if fetch fails
+                  git fetch --no-tags --prune origin "+refs/heads/$base_ref:refs/remotes/origin/$base_ref" || true
+                  if git rev-parse --verify -q "origin/$base_ref" >/dev/null; then
+                    git diff --name-only "origin/$base_ref...HEAD" | sed '/^$/d' > "$changed_files_tmp" || true
+                    echo "Diffing changed files against origin/$base_ref...HEAD"
+                  else
+                    # Last resort: diff from the first commit to HEAD
+                    first_commit="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+                    git diff --name-only "$first_commit" HEAD | sed '/^$/d' > "$changed_files_tmp" || true
+                    echo "Base ref '$base_ref' not found; diffing $first_commit..HEAD (fallback)"
+                  fi
+                else
+                  first_commit="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+                  git diff --name-only "$first_commit" HEAD | sed '/^$/d' > "$changed_files_tmp" || true
+                  echo "No base ref; diffing $first_commit..HEAD (fallback)"
+                fi
               fi
             else
               base_sha="${PUSH_BEFORE_SHA:-}"
@@ -90,20 +115,33 @@ jobs:
               fi
             fi
 
+            # Summarize changed files
+            changed_count=$(wc -l < "$changed_files_tmp" | tr -d '[:space:]' || echo 0)
+            echo "Changed files detected: $changed_count"
+            if [ "$changed_count" -gt 0 ]; then
+              echo "Changed files (up to first 200):"
+              sed -n '1,200p' "$changed_files_tmp" || true
+              if [ "$changed_count" -gt 200 ]; then
+                echo "(truncated; total $changed_count files)"
+              fi
+            fi
+
           # Determine which project directories have changes
           selected=()
             for p in "${PROJECTS[@]}"; do
               if grep -E "^$p/" "$changed_files_tmp" >/dev/null 2>&1; then
                 selected+=("$p")
+                echo "Project changed: $p"
               fi
             done
           fi
-
           if [ ${#selected[@]} -eq 0 ]; then
             echo "No project changes detected; nothing to build."
             echo "matrix=[]" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
+          echo "Selected ${#selected[@]} project(s): ${selected[*]}"
 
           # Build JSON matrix with dir and java (from .java-version if present)
           items=()
@@ -119,6 +157,7 @@ jobs:
 
           json="["$(IFS=,; echo "${items[*]}")"]"
           echo "matrix=$json" | tee -a "$GITHUB_OUTPUT"
+          echo "Matrix JSON: $json"
 
   build:
     name: Build ${{ matrix.dir }} (Java ${{ matrix.java }})

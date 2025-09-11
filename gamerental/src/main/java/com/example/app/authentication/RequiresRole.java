@@ -1,6 +1,6 @@
 package com.example.app.authentication;
 
-import io.fluxcapacitor.javaclient.tracking.handling.authentication.RequiresAnyRole;
+import io.fluxzero.sdk.tracking.handling.authentication.RequiresAnyRole;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;

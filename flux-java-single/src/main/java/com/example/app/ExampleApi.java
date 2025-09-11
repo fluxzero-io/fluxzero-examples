@@ -1,9 +1,9 @@
 package com.example.app;
 
-import io.fluxcapacitor.javaclient.web.HandleGet;
-import io.fluxcapacitor.javaclient.web.Path;
-import io.fluxcapacitor.javaclient.web.PathParam;
-import io.fluxcapacitor.javaclient.web.ServeStatic;
+import io.fluxzero.sdk.web.HandleGet;
+import io.fluxzero.sdk.web.Path;
+import io.fluxzero.sdk.web.PathParam;
+import io.fluxzero.sdk.web.ServeStatic;
 import org.springframework.stereotype.Component;
 
 @Component

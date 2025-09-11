@@ -2,7 +2,7 @@
 
 <configuration>
 
-    <appender name="flux" class="io.fluxcapacitor.javaclient.common.logging.FluxCapacitorLogbackAppender">
+    <appender name="flux" class="io.fluxzero.sdk.common.logging.FluxzeroLogbackAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>${flux.logging-level:-WARN}</level>
         </filter>

@@ -4,7 +4,7 @@
 jdk = "21"
 kotlin = "2.1.20"
 
-flux-capacitor = "0.1139.0"
+fluxzero = "1.0.0"
 spring-boot = "3.4.5"
 
 detekt = "1.23.8"
@@ -18,9 +18,9 @@ kotlin-logging = "7.0.3"
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
 
 # Flux
-flux-capacitor-client = { module = "io.flux-capacitor:java-client", version.ref = "flux-capacitor" }
-flux-capacitor-test-server = { module = "io.flux-capacitor:test-server", version.ref = "flux-capacitor" }
-flux-capacitor-proxy = { module = "io.flux-capacitor:proxy", version.ref = "flux-capacitor" }
+fluxzero-client = { module = "io.fluxzero:sdk", version.ref = "fluxzero" }
+fluxzero-test-server = { module = "io.fluxzero:test-server", version.ref = "fluxzero" }
+fluxzero-proxy = { module = "io.fluxzero:proxy", version.ref = "fluxzero" }
 
 # Monitoring
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }

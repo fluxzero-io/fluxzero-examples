@@ -1,6 +1,6 @@
 # 🎮 Game Rental Demo — Powered by Flux Capacitor
 
-This repository demonstrates how to build a clean, reactive, and fully testable application using the [Flux Capacitor](https://flux-capacitor.io) Java client.
+This repository demonstrates how to build a clean, reactive, and fully testable application using the [Flux Capacitor](https://fluxzero.io) Java client.
 
 You'll find a complete, production-like system for managing and renting games, showing off:
 
@@ -12,7 +12,7 @@ You'll find a complete, production-like system for managing and renting games, s
 Send commands to an **event-sourced** aggregate with almost no glue code:
 
 ```java
-FluxCapacitor.sendCommand(new RegisterGame(...));
+Fluxzero.sendCommand(new RegisterGame(...));
 ```
 
 The game entity handles and validates updates via `@Apply` and `@AssertLegal`, no other frameworks or magic base classes required.
@@ -131,10 +131,10 @@ Flux Capacitor makes it:
 
 ## 📎 Related Docs
 
-- [Flux Capacitor Java Client README](https://github.com/fluxzero-io/flux-capacitor-client)
-- [Introduction to Message Handling](https://flux-capacitor.io/docs/message-handling)
-- [DLQ and Error Recovery](https://flux-capacitor.io/docs/dlq)
-- [Test Fixtures](https://flux-capacitor.io/docs/testing)
+- [Flux Capacitor Java Client README](https://github.com/fluxzero-io/fluxzero-client)
+- [Introduction to Message Handling](https://fluxzero.io/docs/message-handling)
+- [DLQ and Error Recovery](https://fluxzero.io/docs/dlq)
+- [Test Fixtures](https://fluxzero.io/docs/testing)
 
 ---
 
