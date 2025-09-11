@@ -1,21 +1,12 @@
 package com.example.app.gamerental;
 
-import com.example.app.gamerental.api.FindGames;
-import com.example.app.gamerental.api.GetGame;
-import com.example.app.gamerental.api.GetGameStats;
-import com.example.app.gamerental.api.RegisterGame;
-import com.example.app.gamerental.api.RentGame;
+import com.example.app.gamerental.api.*;
 import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameDetails;
 import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.common.api.search.FacetStats;
 import io.fluxzero.sdk.Fluxzero;
-import io.fluxzero.sdk.web.HandleGet;
-import io.fluxzero.sdk.web.HandlePost;
-import io.fluxzero.sdk.web.Path;
-import io.fluxzero.sdk.web.PathParam;
-import io.fluxzero.sdk.web.QueryParam;
-import io.fluxzero.sdk.web.ServeStatic;
+import io.fluxzero.sdk.web.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -53,7 +44,7 @@ public class GameApi {
 
     @HandlePost("/{gameId}/return")
     CompletableFuture<Void> returnGame(@PathParam GameId gameId) {
-        return Fluxzero.sendCommand(new RentGame(gameId));
+        return Fluxzero.sendCommand(new ReturnGame(gameId));
     }
 
 }
