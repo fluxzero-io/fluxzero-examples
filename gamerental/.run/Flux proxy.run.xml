@@ -5,7 +5,7 @@
       <env name="FLUX_URL" value="ws://localhost:8888" />
       <env name="PROXY_PORT" value="8080" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="io.fluxcapacitor.proxy.ProxyServer" />
+    <option name="MAIN_CLASS_NAME" value="io.fluxzero.proxy.ProxyServer" />
     <module name="gamerental" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />

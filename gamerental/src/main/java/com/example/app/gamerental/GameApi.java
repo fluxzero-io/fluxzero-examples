@@ -9,7 +9,7 @@ import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameDetails;
 import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.common.api.search.FacetStats;
-import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.web.HandleGet;
 import io.fluxzero.sdk.web.HandlePost;
 import io.fluxzero.sdk.web.Path;
@@ -28,32 +28,32 @@ public class GameApi {
 
     @HandlePost
     CompletableFuture<GameId> registerGame(GameDetails details) {
-        return FluxCapacitor.sendCommand(new RegisterGame(details));
+        return Fluxzero.sendCommand(new RegisterGame(details));
     }
 
     @HandleGet("/{gameId}")
     CompletableFuture<Game> getGame(@PathParam GameId gameId) {
-        return FluxCapacitor.query(new GetGame(gameId));
+        return Fluxzero.query(new GetGame(gameId));
     }
 
     @HandleGet
     CompletableFuture<List<Game>> getGames(@QueryParam String term) {
-        return FluxCapacitor.query(new FindGames(term));
+        return Fluxzero.query(new FindGames(term));
     }
 
     @HandleGet("/stats")
     CompletableFuture<List<FacetStats>> getGameStats(@QueryParam String name) {
-        return FluxCapacitor.query(new GetGameStats(name));
+        return Fluxzero.query(new GetGameStats(name));
     }
 
     @HandlePost("/{gameId}/rent")
     CompletableFuture<Void> rentGame(@PathParam GameId gameId) {
-        return FluxCapacitor.sendCommand(new RentGame(gameId));
+        return Fluxzero.sendCommand(new RentGame(gameId));
     }
 
     @HandlePost("/{gameId}/return")
     CompletableFuture<Void> returnGame(@PathParam GameId gameId) {
-        return FluxCapacitor.sendCommand(new RentGame(gameId));
+        return Fluxzero.sendCommand(new RentGame(gameId));
     }
 
 }

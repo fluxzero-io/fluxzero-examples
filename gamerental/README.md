@@ -12,7 +12,7 @@ You'll find a complete, production-like system for managing and renting games, s
 Send commands to an **event-sourced** aggregate with almost no glue code:
 
 ```java
-FluxCapacitor.sendCommand(new RegisterGame(...));
+Fluxzero.sendCommand(new RegisterGame(...));
 ```
 
 The game entity handles and validates updates via `@Apply` and `@AssertLegal`, no other frameworks or magic base classes required.

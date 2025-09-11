@@ -1,7 +1,7 @@
 package com.example.flux.tasks
 
-import io.fluxcapacitor.javaclient.modeling.Aggregate
-import io.fluxcapacitor.javaclient.modeling.EntityId
+import io.fluxzero.sdk.modeling.Aggregate
+import io.fluxzero.sdk.modeling.EntityId
 
 @Aggregate(searchable = true)
 data class Task(

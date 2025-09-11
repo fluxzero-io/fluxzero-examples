@@ -1,8 +1,8 @@
 package com.example.flux.tasks
 
-import io.fluxcapacitor.javaclient.FluxCapacitor
-import io.fluxcapacitor.javaclient.persisting.eventsourcing.Apply
-import io.fluxcapacitor.javaclient.tracking.handling.HandleCommand
+import io.fluxzero.sdk.Fluxzero
+import io.fluxzero.sdk.persisting.eventsourcing.Apply
+import io.fluxzero.sdk.tracking.handling.HandleCommand
 
 data class AddTask(
     val taskId: TaskId,
@@ -10,7 +10,7 @@ data class AddTask(
     val description: String,
 ) {
     @HandleCommand
-    fun handle(): Task = FluxCapacitor.loadAggregate(taskId).assertAndApply(this).get()
+    fun handle(): Task = Fluxzero.loadAggregate(taskId).assertAndApply(this).get()
 
     @Apply
     fun apply() = Task(taskId, title, description)

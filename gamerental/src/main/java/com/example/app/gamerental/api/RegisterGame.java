@@ -6,7 +6,7 @@ import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameDetails;
 import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
-import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.persisting.eventsourcing.Apply;
 import io.fluxzero.sdk.tracking.handling.Request;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 public record RegisterGame(GameId gameId, @NotNull @Valid GameDetails details) implements GameUpdate, Request<GameId> {
 
     public RegisterGame(@NotNull @Valid GameDetails details) {
-        this(FluxCapacitor.generateId(GameId.class), details);
+        this(Fluxzero.generateId(GameId.class), details);
     }
 
     @Override

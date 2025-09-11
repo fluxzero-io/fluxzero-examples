@@ -6,7 +6,7 @@ import com.example.app.authentication.Sender;
 import com.example.app.gamerental.api.common.Game;
 import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
-import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.modeling.AssertLegal;
 import io.fluxzero.sdk.persisting.eventsourcing.Apply;
 
@@ -22,7 +22,7 @@ public record RentGame(GameId gameId) implements GameUpdate {
 
     @AssertLegal
     void assertOut(Game current) {
-        if (current.details().releaseDate().isAfter(FluxCapacitor.currentTime())) {
+        if (current.details().releaseDate().isAfter(Fluxzero.currentTime())) {
             throw GameErrors.notOutYet;
         }
     }

@@ -1,6 +1,6 @@
 package com.example.flux.tasks
 
-import io.fluxcapacitor.javaclient.test.TestFixture
+import io.fluxzero.sdk.test.TestFixture
 import org.junit.jupiter.api.Test
 
 class TaskTest {

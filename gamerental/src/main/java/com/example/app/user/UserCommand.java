@@ -1,6 +1,6 @@
 package com.example.app.user;
 
-import io.fluxzero.sdk.FluxCapacitor;
+import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.tracking.TrackSelf;
 import io.fluxzero.sdk.tracking.handling.HandleCommand;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +11,6 @@ public interface UserCommand {
 
     @HandleCommand
     default void handle() {
-        FluxCapacitor.loadAggregate(userId()).assertAndApply(this);
+        Fluxzero.loadAggregate(userId()).assertAndApply(this);
     }
 }
