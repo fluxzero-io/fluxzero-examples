@@ -25,6 +25,7 @@ dependencies {
 
     // Testing
     testImplementation(kotlin("test"))
+    testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.fluxzero.client) {
         artifact {
             classifier = "tests"

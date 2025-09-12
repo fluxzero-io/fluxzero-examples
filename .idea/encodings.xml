@@ -2,7 +2,6 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/flux-basic-java/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/flux-kotlin-single/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gamerental/src/main/java" charset="UTF-8" />
   </component>
 </project>

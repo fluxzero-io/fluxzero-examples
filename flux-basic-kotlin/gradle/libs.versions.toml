@@ -16,6 +16,7 @@ kotlin-logging = "7.0.3"
 
 # Spring
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 
 # Flux
 fluxzero-client = { module = "io.fluxzero:sdk", version.ref = "fluxzero" }

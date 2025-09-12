@@ -3,7 +3,7 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for flux-basic-java" enabled="true">
+      <profile name="Annotation profile for Fluxzero Basic Java" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -272,17 +272,13 @@
         <module name="gamerental" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="demo" target="24" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="demo" options="-parameters" />
       <module name="flux-basic-java" options="-parameters" />
-      <module name="flux-kotlin-single" options="-parameters" />
-      <module name="flux-kotlin-single.main" options="-parameters" />
-      <module name="flux-kotlin-single.test" options="-parameters" />
+      <module name="flux-basic-kotlin" options="-parameters" />
+      <module name="flux-basic-kotlin.main" options="-parameters" />
+      <module name="flux-basic-kotlin.test" options="-parameters" />
       <module name="gamerental" options="-parameters" />
     </option>
   </component>

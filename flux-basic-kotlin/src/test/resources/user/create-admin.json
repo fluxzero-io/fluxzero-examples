@@ -1,0 +1,8 @@
+{
+  "@class" : "com.example.app.user.api.CreateUser",
+  "userId": "admin",
+  "details": {
+    "name": "An admin"
+  },
+  "role": "admin"
+}
