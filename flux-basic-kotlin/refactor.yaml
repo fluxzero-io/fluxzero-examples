@@ -21,12 +21,12 @@ operations:
 
   - type: replace
     files: ["pom.xml"]
-    find: "<artifactId>flux-kotlin-single</artifactId>"
+    find: "<artifactId>flux-basic-kotlin</artifactId>"
     replace: "<artifactId>${artifactId}</artifactId>"
 
   - type: replace
     files: ["pom.xml"]
-    find: "<name>Flux Kotlin Single</name>"
+    find: "<name>Flux Basic Kotlin</name>"
     replace: "<name>${projectName}</name>"
 
   - type: replace
@@ -43,7 +43,7 @@ operations:
   # Update Gradle settings.gradle.kts
   - type: replace
     files: ["settings.gradle.kts"]
-    find: 'rootProject.name = "flux-kotlin-single"'
+    find: 'rootProject.name = "flux-basic-kotlin"'
     replace: 'rootProject.name = "${artifactId}"'
 
   # Rename package directories

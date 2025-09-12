@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gamerental/gamerental.iml" filepath="$PROJECT_DIR$/gamerental/gamerental.iml" />
       <module fileurl="file://$PROJECT_DIR$/flux-basic-java/flux-basic-java.iml" filepath="$PROJECT_DIR$/flux-basic-java/flux-basic-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/flux-kotlin-single/flux-kotlin-single.iml" filepath="$PROJECT_DIR$/flux-kotlin-single/flux-kotlin-single.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flux-basic-kotlin/flux-basic-kotlin.iml" filepath="$PROJECT_DIR$/flux-basic-kotlin/flux-basic-kotlin.iml" />
     </modules>
   </component>
 </project>

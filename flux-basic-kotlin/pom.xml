@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.flux</groupId>
-    <artifactId>flux-kotlin-single</artifactId>
+    <artifactId>flux-basic-kotlin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Flux Kotlin Single</name>
+    <name>Flux Basic Kotlin</name>
     <description>An empty Fluxzero application with Kotlin</description>
 
     <parent>
