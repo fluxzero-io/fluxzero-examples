@@ -7,11 +7,9 @@ import io.fluxzero.sdk.modeling.AssertLegal
 import io.fluxzero.sdk.tracking.TrackSelf
 import io.fluxzero.sdk.tracking.handling.HandleCommand
 import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException
-import jakarta.validation.constraints.NotNull
 
 @TrackSelf
 interface UserCommand {
-    @get:NotNull
     val userId: UserId
 
     @AssertLegal
