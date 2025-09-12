@@ -1,0 +1,5 @@
+{
+  "@class" : "com.example.app.user.api.SetRole",
+  "userId": "viewer",
+  "role": "ADMIN"
+}

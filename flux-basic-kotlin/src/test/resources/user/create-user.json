@@ -1,0 +1,7 @@
+{
+  "@class" : "com.example.app.user.api.CreateUser",
+  "userId": "viewer",
+  "details": {
+    "name": "The viewer"
+  }
+}

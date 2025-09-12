@@ -5,7 +5,7 @@
       <env name="FLUX_APPLICATION_NAME" value="Rebound" />
       <env name="FLUX_BASE_URL" value="ws://localhost:8888" />
     </envs>
-    <module name="gamerental" />
+    <module name="flux-basic-java" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.app.App" />
     <method v="2">
       <option name="Make" enabled="true" />
