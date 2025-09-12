@@ -39,6 +39,10 @@ dependencies {
     }
     testImplementation("io.fluxzero:test-server")
     testImplementation("io.fluxzero:proxy")
+    
+    // Lombok for tests
+    testCompileOnly("org.projectlombok:lombok")
+    testAnnotationProcessor("org.projectlombok:lombok")
 }
 
 tasks.withType<Test> {
