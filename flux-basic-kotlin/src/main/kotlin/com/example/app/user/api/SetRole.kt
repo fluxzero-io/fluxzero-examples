@@ -8,7 +8,7 @@ import io.fluxzero.sdk.persisting.eventsourcing.Apply
 import io.fluxzero.sdk.tracking.handling.IllegalCommandException
 import jakarta.validation.constraints.NotNull
 
-@RequiresRole(Role.admin)
+@RequiresRole(Role.ADMIN)
 data class SetRole(
     @field:NotNull override val userId: UserId,
     val role: Role?

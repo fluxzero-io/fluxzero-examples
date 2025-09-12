@@ -13,7 +13,7 @@ data class Sender(
         @JvmStatic
         val system = Sender(
             userId = UserId("system"),
-            userRole = Role.admin
+            userRole = Role.ADMIN
         )
 
         @JvmStatic
@@ -36,6 +36,6 @@ data class Sender(
     }
 
     fun isAdmin(): Boolean {
-        return Role.admin.matches(userRole)
+        return Role.ADMIN.matches(userRole)
     }
 }

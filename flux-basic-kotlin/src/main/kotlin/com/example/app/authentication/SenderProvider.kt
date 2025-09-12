@@ -13,7 +13,8 @@ class SenderProvider : AbstractUserProvider(Sender::class.java) {
 
     override fun fromMessage(message: HasMessage): User? {
         if (message is DeserializingMessage && message.messageType == MessageType.WEBREQUEST) {
-            //for demo purposes, let's assume that everyone sending web requests is admin. Don't use this in the real world! :P
+            //for demo purposes, let's assume that everyone sending web requests is admin.
+            // Don't use this in the real world!
             return Sender.system
         }
         return super.fromMessage(message)

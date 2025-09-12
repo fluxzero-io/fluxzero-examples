@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>SpreadOperator:App.kt$App.Companion$(App::class.java, *args)</ID>
+    <ID>UtilityClassWithPublicConstructor:App.kt$App</ID>
+    <ID>UtilityClassWithPublicConstructor:TestApp.kt$TestApp</ID>
+  </CurrentIssues>
+</SmellBaseline>

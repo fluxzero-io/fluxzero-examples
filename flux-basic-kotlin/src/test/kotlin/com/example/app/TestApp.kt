@@ -39,7 +39,7 @@ class TestApp {
                     serverSocket.reuseAddress = true
                     true
                 }
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 false
             }
         }

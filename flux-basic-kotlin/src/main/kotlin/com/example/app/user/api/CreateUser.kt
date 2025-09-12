@@ -10,7 +10,7 @@ import io.fluxzero.sdk.tracking.handling.IllegalCommandException
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 
-@RequiresRole(Role.admin)
+@RequiresRole(Role.ADMIN)
 data class CreateUser(
     @field:NotNull override val userId: UserId,
     @field:NotNull @field:Valid val details: UserDetails,
