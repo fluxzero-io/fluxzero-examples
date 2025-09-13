@@ -237,3 +237,10 @@ jobs:
           else
             echo "No Maven project; skipping Maven build."
           fi
+
+      - name: Verify CLI Template Generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Verifying CLI template generation for ${{ matrix.dir }}"
+          ./.github/scripts/verify-templates.sh "${{ matrix.dir }}"
