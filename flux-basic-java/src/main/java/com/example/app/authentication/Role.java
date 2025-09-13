@@ -4,8 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum Role {
-    admin,
-    owner(admin);
+    MANAGER,
+    ADMIN(MANAGER),
+    OWNER(ADMIN);
 
     private final Role[] assumedRoles;
 

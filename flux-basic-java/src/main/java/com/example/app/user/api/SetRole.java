@@ -9,7 +9,7 @@ import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
-@RequiresRole(Role.admin)
+@RequiresRole(Role.ADMIN)
 public record SetRole(@NotNull UserId userId, Role role) implements UserCommand {
     @AssertLegal
     void assertExists(@Nullable UserProfile profile) {

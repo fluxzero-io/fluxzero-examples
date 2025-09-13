@@ -10,7 +10,7 @@ import lombok.NonNull;
 public record Sender(@NonNull UserId userId, Role userRole) implements User {
 
     public static final Sender system = builder()
-            .userId(new UserId("system")).userRole(Role.admin).build();
+            .userId(new UserId("system")).userRole(Role.ADMIN).build();
 
     public static Sender getCurrent() {
         return User.getCurrent();
@@ -32,6 +32,6 @@ public record Sender(@NonNull UserId userId, Role userRole) implements User {
     }
 
     public boolean isAdmin() {
-        return Role.admin.matches(userRole);
+        return Role.ADMIN.matches(userRole);
     }
 }

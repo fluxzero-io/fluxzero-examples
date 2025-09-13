@@ -1,7 +1,8 @@
 package com.example.app.authentication
 
 enum class Role(vararg val assumedRoles: Role) {
-    ADMIN,
+    MANAGER,
+    ADMIN(MANAGER),
     OWNER(ADMIN);
 
     fun matches(userRole: Role?): Boolean {
