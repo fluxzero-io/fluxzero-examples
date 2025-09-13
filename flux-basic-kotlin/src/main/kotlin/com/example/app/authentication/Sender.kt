@@ -38,4 +38,8 @@ data class Sender(
     fun isAdmin(): Boolean {
         return Role.ADMIN.matches(userRole)
     }
+
+    fun isAuthorizedFor(userId: UserId?): Boolean {
+        return isAdmin() || this.userId == userId
+    }
 }
