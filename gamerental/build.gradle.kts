@@ -48,3 +48,10 @@ tasks.withType<Test> {
 tasks.jar {
     archiveFileName.set("app.jar")
 }
+
+tasks.register<JavaExec>("runTestApp") {
+    group = "application"
+    description = "Runs the TestApp"
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass.set("com.example.app.TestApp")
+}

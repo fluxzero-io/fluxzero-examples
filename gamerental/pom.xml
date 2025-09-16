@@ -136,6 +136,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<mainClass>com.example.app.TestApp</mainClass>
+					<includePluginDependencies>false</includePluginDependencies>
+					<classpathScope>test</classpathScope>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
