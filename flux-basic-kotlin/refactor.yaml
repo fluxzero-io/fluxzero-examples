@@ -60,6 +60,23 @@ operations:
     find: 'rootProject.name = "flux-basic-kotlin"'
     replace: 'rootProject.name = "${artifactId}"'
 
+  # Update README package references
+  - type: replace
+    files: ["README.md"]
+    find: "com\\.example\\.app"
+    replace: "${package}"
+    regex: true
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/main/kotlin/com/example/app/"
+    replace: "src/main/kotlin/${packagePath}/"
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/test/kotlin/com/example/app/"
+    replace: "src/test/kotlin/${packagePath}/"
+
   # Rename package directories
   - type: rename
     from: "src/main/kotlin/com/example/app"
