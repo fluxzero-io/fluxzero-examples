@@ -67,6 +67,13 @@ operations:
     find: 'rootProject.name = "gamerental"'
     replace: 'rootProject.name = "${artifactId}"'
 
+  # Update META-INF services files
+  - type: replace
+    files: ["src/main/resources/META-INF/services/*"]
+    find: "com\\.example\\.app\\."
+    replace: "${package}."
+    regex: true
+
   # Update README package references
   - type: replace
     files: ["README.md"]
@@ -92,3 +99,8 @@ operations:
   - type: rename
     from: "src/test/java/com/example/app"
     to: "src/test/java/${packagePath}"
+
+  # Make wrapper scripts executable
+  - type: chmod
+    files: ["gradlew", "mvnw"]
+    mode: "755"
