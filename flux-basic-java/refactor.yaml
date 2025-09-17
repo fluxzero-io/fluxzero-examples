@@ -60,9 +60,9 @@ operations:
     find: 'rootProject.name = "flux-basic-java"'
     replace: 'rootProject.name = "${artifactId}"'
 
-  # Update META-INF services files
+  # Update package references in all resource files
   - type: replace
-    files: ["src/main/resources/META-INF/services/*"]
+    files: ["src/main/resources/**/*", "src/test/resources/**/*"]
     find: "com\\.example\\.app\\."
     replace: "${package}."
     regex: true
