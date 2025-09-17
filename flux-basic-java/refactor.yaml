@@ -92,3 +92,8 @@ operations:
   - type: rename
     from: "src/test/java/com/example/app"
     to: "src/test/java/${packagePath}"
+
+  # Make wrapper scripts executable
+  - type: chmod
+    files: ["gradlew", "mvnw"]
+    mode: "755"

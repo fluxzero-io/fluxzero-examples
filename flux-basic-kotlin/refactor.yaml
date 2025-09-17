@@ -92,3 +92,8 @@ operations:
   - type: rename
     from: "src/test/kotlin/com/example/app"
     to: "src/test/kotlin/${packagePath}"
+
+  # Make wrapper scripts executable
+  - type: chmod
+    files: ["gradlew", "mvnw"]
+    mode: "755"
