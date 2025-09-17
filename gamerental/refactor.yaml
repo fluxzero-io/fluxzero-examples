@@ -6,6 +6,13 @@ operations:
     replace: "package ${package}.gamerental"
     regex: true
 
+  # Replace main package names in Java files
+  - type: replace
+    files: ["**/*.java"]
+    find: "package com\\.example\\.app"
+    replace: "package ${package}"
+    regex: true
+
   # Replace imports in Java files
   - type: replace
     files: ["**/*.java"]
@@ -26,13 +33,20 @@ operations:
 
   - type: replace
     files: ["pom.xml"]
-    find: "<name>demo</name>"
+    find: "<name>Game Rental Demo</name>"
     replace: "<name>${projectName}</name>"
 
   - type: replace
     files: ["pom.xml"]
-    find: "<description>Demo project for Spring Boot</description>"
+    find: "<description>Game Rental sample app for Fluxzero</description>"
     replace: "<description>${description}</description>"
+
+  # Update Maven exec plugin main class
+  - type: replace
+    files: ["pom.xml"]
+    find: "<mainClass>com\\.example\\.app\\.TestApp</mainClass>"
+    replace: "<mainClass>${package}.TestApp</mainClass>"
+    regex: true
 
   # Update Gradle build.gradle.kts
   - type: replace
@@ -40,11 +54,35 @@ operations:
     find: 'group = "com.example"'
     replace: 'group = "${groupId}"'
 
+  # Update Gradle runTestApp task main class
+  - type: replace
+    files: ["build.gradle.kts"]
+    find: 'mainClass\\.set\\("com\\.example\\.app\\.TestApp"\\)'
+    replace: 'mainClass.set("${package}.TestApp")'
+    regex: true
+
   # Update Gradle settings.gradle.kts
   - type: replace
     files: ["settings.gradle.kts"]
     find: 'rootProject.name = "gamerental"'
     replace: 'rootProject.name = "${artifactId}"'
+
+  # Update README package references
+  - type: replace
+    files: ["README.md"]
+    find: "com\\.example\\.app"
+    replace: "${package}"
+    regex: true
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/main/java/com/example/app/"
+    replace: "src/main/java/${packagePath}/"
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/test/java/com/example/app/"
+    replace: "src/test/java/${packagePath}/"
 
   # Rename package directories
   - type: rename

@@ -9,17 +9,18 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
-@SpringBootTest
+@SpringBootTest(classes = App.class)
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 class AppIntegrationTest {
 
-	@Autowired TestFixture testFixture;
+    @Autowired
+    TestFixture testFixture;
 
-	@Test
-	void errorCorrectionIntegrationTest() {
-		testFixture.givenCommands("/game/register-game.json")
-				.whenCommand("/game/register-other-game.json")
-				.expectError()
-				.<GameAnnouncement>expectEvent(a -> a.message().equals("Correct that game announcement"));
-	}
+    @Test
+    void errorCorrectionIntegrationTest() {
+        testFixture.givenCommands("/game/register-game.json")
+                .whenCommand("/game/register-other-game.json")
+                .expectError()
+                .<GameAnnouncement>expectEvent(a -> a.message().equals("Correct that game announcement"));
+    }
 }

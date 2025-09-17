@@ -2,14 +2,14 @@ operations:
   # Replace package names in Kotlin files
   - type: replace
     files: ["**/*.kt"]
-    find: "package com\\.example\\.flux"
+    find: "package com\\.example\\.app"
     replace: "package ${package}"
     regex: true
 
   # Replace imports in Kotlin files
   - type: replace
     files: ["**/*.kt"]
-    find: "import com\\.example\\.flux\\."
+    find: "import com\\.example\\.app\\."
     replace: "import ${package}."
     regex: true
 
@@ -31,8 +31,15 @@ operations:
 
   - type: replace
     files: ["pom.xml"]
-    find: "<description>A Flux Capacitor application with Kotlin</description>"
+    find: "<description>An empty Fluxzero application with Kotlin</description>"
     replace: "<description>${description}</description>"
+
+  # Update Maven exec plugin main class
+  - type: replace
+    files: ["pom.xml"]
+    find: "<mainClass>com\\.example\\.app\\.TestApp</mainClass>"
+    replace: "<mainClass>${package}.TestApp</mainClass>"
+    regex: true
 
   # Update Gradle build.gradle.kts
   - type: replace
@@ -40,17 +47,41 @@ operations:
     find: 'group = "com.example.flux"'
     replace: 'group = "${groupId}"'
 
+  # Update Gradle runTestApp task main class
+  - type: replace
+    files: ["build.gradle.kts"]
+    find: 'mainClass\\.set\\("com\\.example\\.app\\.TestApp"\\)'
+    replace: 'mainClass.set("${package}.TestApp")'
+    regex: true
+
   # Update Gradle settings.gradle.kts
   - type: replace
     files: ["settings.gradle.kts"]
     find: 'rootProject.name = "flux-basic-kotlin"'
     replace: 'rootProject.name = "${artifactId}"'
 
+  # Update README package references
+  - type: replace
+    files: ["README.md"]
+    find: "com\\.example\\.app"
+    replace: "${package}"
+    regex: true
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/main/kotlin/com/example/app/"
+    replace: "src/main/kotlin/${packagePath}/"
+
+  - type: replace
+    files: ["README.md"]
+    find: "src/test/kotlin/com/example/app/"
+    replace: "src/test/kotlin/${packagePath}/"
+
   # Rename package directories
   - type: rename
-    from: "src/main/kotlin/com/example/flux"
+    from: "src/main/kotlin/com/example/app"
     to: "src/main/kotlin/${packagePath}"
 
   - type: rename
-    from: "src/test/kotlin/com/example/flux"
+    from: "src/test/kotlin/com/example/app"
     to: "src/test/kotlin/${packagePath}"
