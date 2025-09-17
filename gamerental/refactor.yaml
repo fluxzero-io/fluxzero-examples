@@ -67,6 +67,13 @@ operations:
     find: 'rootProject.name = "gamerental"'
     replace: 'rootProject.name = "${artifactId}"'
 
+  # Update META-INF services files
+  - type: replace
+    files: ["src/main/resources/META-INF/services/*"]
+    find: "com\\.example\\.app\\."
+    replace: "${package}."
+    regex: true
+
   # Update README package references
   - type: replace
     files: ["README.md"]
