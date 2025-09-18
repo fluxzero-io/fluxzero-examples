@@ -1,0 +1,9 @@
+{
+  "todoId": {
+    "id": "todo-123"
+  },
+  "title": "Learn FluxZero Framework",
+  "description": "Study FluxZero event sourcing patterns and build a sample application",
+  "assignee": "john.doe",
+  "dueDate": "2025-01-31"
+}

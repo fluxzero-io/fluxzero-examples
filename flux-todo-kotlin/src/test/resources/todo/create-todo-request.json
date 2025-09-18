@@ -1,0 +1,6 @@
+{
+  "title": "REST API Todo",
+  "description": "Todo created via REST endpoint",
+  "assignee": "rest.user",
+  "dueDate": "2025-02-15"
+}
