@@ -3,12 +3,17 @@ package com.example.app;
 import io.fluxzero.proxy.ProxyServer;
 import io.fluxzero.sdk.configuration.ApplicationProperties;
 import io.fluxzero.testserver.TestServer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import static io.fluxzero.sdk.configuration.ApplicationProperties.getProperty;
+
 @SpringBootApplication
+@Slf4j
 public class TestApp {
     public static void main(String[] args) {
         // start Flux Test Server
@@ -27,8 +32,11 @@ public class TestApp {
         }
 
         // start application
-        System.setProperty("FLUX_APPLICATION_NAME", "Example");
-        App.main(args);
+        System.setProperty("FLUX_APPLICATION_NAME", getProperty("FLUX_APPLICATION_NAME", "GameRental"));
+        SpringApplication app = new SpringApplication(App.class);
+        app.setAdditionalProfiles("main");
+        app.run(args);
+        log.info("GameRental started successfully");
     }
 
     static boolean availablePort(int port) {

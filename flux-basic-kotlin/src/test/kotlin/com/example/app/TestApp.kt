@@ -3,13 +3,18 @@ package com.example.app
 import io.fluxzero.proxy.ProxyServer
 import io.fluxzero.sdk.configuration.ApplicationProperties
 import io.fluxzero.testserver.TestServer
+import org.slf4j.LoggerFactory
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import java.io.IOException
 import java.net.ServerSocket
 
 @SpringBootApplication
 class TestApp {
+
     companion object {
+        private val log = LoggerFactory.getLogger(TestApp::class.java)
+
         @JvmStatic
         fun main(args: Array<String>) {
             // start Flux Test Server
@@ -27,9 +32,22 @@ class TestApp {
                 ProxyServer.main(arrayOf())
             }
 
+
             // start application
-            System.setProperty("FLUX_APPLICATION_NAME", "Example")
-            App.main(args)
+            System.setProperty("FLUX_APPLICATION_NAME", ApplicationProperties.getProperty("FLUX_APPLICATION_NAME", "Example"))
+            val app = SpringApplication(App::class.java)
+            app.setAdditionalProfiles("main")
+            app.run(*args)
+
+
+            // initialize
+            initializeApp()
+            log.info("Application started successfully")
+        }
+
+        @JvmStatic
+        fun initializeApp() {
+            //initialize the test application using commands etc.
         }
 
         @JvmStatic

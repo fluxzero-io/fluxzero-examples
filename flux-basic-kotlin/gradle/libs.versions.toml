@@ -4,7 +4,7 @@
 jdk = "21"
 kotlin = "2.1.20"
 
-fluxzero = "1.3.2"
+fluxzero = "1.9.0"
 spring-boot = "3.4.5"
 
 detekt = "1.23.8"
