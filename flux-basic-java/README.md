@@ -1,6 +1,6 @@
-# FluxZero Basic Java Example
+# Fluxzero Basic Java Example
 
-A foundational FluxZero application demonstrating core concepts including user management, role-based authentication, and REST/WebSocket APIs using Java and Spring Boot.
+A foundational Fluxzero application demonstrating core concepts including user management, role-based authentication, and REST/WebSocket APIs using Java and Spring Boot.
 
 ## What's Included
 
@@ -9,7 +9,7 @@ This example demonstrates:
 - **User Management System**: Complete CRUD operations for user profiles
 - **Role-Based Authentication**: User roles (ADMIN, MANAGER, USER) with permission checking
 - **REST API Endpoints**: HTTP endpoints for user operations
-- **Event Sourcing**: FluxZero's event-driven architecture
+- **Event Sourcing**: Fluxzero's event-driven architecture
 - **Command Query Separation**: Separate command and query handlers
 - **Spring Boot Integration**: Full Spring ecosystem integration
 
@@ -46,8 +46,8 @@ mvn exec:java
 - Use the provided run configurations to start the TestApp directly from the IDE
 
 This will start:
-- **FluxZero Test Server** on port 8888
-- **FluxZero Proxy** on port 8080
+- **Fluxzero Test Server** on port 8888
+- **Fluxzero Proxy** on port 8080
 - **Spring Boot Application** on port 8080 (proxied)
 
 ## API Endpoints
@@ -70,7 +70,7 @@ mvn test
 
 ## Architecture
 
-This example follows FluxZero's event-driven architecture:
+This example follows Fluxzero's event-driven architecture:
 
 1. **Commands** trigger business operations
 2. **Events** capture state changes

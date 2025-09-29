@@ -127,8 +127,8 @@ mvn exec:java
 - Use the provided run configurations to start the TestApp directly from the IDE
 
 This will start:
-- **FluxZero Test Server** on port 8888
-- **FluxZero Proxy** on port 8080
+- **Fluxzero Test Server** on port 8888
+- **Fluxzero Proxy** on port 8080
 - **Spring Boot Application** on port 8080 (proxied)
 
 ### Testing
