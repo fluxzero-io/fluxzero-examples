@@ -34,7 +34,8 @@ class TestApp {
 
 
             // start application
-            System.setProperty("FLUX_APPLICATION_NAME", ApplicationProperties.getProperty("FLUX_APPLICATION_NAME", "Example"))
+            System.setProperty("FLUX_APPLICATION_NAME", ApplicationProperties.getProperty(
+                "FLUX_APPLICATION_NAME", "Example"))
             val app = SpringApplication(App::class.java)
             app.setAdditionalProfiles("main")
             app.run(*args)
