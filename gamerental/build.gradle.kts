@@ -6,7 +6,6 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_24
 
 repositories {
     mavenCentral()
@@ -44,6 +43,11 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 
 tasks.withType<Test> {
     useJUnitPlatform()
