@@ -22,5 +22,4 @@ fluxzero-proxy = { module = "io.fluxzero:proxy", version.ref = "fluxzero" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [plugins]
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
