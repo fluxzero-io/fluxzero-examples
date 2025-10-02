@@ -84,6 +84,19 @@ operations:
     find: "src/test/java/com/example/app/"
     replace: "src/test/java/${packagePath}/"
 
+  # Update IntelliJ project metadata
+  - type: replace
+    files: [".idea/**/*.xml", ".idea/**/*.iml"]
+    find: "com\\.example\\.app\\."
+    replace: "${package}."
+    regex: true
+
+  - type: replace
+    files: [".idea/**/*.xml", ".idea/**/*.iml"]
+    find: "com\\.example\\.app"
+    replace: "${package}"
+    regex: true
+
   # Rename package directories
   - type: rename
     from: "src/main/java/com/example/app"
