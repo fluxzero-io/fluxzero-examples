@@ -9,10 +9,9 @@ import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.persisting.eventsourcing.Apply;
 import io.fluxzero.sdk.tracking.handling.Request;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import javax.annotation.Nullable;
 
 @RequiresRole(Role.manager)
 public record RegisterGame(GameId gameId, @NotNull @Valid GameDetails details) implements GameUpdate, Request<GameId> {
