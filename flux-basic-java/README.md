@@ -25,7 +25,7 @@ This example demonstrates:
 
 ### Prerequisites
 
-- Java 24 or higher
+- Java 25 or higher
 - Maven 3.6.3+ or Gradle 8.0+
 
 ### Quick Start
