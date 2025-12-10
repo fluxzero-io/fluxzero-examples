@@ -91,6 +91,15 @@ operations:
     find: "src/test/java/com/example/app/"
     replace: "src/test/java/${packagePath}/"
 
+  # rename docker files
+  - type: rename
+    from: "Dockerfile.gradle"
+    to: "Dockerfile"
+
+  - type: rename
+    from: "Dockerfile.maven"
+    to: "Dockerfile"
+
   # Rename package directories
   - type: rename
     from: "src/main/java/com/example/app"
