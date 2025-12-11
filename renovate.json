@@ -1,0 +1,107 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "group:recommended",
+    ":semanticCommits"
+  ],
+  "labels": ["dependencies"],
+  "timezone": "Europe/Amsterdam",
+  "schedule": ["before 9am on monday"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "platformAutomerge": true,
+  "enabledManagers": [
+    "maven",
+    "gradle",
+    "gradle-wrapper",
+    "github-actions"
+  ],
+  "packageRules": [
+    {
+      "description": "Major version updates require manual review",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major"]
+    },
+    {
+      "description": "Fluxzero BOM - update across all projects together",
+      "matchPackagePatterns": ["^io\\.fluxzero"],
+      "groupName": "Fluxzero SDK",
+      "groupSlug": "fluxzero"
+    },
+    {
+      "description": "Spring Boot - update across all projects together",
+      "matchPackagePatterns": ["^org\\.springframework\\.boot"],
+      "groupName": "Spring Boot",
+      "groupSlug": "spring-boot"
+    },
+    {
+      "description": "Kotlin projects - limit to Java 21 compatible versions",
+      "matchPaths": [
+        "flux-basic-kotlin/**",
+        "flux-todo-kotlin/**"
+      ],
+      "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin"],
+      "groupName": "Kotlin (Java 21)",
+      "groupSlug": "kotlin"
+    },
+    {
+      "description": "Kotlin tooling for Kotlin projects",
+      "matchPaths": [
+        "flux-basic-kotlin/**",
+        "flux-todo-kotlin/**"
+      ],
+      "matchPackagePatterns": [
+        "^io\\.gitlab\\.arturbosch\\.detekt",
+        "^io\\.github\\.oshai:kotlin-logging"
+      ],
+      "groupName": "Kotlin tooling",
+      "groupSlug": "kotlin-tooling"
+    },
+    {
+      "description": "Java projects - can use latest versions",
+      "matchPaths": [
+        "flux-basic-java/**",
+        "gamerental/**"
+      ],
+      "matchPackagePatterns": ["^org\\.projectlombok"],
+      "groupName": "Java tooling",
+      "groupSlug": "java-tooling"
+    },
+    {
+      "description": "Maven plugins - group together",
+      "matchManagers": ["maven"],
+      "matchPackagePatterns": [
+        "^org\\.apache\\.maven\\.plugins",
+        "^org\\.codehaus\\.mojo"
+      ],
+      "groupName": "Maven plugins",
+      "groupSlug": "maven-plugins"
+    },
+    {
+      "description": "Gradle wrapper updates",
+      "matchManagers": ["gradle-wrapper"],
+      "groupName": "Gradle wrapper",
+      "groupSlug": "gradle-wrapper"
+    },
+    {
+      "description": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Logging dependencies",
+      "matchPackagePatterns": ["^ch\\.qos\\.logback"],
+      "groupName": "Logging",
+      "groupSlug": "logging"
+    }
+  ],
+  "ignorePaths": [
+    "cli-verification-test/**"
+  ]
+}
