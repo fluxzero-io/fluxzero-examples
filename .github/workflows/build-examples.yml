@@ -244,3 +244,26 @@ jobs:
           set -euo pipefail
           echo "Verifying CLI template generation for ${{ matrix.dir }}"
           ./.github/scripts/verify-templates.sh "${{ matrix.dir }}"
+
+  trigger-cli-build:
+    name: Trigger fluxzero-cli build
+    needs: [discover, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.discover.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CLI_BUILD_DISPATCHER_APP_ID }}
+          private-key: ${{ secrets.CLI_BUILD_DISPATCHER_PRIVATE_KEY }}
+          owner: fluxzero-io
+          repositories: fluxzero-cli
+
+      - name: Trigger downstream build
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/fluxzero-io/fluxzero-cli/dispatches \
+            -d '{"event_type": "examples-updated", "client_payload": {"sha": "${{ github.sha }}"}}'
