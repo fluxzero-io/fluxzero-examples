@@ -26,7 +26,7 @@ dependencies {
     implementation("io.fluxzero:sdk")
 
     //Logback
-    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.23"))
+    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.25"))
     
     // Lombok
     compileOnly("org.projectlombok:lombok")
