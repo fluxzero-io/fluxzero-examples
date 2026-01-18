@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.55.0</version>
+				<version>1.68.1</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -35,7 +35,7 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
-		<!--flux capacitor -->
+		<!--fluxzero -->
 		<dependency>
 			<groupId>io.fluxzero</groupId>
 			<artifactId>sdk</artifactId>

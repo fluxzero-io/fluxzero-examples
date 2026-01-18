@@ -32,7 +32,7 @@ Comprehensive game rental system showcasing advanced Fluxzero features and produ
 - 📦 **Dynamic Dead Letter Queue (DLQ)** with error recovery
 - 🌐 **Clean Web API** with type-safe handlers
 - 🔄 **WebSocket support** for real-time updates
-- 🧪 **Comprehensive testing** with Flux Capacitor test framework
+- 🧪 **Comprehensive testing** with Fluxzero test framework
 
 ## 🛠️ Using Examples with Fluxzero CLI
 

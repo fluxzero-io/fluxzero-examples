@@ -14,7 +14,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("io.fluxzero:fluxzero-bom:1.55.0")
+        mavenBom("io.fluxzero:fluxzero-bom:1.68.1")
     }
 }
 
@@ -22,13 +22,16 @@ dependencies {
     // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter")
 
-    // Flux Capacitor
+    // Fluxzero
     implementation("io.fluxzero:sdk")
 
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.fluxzero:sdk")
+
+    //Logback
+    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.23"))
 
     // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")

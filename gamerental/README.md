@@ -1,6 +1,6 @@
-# 🎮 Game Rental Demo — Powered by Flux Capacitor
+# 🎮 Game Rental Demo — Powered by Fluxzero
 
-This repository demonstrates how to build a clean, reactive, and fully testable application using the [Flux Capacitor](https://fluxzero.io) Java client.
+This repository demonstrates how to build a clean, reactive, and fully testable application using the [Fluxzero](https://fluxzero.io) Java SDK.
 
 You'll find a complete, production-like system for managing and renting games, showing off:
 
@@ -67,7 +67,7 @@ Clients can open a **WebSocket** connection (via `GameSocket`) to receive real-t
 ---
 
 ### 🧪 Ultra-Compact Tests
-Test all flows — commands, queries, events, errors, and web requests — using the Flux Capacitor testing framework.
+Test all flows — commands, queries, events, errors, and web requests — using the Fluxzero testing framework.
 
 No mocks, no fakes. Just:
 
@@ -142,11 +142,11 @@ mvn test
 
 ---
 
-## 🤔 Why Flux Capacitor?
+## 🤔 Why Fluxzero?
 
 Because message-driven, event-sourced, location-transparent systems shouldn’t be this hard.
 
-Flux Capacitor makes it:
+Fluxzero makes it:
 
 - **Concise**: No boilerplate aggregates or DTOs
 - **Safe**: Built-in validation, retry, DLQ, snapshots
@@ -157,7 +157,7 @@ Flux Capacitor makes it:
 
 ## 📎 Related Docs
 
-- [Flux Capacitor Java Client README](https://github.com/fluxzero-io/fluxzero-client)
+- [Fluxzero Java SDK README](https://github.com/fluxzero-io/fluxzero-sdk-java)
 - [Introduction to Message Handling](https://fluxzero.io/docs/message-handling)
 - [DLQ and Error Recovery](https://fluxzero.io/docs/dlq)
 - [Test Fixtures](https://fluxzero.io/docs/testing)

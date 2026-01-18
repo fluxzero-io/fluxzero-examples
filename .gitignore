@@ -2,6 +2,7 @@
 
 # IntelliJ IDEA
 .idea/workspace.xml
+.idea/compiler.xml
 .idea/tasks.xml
 .idea/usage.statistics.xml
 .idea/dictionaries
