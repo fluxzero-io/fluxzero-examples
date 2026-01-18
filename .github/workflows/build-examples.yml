@@ -183,7 +183,7 @@ jobs:
           cache: gradle
 
       - name: Validate Gradle Wrapper(s)
-        uses: gradle/wrapper-validation-action@v3
+        uses: gradle/actions/wrapper-validation@v5
 
       - name: Verify Gradle wrapper
         working-directory: ${{ matrix.dir }}
