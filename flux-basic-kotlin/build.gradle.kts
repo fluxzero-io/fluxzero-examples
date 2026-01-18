@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.spring.boot.starter)
 
     // Flux
-    implementation(libs.fluxzero.client)
+    implementation(libs.fluxzero.sdk)
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Monitoring
@@ -26,7 +26,7 @@ dependencies {
     // Testing
     testImplementation(kotlin("test"))
     testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.fluxzero.client) {
+    testImplementation(libs.fluxzero.sdk) {
         artifact {
             classifier = "tests"
         }

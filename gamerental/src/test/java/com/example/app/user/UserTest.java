@@ -1,6 +1,7 @@
 package com.example.app.user;
 
 import io.fluxzero.sdk.test.TestFixture;
+import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -25,6 +26,14 @@ class UserTest {
                 .givenCommands("/user/create-admin.json")
                 .whenCommandByUser("admin", "/user/create-customer.json")
                 .expectEvents("/user/create-customer.json");
+    }
+
+    @Test
+    void createUserTwiceForbidden() {
+        testFixture
+                .givenCommands("/user/create-customer.json")
+                .whenCommand("/user/create-customer.json")
+                .expectExceptionalResult(IllegalCommandException.class);
     }
 
     @Test
