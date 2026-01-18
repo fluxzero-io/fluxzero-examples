@@ -48,6 +48,12 @@ operations:
     replace: "<mainClass>${package}.TestApp</mainClass>"
     regex: true
 
+  # Update TestApp run configuration
+  - type: replace
+    files: [ ".run/TestApp.run.xml" ]
+    find: 'value="com\\.example\\.app\\.TestApp"'
+    replace: 'value="${package}.TestApp"'
+
   # Update Gradle build.gradle.kts
   - type: replace
     files: ["build.gradle.kts"]

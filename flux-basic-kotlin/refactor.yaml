@@ -1,14 +1,14 @@
 operations:
-  # Replace package names in Java files
+  # Replace package names in Kotlin files
   - type: replace
-    files: ["**/*.java"]
+    files: ["**/*.kt"]
     find: "package com\\.example\\.app"
     replace: "package ${package}"
     regex: true
 
-  # Replace imports in Java files
+  # Replace imports in Kotlin files
   - type: replace
-    files: ["**/*.java"]
+    files: ["**/*.kt"]
     find: "import com\\.example\\.app\\."
     replace: "import ${package}."
     regex: true
@@ -16,22 +16,22 @@ operations:
   # Update Maven pom.xml
   - type: replace
     files: ["pom.xml"]
-    find: "<groupId>com.example</groupId>"
+    find: "<groupId>com.example.flux</groupId>"
     replace: "<groupId>${groupId}</groupId>"
 
   - type: replace
     files: ["pom.xml"]
-    find: "<artifactId>flux-basic-java</artifactId>"
+    find: "<artifactId>flux-basic-kotlin</artifactId>"
     replace: "<artifactId>${artifactId}</artifactId>"
 
   - type: replace
     files: ["pom.xml"]
-    find: "<name>Flux Basic Java</name>"
+    find: "<name>Flux Basic Kotlin</name>"
     replace: "<name>${projectName}</name>"
 
   - type: replace
     files: ["pom.xml"]
-    find: "<description>Demo project for Spring Boot</description>"
+    find: "<description>An empty Fluxzero application with Kotlin</description>"
     replace: "<description>${description}</description>"
 
   # Update Maven exec plugin main class
@@ -50,7 +50,7 @@ operations:
   # Update Gradle build.gradle.kts
   - type: replace
     files: ["build.gradle.kts"]
-    find: 'group = "com.example"'
+    find: 'group = "com.example.flux"'
     replace: 'group = "${groupId}"'
 
   # Update Gradle runTestApp task main class
@@ -63,7 +63,7 @@ operations:
   # Update Gradle settings.gradle.kts
   - type: replace
     files: ["settings.gradle.kts"]
-    find: 'rootProject.name = "flux-basic-java"'
+    find: 'rootProject.name = "flux-basic-kotlin"'
     replace: 'rootProject.name = "${artifactId}"'
 
   # Update package references in all resource files
@@ -82,13 +82,13 @@ operations:
 
   - type: replace
     files: ["README.md"]
-    find: "src/main/java/com/example/app/"
-    replace: "src/main/java/${packagePath}/"
+    find: "src/main/kotlin/com/example/app/"
+    replace: "src/main/kotlin/${packagePath}/"
 
   - type: replace
     files: ["README.md"]
-    find: "src/test/java/com/example/app/"
-    replace: "src/test/java/${packagePath}/"
+    find: "src/test/kotlin/com/example/app/"
+    replace: "src/test/kotlin/${packagePath}/"
 
   # rename docker files
   - type: rename
@@ -101,12 +101,12 @@ operations:
 
   # Rename package directories
   - type: rename
-    from: "src/main/java/com/example/app"
-    to: "src/main/java/${packagePath}"
+    from: "src/main/kotlin/com/example/app"
+    to: "src/main/kotlin/${packagePath}"
 
   - type: rename
-    from: "src/test/java/com/example/app"
-    to: "src/test/java/${packagePath}"
+    from: "src/test/kotlin/com/example/app"
+    to: "src/test/kotlin/${packagePath}"
 
   # Make wrapper scripts executable
   - type: chmod

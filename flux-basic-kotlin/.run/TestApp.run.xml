@@ -7,12 +7,6 @@
     <module name="flux-basic-kotlin.test" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.app.TestApp" />
     <option name="VM_PARAMETERS" value="-Xms8g -Xmx8g" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="com.example.app.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
