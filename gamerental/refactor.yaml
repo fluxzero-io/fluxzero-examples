@@ -6,6 +6,12 @@ operations:
     replace: "package ${package}.gamerental"
     regex: true
 
+  # Update intellij run files
+  - type: replace
+    files: [ ".run/*.xml" ]
+    find: "com.example.app"
+    replace: "${package}"
+
   # Replace main package names in Java files
   - type: replace
     files: ["**/*.java"]

@@ -6,6 +6,12 @@ operations:
     replace: "package ${package}"
     regex: true
 
+  # Update intellij run files
+  - type: replace
+    files: [ ".run/*.xml" ]
+    find: "com.example.app"
+    replace: "${package}"
+
   # Replace imports in Kotlin files
   - type: replace
     files: ["**/*.kt"]
