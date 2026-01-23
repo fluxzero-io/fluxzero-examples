@@ -1,167 +1,48 @@
-# 🎮 Game Rental Demo — Powered by Fluxzero
+# Fluxzero Game Rental Example
 
-This repository demonstrates how to build a clean, reactive, and fully testable application using the [Fluxzero](https://fluxzero.io) Java SDK.
+This is an example project for Fluxzero applications, demonstrating a game rental system. It is built on top of the [Fluxzero Base Project](../flux-basic-java).
 
-You'll find a complete, production-like system for managing and renting games, showing off:
+## AI Agents
 
----
+AI agents are expected to read all rules in [.aiassistant/rules](.aiassistant/rules) before starting any task in this project.
 
-## 🚀 Features
+## What's Included
 
-### ✅ Zero-Boilerplate Command Handling
-Send commands to an **event-sourced** aggregate with almost no glue code:
+In addition to the foundational features (User Management, Authentication, and Fluxzero Integration), this example project includes:
+- **Game Inventory**: Management of games available for rent.
+- **Rental System**: Logic for renting and returning games.
+- **Search & Stats**: Search functionality for games and rental statistics.
 
-```java
-Fluxzero.sendCommand(new RegisterGame(...));
-```
+## Quick Start
 
-The game entity handles and validates updates via `@Apply` and `@AssertLegal`, no other frameworks or magic base classes required.
+Start the complete application stack:
 
----
-
-### 🔍 Live Search & Queries
-Use the **document store** for indexed queries:
-
-- `FindGames` searches game titles/tags.
-- `GetGameStats` computes **faceted search statistics** like genre distribution.
-
----
-
-### ⚖️ Constraints, Roles, and Guardrails
-All game commands are checked for:
-
-- ✋ Violations (via JSR-380 annotations)
-- 🔒 Required roles (`@RequiresRole`)
-- 🧩 Business rules (`@AssertLegal`)
-
-If a command is invalid, a detailed error is returned automatically.
-
----
-
-### 📦 Dynamic DLQ & Error Recovery
-
-The `FlakyGameAnnouncer` is intentionally unstable — it sometimes throws exceptions during event handling.  
-When this happens, Flux automatically logs the error, including a correlation to the **causing message**, enabling a **Dynamic Dead Letter Queue (DLQ)**.
-
-The `CorrectingGameAnnouncer` listens to the error log and reacts accordingly by correcting the error.
-
-All of this is transparent, testable, and fully integrated into the message tracking system.
-
----
-
-### 🌐 Clean Web API with Zero boilerplate
-Use `@HandleGet`, `@HandlePost`, and friends to expose endpoints like:
-
-- `POST /games` → registers a new game
-- `GET /games?term=puzzle` → search
-- `POST /games/{gameId}/rent` → rent a game
-- `POST /games/{gameId}/return` → return a game
-
-Handlers are type-safe and declarative — no need for annotations like `@RestController` or manual JSON parsing.
-
----
-
-### 🔄 WebSockets and Live Updates
-Clients can open a **WebSocket** connection (via `GameSocket`) to receive real-time updates whenever a new game is added.
-
----
-
-### 🧪 Ultra-Compact Tests
-Test all flows — commands, queries, events, errors, and web requests — using the Fluxzero testing framework.
-
-No mocks, no fakes. Just:
-
-```java
-testFixture.whenPost("/games", "/game/game-details.json")
-           .expectResult(GameId.class)
-           .expectEvents(RegisterGame.class);
-```
-
-Fixtures auto-fill path params and simulate end-to-end behavior across messaging layers.
-
----
-
-## 📂 Project Structure
-
-```
-src/
-├── main/
-│   └── java/com/example/app/
-│       ├── authentication/     # Role-based access control
-│       └── gamerental/
-│           ├── announcer/      # Announcers and DLQ correction
-│           └── api/            # Commands and queries
-│               └── common/     # Value types
-├── test/
-│   └── java/com/example/app/
-│       └── gamerental/         # Game and announcer tests
-│       └── AppIntegrationTest  # Full system test
-└── resources/
-    └── game/                   # JSON payloads for test fixtures
-```
-
----
-
-## 🛠️ Running the App
-
-### Prerequisites
-
-- Java 24 or higher
-- Maven 3.6.3+ or Gradle 8.0+
-
-### Quick Start
-
-Start the complete application stack (Test Server + Proxy + Application) with a single command:
-
-**Using Gradle:**
 ```bash
 ./gradlew runTestApp
-```
-
-**Using Maven:**
-```bash
+# or
 mvn exec:java
 ```
 
-**Using IntelliJ IDEA:**
-- Use the provided run configurations to start the TestApp directly from the IDE
+This starts:
+- **Fluxzero Test Server**
+- **Fluxzero Proxy** on port 8080 (main entry point)
+- **Spring Boot Application**
 
-This will start:
-- **Fluxzero Test Server** on port 8888
-- **Fluxzero Proxy** on port 8080
-- **Spring Boot Application** on port 8080 (proxied)
+## API Endpoints
 
-### Testing
+### User Management
+- **GET** `/api/users` - List all users
+- **POST** `/api/users` - Create new user
+- **GET** `/api/users/{id}` - Get user details
 
-Run the test suite:
-```bash
-./gradlew test
-# or
-mvn test
-```
+### Game Rental
+- **GET** `/api/games` - Find games (optional `term` query param)
+- **POST** `/api/games` - Register a new game
+- **GET** `/api/games/{id}` - Get game details
+- **POST** `/api/games/{id}/rent` - Rent a game
+- **POST** `/api/games/{id}/return` - Return a game
+- **GET** `/api/games/stats` - Get game statistics
 
----
+## Testing
 
-## 🤔 Why Fluxzero?
-
-Because message-driven, event-sourced, location-transparent systems shouldn’t be this hard.
-
-Fluxzero makes it:
-
-- **Concise**: No boilerplate aggregates or DTOs
-- **Safe**: Built-in validation, retry, DLQ, snapshots
-- **Flexible**: Web, CLI, schedule, WebSocket, documents — all unified
-- **Testable**: Verify behavior through message effects, not mocks
-
----
-
-## 📎 Related Docs
-
-- [Fluxzero Java SDK README](https://github.com/fluxzero-io/fluxzero-sdk-java)
-- [Introduction to Message Handling](https://fluxzero.io/docs/message-handling)
-- [DLQ and Error Recovery](https://fluxzero.io/docs/dlq)
-- [Test Fixtures](https://fluxzero.io/docs/testing)
-
----
-
-Enjoy renting games the event-sourced way 🎮✨
+Run the `All tests` run configuration in your IDE.
