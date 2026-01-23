@@ -9,10 +9,12 @@ import com.example.app.user.api.model.UserProfile
 import io.fluxzero.sdk.Fluxzero
 import io.fluxzero.sdk.web.HandleGet
 import io.fluxzero.sdk.web.HandlePost
+import io.fluxzero.sdk.web.Path
 import org.springframework.stereotype.Component
 
 @Component
 @RequiresRole
+@Path("/api")
 class UsersEndpoint {
     
     @HandlePost("/users")

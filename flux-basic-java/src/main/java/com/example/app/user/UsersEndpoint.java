@@ -8,11 +8,13 @@ import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.web.HandleGet;
 import io.fluxzero.sdk.web.HandlePost;
+import io.fluxzero.sdk.web.Path;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Path("/api")
 public class UsersEndpoint {
     @HandlePost("/users")
     UserId createUser(UserDetails details) {

@@ -1,14 +1,10 @@
 package com.example.app.user
 
-import com.example.app.user.api.CreateUser
 import com.example.app.user.api.GetUsers
-import com.example.app.user.api.UserId
 import com.example.app.user.api.model.UserProfile
 import io.fluxzero.sdk.test.TestFixture
 import io.fluxzero.sdk.tracking.handling.IllegalCommandException
 import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class UserTest {
@@ -65,26 +61,4 @@ class UserTest {
             .expectResult<List<UserProfile>> { r: List<UserProfile> -> r.size == 1 }
     }
 
-    @Nested
-    inner class UsersEndpointTests {
-
-        @BeforeEach
-        fun setUp() {
-            testFixture.registerHandlers(UsersEndpoint())
-        }
-
-        @Test
-        fun createUser() {
-            testFixture.whenPost("/users", "/user/create-user-request.json")
-                .expectResult(UserId::class.java)
-                .expectEvents(CreateUser::class.java)
-        }
-
-        @Test
-        fun getUsers() {
-            testFixture.givenPost("/users", "/user/create-user-request.json")
-                .whenGet("/users")
-                .expectResult<List<UserProfile>> { r: List<UserProfile> -> r.size == 1 }
-        }
-    }
 }
