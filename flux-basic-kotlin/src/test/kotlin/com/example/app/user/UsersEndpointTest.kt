@@ -4,10 +4,8 @@ import com.example.app.user.api.CreateUser
 import com.example.app.user.api.UserId
 import com.example.app.user.api.model.UserProfile
 import io.fluxzero.sdk.test.TestFixture
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@Nested
 class UsersEndpointTests {
 
     private val testFixture = TestFixture.create(UsersEndpoint())

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+    <nav class="bg-white border-b border-slate-200 py-4 mb-8 sticky top-0 z-10 glass-effect">
+        <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-indigo-600 p-2 rounded-lg">
+                    <i class="fas fa-users text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">UserHub</h1>
+            </div>
+            <div class="text-sm text-slate-500 font-medium">
+                Flux Basic Java Example
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Sidebar / Add User Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-24">
+                    <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
+                        <i class="fas fa-user-plus text-indigo-500"></i>
+                        Add New User
+                    </h2>
+                    <form id="userForm" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                            <input type="text" id="name" placeholder="John Doe" required
+                                class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                            <input type="email" id="email" placeholder="john@example.com" required
+                                class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
+                        </div>
+                        <button type="submit" 
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 shadow-md shadow-indigo-200">
+                            Create User
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Content Area / User List -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-2xl font-bold tracking-tight">Registered Users</h2>
+                    <span id="userCount" class="bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">0 Users</span>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table id="userTable" class="w-full text-left">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">User Info</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Role</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="hidden py-12 text-center">
+                        <div class="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-slash text-slate-300 text-2xl"></i>
+                        </div>
+                        <p class="text-slate-500 font-medium">No users found</p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loadingState" class="py-12 text-center">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+                        <p class="text-slate-500 animate-pulse">Fetching users...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const userForm = document.getElementById('userForm');
+        const userTableBody = document.querySelector('#userTable tbody');
+        const userCountSpan = document.getElementById('userCount');
+        const emptyState = document.getElementById('emptyState');
+        const loadingState = document.getElementById('loadingState');
+
+        async function fetchUsers() {
+            loadingState.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                
+                userCountSpan.textContent = `${users.length} User${users.length !== 1 ? 's' : ''}`;
+                userTableBody.innerHTML = '';
+                
+                if (users.length === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.className = 'hover:bg-slate-50 transition-colors duration-150';
+                        row.innerHTML = `
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="h-10 w-10 flex-shrink-0 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
+                                        ${user.details.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-semibold text-slate-900">${user.details.name}</div>
+                                        <div class="text-sm text-slate-500">${user.details.email || '-'}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                                    ${user.userId.substring(0, 8)}...
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' : 'bg-emerald-100 text-emerald-700'}">
+                                    ${user.role || 'User'}
+                                </span>
+                            </td>
+                        `;
+                        userTableBody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            } finally {
+                loadingState.classList.add('hidden');
+            }
+        }
+
+        userForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = userForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // UI Feedback
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Creating...';
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email })
+                });
+
+                if (response.ok) {
+                    userForm.reset();
+                    await fetchUsers();
+                } else {
+                    alert('Error creating user');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        // Initial load
+        fetchUsers();
+    </script>
+</body>
+</html>

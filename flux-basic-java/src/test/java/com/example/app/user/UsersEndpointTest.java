@@ -4,12 +4,10 @@ import com.example.app.user.api.CreateUser;
 import com.example.app.user.api.UserId;
 import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.test.TestFixture;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-@Nested
 class UsersEndpointTest {
 
     final TestFixture testFixture = TestFixture.create(new UsersEndpoint());

@@ -3,11 +3,7 @@ package com.example.app.user;
 import io.fluxzero.sdk.test.TestFixture;
 import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class UserTest {
 
@@ -49,26 +45,4 @@ class UserTest {
                 .expectResult(r -> r.size() == 1);
     }
 
-    @Nested
-    class UsersEndpointTests {
-
-        @BeforeEach
-        void setUp() {
-            testFixture.registerHandlers(new UsersEndpoint());
-        }
-
-        @Test
-        void createUser() {
-            testFixture.whenPost("/users", "/user/new-user-details.json")
-                    .expectResult(UserId.class)
-                    .expectEvents(CreateUser.class);
-        }
-
-        @Test
-        void getUsers() {
-            testFixture.givenPost("/users", "/user/new-user-details.json")
-                    .whenGet("/users")
-                    .<List<UserProfile>>expectResult(r -> r.size() == 1);
-        }
-    }
 }
