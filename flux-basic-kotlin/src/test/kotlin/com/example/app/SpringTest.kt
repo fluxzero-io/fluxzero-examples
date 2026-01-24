@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_T
 
 @SpringBootTest(classes = [App::class])
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
-class AppTest {
+class SpringTest {
 
     @Autowired
     lateinit var testFixture: TestFixture

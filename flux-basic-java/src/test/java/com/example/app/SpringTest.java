@@ -11,7 +11,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 
 @SpringBootTest(classes = App.class)
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
-class AppTest {
+class SpringTest {
 
 	@Autowired TestFixture testFixture;
 

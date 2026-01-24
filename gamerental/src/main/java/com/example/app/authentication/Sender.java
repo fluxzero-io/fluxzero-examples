@@ -6,6 +6,8 @@ import io.fluxzero.sdk.tracking.handling.authentication.User;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.util.Objects;
+
 @Builder(toBuilder = true)
 public record Sender(@NonNull UserId userId, Role userRole) implements User {
 
@@ -33,5 +35,9 @@ public record Sender(@NonNull UserId userId, Role userRole) implements User {
 
     public boolean isAdmin() {
         return Role.admin.matches(userRole);
+    }
+
+    public boolean isAuthorizedFor(UserId userId) {
+        return isAdmin() || Objects.equals(this.userId, userId);
     }
 }

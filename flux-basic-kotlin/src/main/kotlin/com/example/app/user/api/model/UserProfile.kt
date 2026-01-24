@@ -1,7 +1,9 @@
 package com.example.app.user.api.model
 
 import com.example.app.authentication.Role
+import com.example.app.authentication.Sender
 import com.example.app.user.api.UserId
+import io.fluxzero.sdk.common.serialization.FilterContent
 import io.fluxzero.sdk.modeling.Aggregate
 import io.fluxzero.sdk.modeling.EventPublication
 
@@ -20,6 +22,11 @@ data class UserProfile(
         .userId(userId)
         .details(details)
         .role(role)
+
+    @FilterContent
+    fun filter(sender: Sender): UserProfile? {
+        return if (sender.isAuthorizedFor(userId)) this else null
+    }
 }
 
 class UserProfileBuilder {

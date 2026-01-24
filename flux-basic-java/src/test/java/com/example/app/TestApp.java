@@ -39,7 +39,7 @@ public class TestApp {
 
         // initialize
         initializeApp();
-        log.info("Application started successfully");
+        log.info("Application started successfully. Visit at: http://localhost:8080/");
     }
 
     static void initializeApp() {

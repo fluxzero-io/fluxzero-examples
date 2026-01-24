@@ -91,8 +91,9 @@ src/test/resources
 
 ## Testing Rules
 
-- Create tests for every command as well as for any important business rules in commands
-- Create tests for other messages and business scenarios as well (e.g., queries, schedules, endpoints) 
+- Create tests for every implemented feature (including @AssertLegal rules).
+- Most tests should be done using commands and queries (i.e. no need to test core behavior using edge messages like web requests).
+- One test class per endpoint is enough, but each method should be tested at least once (it is fine to give preconditions using `givenCommands(...)` followed by e.g. `whenPost` or `whenGet`).
 - Always use `TestFixture`.
 - Prefer `.whenCommand(...)`, `.expectEvents(...)`, `.expectResult(...)`.
 - Use external JSON resources for all test inputs and expectations.
