@@ -77,6 +77,18 @@ illustrative use cases.
   ```
   A generic pattern—apply similarly for other domains like `OrderUpdate` or `InventoryUpdate`.
 
+  When an update (command) is successfully applied to an aggregate, the command payload is automatically published as an event. These events can be handled using `@HandleEvent` within an event handler. E.g.:
+
+  ```java
+  @Component
+  class UserLifecycleHandler {
+      @HandleEvent
+      void handle(CreateUser event) {
+          // do something like sending an email
+      }
+  }
+  ```
+
 - **Command definitions**: Implement the interface with a `record`. Use Jakarta Validation, role-based checks, and
   event-sourcing annotations:
   ```java
@@ -129,7 +141,7 @@ illustrative use cases.
       }
   }
   ```
-  
+
 with:
 
 ```java
@@ -147,15 +159,15 @@ public interface ProjectErrors {
 @Component
 @Consumer(name = "notifications") // with this the handler consumes and processes commands in isolation 
 class NotificationHandler {
-    @HandleCommand
-    void handle(SendEmail command) {
-        // send email by whatever method (e.g.: web request or smtp)
-    }
+  @HandleCommand
+  void handle(SendEmail command) {
+    // send email by whatever method (e.g.: web request or smtp)
+  }
 
-    @HandleCommand
-    void handle(SendSlackMessage command) {
-      // ...
-    }
+  @HandleCommand
+  void handle(SendSlackMessage command) {
+    // ...
+  }
 }
 ```
 
@@ -163,7 +175,7 @@ class NotificationHandler {
 
 ```java
 @Component
-@LocalHandler(logMetrics = true) 
+@LocalHandler(logMetrics = true)
 class NotificationHandler {
   @HandleCommand
   void handle(SendEmail command) {
@@ -254,8 +266,8 @@ Sending a command trigges domain behavior and optionally returns a result.
 
 ```java
 Fluxzero.sendAndForgetCommand(new CreateUser("Alice"));
-        
-Fluxzero.sendAndForgetCommand(new CreateUser("Alice"), Metadata.of("ipAddress", ipAddress), Guarantee.STORED).join(); //waits until the command has been stored by Fluxzero runtime
+
+        Fluxzero.sendAndForgetCommand(new CreateUser("Alice"), Metadata.of("ipAddress", ipAddress), Guarantee.STORED).join(); //waits until the command has been stored by Fluxzero runtime
 ```
 
 **Send and wait:**
@@ -268,7 +280,7 @@ UserId id = Fluxzero.sendCommandAndWait(new CreateUser("Charlie"));
 
 ```java
 CompletableFuture<UserId> future =
-    Fluxzero.sendCommand(new CreateUser("Bob"));
+        Fluxzero.sendCommand(new CreateUser("Bob"));
 ```
 
 
@@ -311,10 +323,10 @@ CompletableFuture<UserId> future =
 ```java
 @Component
 class UserQueryHandler {
-    @HandleQuery
-    UserProfile handle(GetUserProfile query) {
-        return new UserProfile(...);
-    }
+  @HandleQuery
+  UserProfile handle(GetUserProfile query) {
+    return new UserProfile(...);
+  }
 }
 ```
 
@@ -362,13 +374,13 @@ public record UserProfile(
 
 ```java
 List<UserAccount> admins = Fluxzero
-    .search(UserAccount.class) //or input a search collection by name, e.g. "users"
-    .match("admin", "roles.name")
-    .lookAhead("pete") //searches for words anywhere starting with pete, ignoring capitalization or accents     
-    .inLast(Duration.ofDays(30))
-    .sortBy("lastLogin", true) // true for descending. Make sure property `lastLogin` has `@Sortable`.
-    .skip(100)
-    .fetch(100);
+        .search(UserAccount.class) //or input a search collection by name, e.g. "users"
+        .match("admin", "roles.name")
+        .lookAhead("pete") //searches for words anywhere starting with pete, ignoring capitalization or accents     
+        .inLast(Duration.ofDays(30))
+        .sortBy("lastLogin", true) // true for descending. Make sure property `lastLogin` has `@Sortable`.
+        .skip(100)
+        .fetch(100);
 ```
 
 Fluxzero supports a rich set of constraints:
@@ -388,31 +400,31 @@ Fluxzero supports a rich set of constraints:
 ```java
 // Combining multiple exclusions using NOT and Facets
 List<Luggage> activeLuggage = Fluxzero.search(Luggage.class)
-    .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
-    .fetchAll(Luggage.class);
+                .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
+                .fetchAll(Luggage.class);
 
 // Complex logical grouping
 List<User> complexFilter = Fluxzero.search(User.class)
-    .any(
-        MatchConstraint.match("active", "status"),
-        AllConstraint.all(
-            MatchConstraint.match("pending", "status"),
-            MatchConstraint.match(true, "vip")
+        .any(
+                MatchConstraint.match("active", "status"),
+                AllConstraint.all(
+                        MatchConstraint.match("pending", "status"),
+                        MatchConstraint.match(true, "vip")
+                )
         )
-    )
-    .fetchAll(User.class);
+        .fetchAll(User.class);
 
 // Time-based filtering combined with status exclusion
 List<Luggage> delayedBags = Fluxzero.search(Luggage.class)
-    .beforeLast(Duration.ofHours(2))
-    .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
-    .fetchAll(Luggage.class);
+        .beforeLast(Duration.ofHours(2))
+        .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
+        .fetchAll(Luggage.class);
 ```
 
 When a field or getter is annotated with `@Facet`, you can also retrieve **facet statistics**:
 
 ```java
-public record Product(ProductId productId, 
+public record Product(ProductId productId,
                       @Facet String category,
                       @Facet String brand,
                       String name,
@@ -459,14 +471,14 @@ Fluxzero.index(myObject, "customCollection");
 
 ```java
 UserProfile profile =
-    Fluxzero.queryAndWait(new GetUserProfile("user456"));
+        Fluxzero.queryAndWait(new GetUserProfile("user456"));
 ```
 
 **Async:**
 
 ```java
 CompletableFuture<UserProfile> result =
-    Fluxzero.query(new GetUserProfile(new UserId("user123")));
+        Fluxzero.query(new GetUserProfile(new UserId("user123")));
 ```
 
 
@@ -546,28 +558,36 @@ public record RefreshData(String index) {
 
 ## Web Endpoints
 
+- **API Endpoints**: All API endpoints (except for `@ServeStatic` ones) should be annotated with `@Path("/api")` to ensure that API calls don't clash with frontend routes.
+  ```java
+  @Component
+  @Path("/api/projects")
+  public class ProjectsEndpoint {
+  ```
+
 - Expose REST routes for projects and tasks:
   ```java
   @Component
+  @Path("/api/projects")
   public class ProjectsEndpoint {
-      @HandlePost("/projects")
+      @HandlePost
       ProjectId createProject(ProjectDetails details) {
           var id = Fluxzero.generateId(ProjectId.class);
           Fluxzero.sendCommandAndWait(new CreateProject(id, details));
           return id;
       }
 
-      @HandleGet("/projects")
+      @HandleGet
       List<Project> listProjects() {
           return Fluxzero.queryAndWait(new ListProjects());
       }
 
-      @HandleGet("/projects/{projectId}")
+      @HandleGet("/{projectId}")
       Project getProject(@PathParam ProjectId projectId) {
           return Fluxzero.queryAndWait(new GetProject(projectId));
       }
 
-      @HandlePost("/projects/{projectId}/tasks")
+      @HandlePost("/{projectId}/tasks")
       TaskId createTask(@PathParam ProjectId projectId, TaskDetails details) {
           var taskId = Fluxzero.generateId(TaskId.class);
           Fluxzero.sendCommandAndWait(
@@ -576,13 +596,13 @@ public record RefreshData(String index) {
           return taskId;
       }
 
-      @HandlePost("/projects/{projectId}/tasks/{taskId}/complete")
+      @HandlePost("/{projectId}/tasks/{taskId}/complete")
       void completeTask(@PathParam ProjectId projectId,
                         @PathParam TaskId taskId) {
           Fluxzero.sendCommandAndWait(new CompleteTask(projectId, taskId));
       }
 
-      @HandlePost("/projects/{projectId}/tasks/{taskId}/assign")
+      @HandlePost("/{projectId}/tasks/{taskId}/assign")
       void assignTask(@PathParam ProjectId projectId,
                       @PathParam TaskId taskId,
                       UserId assigneeId) {
@@ -590,6 +610,14 @@ public record RefreshData(String index) {
               new AssignTask(projectId, taskId, assigneeId)
           );
       }
+  }
+  ```
+
+- **Static Content**: Use `@ServeStatic` to serve static assets (like a frontend) from the classpath.
+  ```java
+  @Component
+  @ServeStatic("/")
+  public class UiEndpoint {
   }
   ```
 
@@ -674,17 +702,17 @@ Or like this if referring from another package:
 ```java
 @Test
 void listProjectsReturnsOwnedProjects() {
-    fixture.givenCommands("/todo/create-project.json")
-           .whenQuery(new ListProjects())
-           .expectResult(result -> !result.isEmpty());
+  fixture.givenCommands("/todo/create-project.json")
+          .whenQuery(new ListProjects())
+          .expectResult(result -> !result.isEmpty());
 }
 
 @Test
 void nonOwnerCannotGetProject() {
-    fixture.givenCommands("/todo/create-project.json")
-           .givenCommands("/user/create-other-user.json")
-           .whenQueryByUser("otherUser", "/todo/get-project.json")
-           .expectNoResult();
+  fixture.givenCommands("/todo/create-project.json")
+          .givenCommands("/user/create-other-user.json")
+          .whenQueryByUser("otherUser", "/todo/get-project.json")
+          .expectNoResult();
 }
 ```
 
@@ -720,21 +748,21 @@ public class UserLifecycleTests {
 ```java
 @Nested
 class ProjectsEndpointTests {
-    final TestFixture testFixture = TestFixture.create(new ProjectsEndpoint());
+  final TestFixture testFixture = TestFixture.create(new ProjectsEndpoint());
 
-    @Test
-    void createProjectViaPost() {
-        fixture.whenPost("/projects", "/todo/create-project-request.json")
-               .expectResult(ProjectId.class)
-               .expectEvents(CreateProject.class);
-    }
+  @Test
+  void createProjectViaPost() {
+    fixture.whenPost("/projects", "/todo/create-project-request.json")
+            .expectResult(ProjectId.class)
+            .expectEvents(CreateProject.class);
+  }
 
-    @Test
-    void completeTaskViaEndpoint() {
-        fixture.givenCommands("/todo/create-project.json", "/todo/create-task.json")
-               .whenPost("/projects/p1/tasks/t1/complete", null)
-               .expectEvents(CompleteTask.class);
-    }
+  @Test
+  void completeTaskViaEndpoint() {
+    fixture.givenCommands("/todo/create-project.json", "/todo/create-task.json")
+            .whenPost("/projects/p1/tasks/t1/complete", null)
+            .expectEvents(CompleteTask.class);
+  }
 }
 ```
 

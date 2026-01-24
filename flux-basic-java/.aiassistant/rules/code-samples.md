@@ -77,6 +77,18 @@ illustrative use cases.
   ```
   A generic pattern—apply similarly for other domains like `OrderUpdate` or `InventoryUpdate`.
 
+  When an update (command) is successfully applied to an aggregate, the command payload is automatically published as an event. These events can be handled using `@HandleEvent` within an event handler. E.g.:
+
+  ```java
+  @Component
+  class UserLifecycleHandler {
+      @HandleEvent
+      void handle(CreateUser event) {
+          // do something like sending an email
+      }
+  }
+  ```
+
 - **Command definitions**: Implement the interface with a `record`. Use Jakarta Validation, role-based checks, and
   event-sourcing annotations:
   ```java
@@ -546,28 +558,36 @@ public record RefreshData(String index) {
 
 ## Web Endpoints
 
+- **API Endpoints**: All API endpoints (except for `@ServeStatic` ones) should be annotated with `@Path("/api")` to ensure that API calls don't clash with frontend routes.
+  ```java
+  @Component
+  @Path("/api/projects")
+  public class ProjectsEndpoint {
+  ```
+
 - Expose REST routes for projects and tasks:
   ```java
   @Component
+  @Path("/api/projects")
   public class ProjectsEndpoint {
-      @HandlePost("/projects")
+      @HandlePost
       ProjectId createProject(ProjectDetails details) {
           var id = Fluxzero.generateId(ProjectId.class);
           Fluxzero.sendCommandAndWait(new CreateProject(id, details));
           return id;
       }
 
-      @HandleGet("/projects")
+      @HandleGet
       List<Project> listProjects() {
           return Fluxzero.queryAndWait(new ListProjects());
       }
 
-      @HandleGet("/projects/{projectId}")
+      @HandleGet("/{projectId}")
       Project getProject(@PathParam ProjectId projectId) {
           return Fluxzero.queryAndWait(new GetProject(projectId));
       }
 
-      @HandlePost("/projects/{projectId}/tasks")
+      @HandlePost("/{projectId}/tasks")
       TaskId createTask(@PathParam ProjectId projectId, TaskDetails details) {
           var taskId = Fluxzero.generateId(TaskId.class);
           Fluxzero.sendCommandAndWait(
@@ -576,13 +596,13 @@ public record RefreshData(String index) {
           return taskId;
       }
 
-      @HandlePost("/projects/{projectId}/tasks/{taskId}/complete")
+      @HandlePost("/{projectId}/tasks/{taskId}/complete")
       void completeTask(@PathParam ProjectId projectId,
                         @PathParam TaskId taskId) {
           Fluxzero.sendCommandAndWait(new CompleteTask(projectId, taskId));
       }
 
-      @HandlePost("/projects/{projectId}/tasks/{taskId}/assign")
+      @HandlePost("/{projectId}/tasks/{taskId}/assign")
       void assignTask(@PathParam ProjectId projectId,
                       @PathParam TaskId taskId,
                       UserId assigneeId) {
@@ -590,6 +610,14 @@ public record RefreshData(String index) {
               new AssignTask(projectId, taskId, assigneeId)
           );
       }
+  }
+  ```
+
+- **Static Content**: Use `@ServeStatic` to serve static assets (like a frontend) from the classpath.
+  ```java
+  @Component
+  @ServeStatic("/")
+  public class UiEndpoint {
   }
   ```
 
