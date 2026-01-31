@@ -141,7 +141,7 @@ illustrative use cases.
       }
   }
   ```
-  
+
 with:
 
 ```java
@@ -621,6 +621,42 @@ public record RefreshData(String index) {
   }
   ```
 
+## Upcasting
+
+Upcasting allows you to evolve your domain by transforming old versions of serialized objects (messages, documents, stateful handlers, etc.) into the current version during deserialization.
+
+When you modify the structure of a event, document, stateful handler, or searchable aggregate, you should increment its version using the `@Revision` annotation. The upcaster then handles the transformation from the old revision(s) to the new one.
+
+- **ObjectNode Upcaster**: The preferred way to modify the payload of an object.
+  ```java
+  @Revision(2)
+  public record Project(...) {
+      @Component
+      public static class ProjectUpcaster {
+          @Upcast(type = "com.example.app.todo.api.model.Project", revision = 1)
+          public JsonNode upcastRev1(ObjectNode payload) {
+              if (!payload.has("details")) {
+                  payload.putObject("details").put("name", "Untitled Project");
+              }
+              return payload;
+          }
+      }
+  }
+  ```
+
+- **Data Upcaster**: Used when you need to change the type, revision, or metadata of the serialized object.
+  ```java
+  @Component
+  public class CreateProjectUpcaster {
+      @Upcast(type = "com.example.app.old.CreateProject", revision = 0)
+      public Data<JsonNode> upcastRev0(Data<JsonNode> data) {
+          return data.withType("com.example.app.todo.api.CreateProject").withRevision(1);
+      }
+  }
+  ```
+
+Upcasting is applied to **ALL** deserializing objects in Fluxzero, ensuring that your logic always works with the latest model regardless of when the data was originally stored.
+
 ## Authentication & Authorization
 
 - Enforce roles directly on command interfaces or implementations. Example: an admin-only create-user command signature:
@@ -702,17 +738,17 @@ Or like this if referring from another package:
 ```java
 @Test
 void listProjectsReturnsOwnedProjects() {
-    fixture.givenCommands("/todo/create-project.json")
-           .whenQuery(new ListProjects())
-           .expectResult(result -> !result.isEmpty());
+  fixture.givenCommands("/todo/create-project.json")
+          .whenQuery(new ListProjects())
+          .expectResult(result -> !result.isEmpty());
 }
 
 @Test
 void nonOwnerCannotGetProject() {
-    fixture.givenCommands("/todo/create-project.json")
-           .givenCommands("/user/create-other-user.json")
-           .whenQueryByUser("otherUser", "/todo/get-project.json")
-           .expectNoResult();
+  fixture.givenCommands("/todo/create-project.json")
+          .givenCommands("/user/create-other-user.json")
+          .whenQueryByUser("otherUser", "/todo/get-project.json")
+          .expectNoResult();
 }
 ```
 
@@ -748,22 +784,20 @@ public class UserLifecycleTests {
 ```java
 @Nested
 class ProjectsEndpointTests {
-    final TestFixture testFixture = TestFixture.create(new ProjectsEndpoint());
+  final TestFixture testFixture = TestFixture.create(new ProjectsEndpoint());
 
-    @Test
-    void createProjectViaPost() {
-        fixture.whenPost("/projects", "/todo/create-project-request.json")
-               .expectResult(ProjectId.class)
-               .expectEvents(CreateProject.class);
-    }
+  @Test
+  void createProjectViaPost() {
+    fixture.whenPost("/projects", "/todo/create-project-request.json")
+            .expectResult(ProjectId.class)
+            .expectEvents(CreateProject.class);
+  }
 
-    @Test
-    void completeTaskViaEndpoint() {
-        fixture.givenCommands("/todo/create-project.json", "/todo/create-task.json")
-               .whenPost("/projects/p1/tasks/t1/complete", null)
-               .expectEvents(CompleteTask.class);
-    }
+  @Test
+  void completeTaskViaEndpoint() {
+    fixture.givenCommands("/todo/create-project.json", "/todo/create-task.json")
+            .whenPost("/projects/p1/tasks/t1/complete", null)
+            .expectEvents(CompleteTask.class);
+  }
 }
 ```
-
-
