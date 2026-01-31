@@ -59,7 +59,7 @@ src/test/resources
 ## Code Generation Rules
 
 - Prefer modeling commands and queries. Avoid exposing entities directly.
-- Commands use imperative names (`AddUser`, `AssignTask`). 
+- Commands use imperative names (`AddUser`, `AssignTask`).
 - Queries (and optionally commands) return a result via `Request<T>`.
 - Never combine `@HandleCommand` and `@Apply` in the same class or interface.
 - Use `assertAndApply(this)` for command handlers inside interfaces like `UserUpdate`, `ProjectUpdate`, etc.
@@ -114,6 +114,7 @@ src/test/resources
 - Extract static properties into a dedicated value object (e.g., `ProjectDetails`) and reference it in both the aggregate and its creation/update commands (typically using `@Valid`).
 - When dealing with decimal properties (e.g., weight, price, dimensions) in entities or value objects, always prefer `BigDecimal` over `double` or `float` to avoid precision issues.
 - Expose search via queries that use `Fluxzero.search(...)`.
+- **Upcasting**: Implement upcasters when there is existing data that would otherwise fail to deserialize. When a model change is required, **always ask the user** if an upcaster is necessary before implementing one.
 
 ---
 

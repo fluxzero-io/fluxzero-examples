@@ -146,7 +146,7 @@ with:
 
 ```java
 public interface ProjectErrors {
-    IllegalCommandException noPermission = new IllegalCommandException("You don't have permission to complete this task.");
+  IllegalCommandException noPermission = new IllegalCommandException("You don't have permission to complete this task.");
 }
 ```
 
@@ -166,7 +166,7 @@ class NotificationHandler {
 
     @HandleCommand
     void handle(SendSlackMessage command) {
-        // ...
+      // ...
     }
 }
 ```
@@ -175,17 +175,17 @@ class NotificationHandler {
 
 ```java
 @Component
-@LocalHandler(logMetrics = true)
+@LocalHandler(logMetrics = true) 
 class NotificationHandler {
-    @HandleCommand
-    void handle(SendEmail command) {
-        // ...
-    }
+  @HandleCommand
+  void handle(SendEmail command) {
+    // ...
+  }
 
-    @HandleCommand
-    void handle(SendSlackMessage command) {
-        // ...
-    }
+  @HandleCommand
+  void handle(SendSlackMessage command) {
+    // ...
+  }
 }
 ```
 
@@ -195,13 +195,13 @@ class NotificationHandler {
 @Value
 @RequiresRole(Role.admin)
 public class SendEmail {
-    String subject;
-    // ... other fields
+  String subject;
+  // ... other fields
 
-    @HandleCommand
-    void handle(@Autowired SmtpClient smtpClient) {
-        // send the email using the Spring-injected SmtpClient
-    }
+  @HandleCommand
+  void handle(@Autowired SmtpClient smtpClient) {
+    // send the email using the Spring-injected SmtpClient
+  }
 }
 ```
 
@@ -212,12 +212,12 @@ public class SendEmail {
 @Consumer(name = "user-update")
 public interface UserUpdate {
 
-    UserId userId();
+  UserId userId();
 
-    @HandleCommand
-    default UserProfile handle() {
-        return Fluxzero.loadAggregate(userId()).assertAndApply(this).get();
-    }
+  @HandleCommand
+  default UserProfile handle() {
+    return Fluxzero.loadAggregate(userId()).assertAndApply(this).get();
+  }
 }
 ```
 
@@ -228,33 +228,33 @@ public interface UserUpdate {
 @Consumer(name = "stripe")
 @Builder(toBuilder = true)
 record StripeTransaction(@Association TransactionId transactionId, @Association String stripeId, int retries) {
-    @HandleEvent
-    static StripeTransaction handle(MakePayment event) {
-        String stripeId = makePayment();
-        return new StripeTransaction(event.transactionId(), stripeId,
-                                     0); //automatically stores the handler in the repository
-    }
+  @HandleEvent
+  static StripeTransaction handle(MakePayment event) {
+    String stripeId = makePayment();
+    return new StripeTransaction(event.transactionId(), stripeId,
+                                 0); //automatically stores the handler in the repository
+  }
 
-    String makePayment() {
-        WebResponse response = Fluxzero.sendWebRequestAndWait(
-                WebRequest.post(ApplicationProperties.require("stripe.url")).payload(toBody(event)).build());
-        return response.getPayloadAs(String.class);
-    }
+  String makePayment() {
+    WebResponse response = Fluxzero.sendWebRequestAndWait(
+            WebRequest.post(ApplicationProperties.require("stripe.url")).payload(toBody(event)).build());
+    return response.getPayloadAs(String.class);
+  }
 
-    @HandleEvent
-    StripeTransaction handle(StripeApproval event) { //the event gets handled if it has a matching `stripeId` property 
-        Fluxzero.publishEvent(new PaymentCompleted(transactionId));
-        return null; // this deletes the stateful handler from the repository
-    }
+  @HandleEvent
+  StripeTransaction handle(StripeApproval event) { //the event gets handled if it has a matching `stripeId` property 
+    Fluxzero.publishEvent(new PaymentCompleted(transactionId));
+    return null; // this deletes the stateful handler from the repository
+  }
 
-    @HandleEvent
-    StripeTransaction handle(StripeFailure event) {
-        if (retries > 3) {
-            Fluxzero.publishEvent(new PaymentRejected(transactionId, "failed repeatedly"));
-            return null;
-        }
-        return toBuilder().stripeId(makePayment()).retries(retries + 1).build();
+  @HandleEvent
+  StripeTransaction handle(StripeFailure event) {
+    if (retries > 3) {
+      Fluxzero.publishEvent(new PaymentRejected(transactionId, "failed repeatedly"));
+      return null;
     }
+    return toBuilder().stripeId(makePayment()).retries(retries + 1).build();
+  }
 }
 ```
 
@@ -266,8 +266,8 @@ Sending a command trigges domain behavior and optionally returns a result.
 
 ```java
 Fluxzero.sendAndForgetCommand(new CreateUser("Alice"));
-
-        Fluxzero.sendAndForgetCommand(new CreateUser("Alice"), Metadata.of("ipAddress", ipAddress), Guarantee.STORED).join(); //waits until the command has been stored by Fluxzero runtime
+        
+Fluxzero.sendAndForgetCommand(new CreateUser("Alice"), Metadata.of("ipAddress", ipAddress), Guarantee.STORED).join(); //waits until the command has been stored by Fluxzero runtime
 ```
 
 **Send and wait:**
@@ -280,7 +280,7 @@ UserId id = Fluxzero.sendCommandAndWait(new CreateUser("Charlie"));
 
 ```java
 CompletableFuture<UserId> future =
-        Fluxzero.sendCommand(new CreateUser("Bob"));
+    Fluxzero.sendCommand(new CreateUser("Bob"));
 ```
 
 
@@ -336,10 +336,10 @@ class UserQueryHandler {
 @Component
 @LocalHandler
 class UserQueryHandler {
-    @HandleQuery
-    UserProfile handle(GetUserProfile query) {
-        return new UserProfile(...);
-    }
+  @HandleQuery
+  UserProfile handle(GetUserProfile query) {
+    return new UserProfile(...);
+  }
 }
 ```
 
@@ -347,11 +347,11 @@ class UserQueryHandler {
 
 ```java
 public record GetUserProfile(@NotNull UserId userId) implements Request<UserProfile> {
-    @HandleQuery
-    @FilterContent
-    UserProfile handle() {
-        return new UserProfile(...);
-    }
+  @HandleQuery
+  @FilterContent
+  UserProfile handle() {
+    return new UserProfile(...);
+  }
 }
 ```
 
@@ -363,10 +363,10 @@ public record UserProfile(
         @EntityId UserId userId,
         UserDetails details
 ) {
-    @FilterContent
-    UserProfile filter(Sender sender) {
-        return sender.isAdminOr(userId) ? this : null;
-    }
+  @FilterContent
+  UserProfile filter(Sender sender) {
+    return sender.isAdminOr(userId) ? this : null;
+  }
 }
 ```
 
@@ -374,13 +374,13 @@ public record UserProfile(
 
 ```java
 List<UserAccount> admins = Fluxzero
-        .search(UserAccount.class) //or input a search collection by name, e.g. "users"
-        .match("admin", "roles.name")
-        .lookAhead("pete") //searches for words anywhere starting with pete, ignoring capitalization or accents     
-        .inLast(Duration.ofDays(30))
-        .sortBy("lastLogin", true) // true for descending. Make sure property `lastLogin` has `@Sortable`.
-        .skip(100)
-        .fetch(100);
+    .search(UserAccount.class) //or input a search collection by name, e.g. "users"
+    .match("admin", "roles.name")
+    .lookAhead("pete") //searches for words anywhere starting with pete, ignoring capitalization or accents     
+    .inLast(Duration.ofDays(30))
+    .sortBy("lastLogin", true) // true for descending. Make sure property `lastLogin` has `@Sortable`.
+    .skip(100)
+    .fetch(100);
 ```
 
 Fluxzero supports a rich set of constraints:
@@ -400,31 +400,31 @@ Fluxzero supports a rich set of constraints:
 ```java
 // Combining multiple exclusions using NOT and Facets
 List<Luggage> activeLuggage = Fluxzero.search(Luggage.class)
-                .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
-                .fetchAll(Luggage.class);
+    .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
+    .fetchAll(Luggage.class);
 
 // Complex logical grouping
 List<User> complexFilter = Fluxzero.search(User.class)
-        .any(
-                MatchConstraint.match("active", "status"),
-                AllConstraint.all(
-                        MatchConstraint.match("pending", "status"),
-                        MatchConstraint.match(true, "vip")
-                )
+    .any(
+        MatchConstraint.match("active", "status"),
+        AllConstraint.all(
+            MatchConstraint.match("pending", "status"),
+            MatchConstraint.match(true, "vip")
         )
-        .fetchAll(User.class);
+    )
+    .fetchAll(User.class);
 
 // Time-based filtering combined with status exclusion
 List<Luggage> delayedBags = Fluxzero.search(Luggage.class)
-        .beforeLast(Duration.ofHours(2))
-        .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
-        .fetchAll(Luggage.class);
+    .beforeLast(Duration.ofHours(2))
+    .not(FacetConstraint.matchFacet("status", List.of(LOADED, DELIVERED)))
+    .fetchAll(Luggage.class);
 ```
 
 When a field or getter is annotated with `@Facet`, you can also retrieve **facet statistics**:
 
 ```java
-public record Product(ProductId productId,
+public record Product(ProductId productId, 
                       @Facet String category,
                       @Facet String brand,
                       String name,
@@ -471,14 +471,14 @@ Fluxzero.index(myObject, "customCollection");
 
 ```java
 UserProfile profile =
-        Fluxzero.queryAndWait(new GetUserProfile("user456"));
+    Fluxzero.queryAndWait(new GetUserProfile("user456"));
 ```
 
 **Async:**
 
 ```java
 CompletableFuture<UserProfile> result =
-        Fluxzero.query(new GetUserProfile(new UserId("user123")));
+    Fluxzero.query(new GetUserProfile(new UserId("user123")));
 ```
 
 
@@ -489,24 +489,24 @@ CompletableFuture<UserProfile> result =
 ```java
 @Component
 public class UserLifecycleHandler {
-    @HandleEvent
-    void handle(CloseAccount event) {
-        Fluxzero.schedule(
-                new TerminateAccount(event.getUserId()),
-                "AccountClosed-" + event.getUserId(),
-                Duration.ofDays(30)
-        );
-    }
+  @HandleEvent
+  void handle(CloseAccount event) {
+    Fluxzero.schedule(
+            new TerminateAccount(event.getUserId()),
+            "AccountClosed-" + event.getUserId(),
+            Duration.ofDays(30)
+    );
+  }
 
-    @HandleEvent
-    void handle(ReopenAccount event) {
-        Fluxzero.cancelSchedule("AccountClosed-" + event.getUserId());
-    }
+  @HandleEvent
+  void handle(ReopenAccount event) {
+    Fluxzero.cancelSchedule("AccountClosed-" + event.getUserId());
+  }
 
-    @HandleSchedule
-    void handle(TerminateAccount schedule) {
-        // logic here
-    }
+  @HandleSchedule
+  void handle(TerminateAccount schedule) {
+    // logic here
+  }
 }
 ```
 
@@ -515,16 +515,16 @@ public class UserLifecycleHandler {
 ```java
 @Component
 public class UserLifecycleHandler {
-    @HandleEvent
-    void handle(CloseAccount event) {
-        Fluxzero.scheduleCommand(
-                new TerminateAccount(event.getUserId()),
-                "AccountClosed-" + event.getUserId(),
-                Fluxzero.currentTime().plus(10, ChronoUnit.DAYS)
-        );
-    }
+  @HandleEvent
+  void handle(CloseAccount event) {
+    Fluxzero.scheduleCommand(
+            new TerminateAccount(event.getUserId()),
+            "AccountClosed-" + event.getUserId(),
+            Fluxzero.currentTime().plus(10, ChronoUnit.DAYS)
+    );
+  }
 
-    // ...
+  // ...
 }
 ```
 
@@ -623,11 +623,9 @@ public record RefreshData(String index) {
 
 ## Upcasting
 
-Upcasting allows you to evolve your domain by transforming old versions of serialized objects (messages, documents, stateful handlers, etc.) into the current version during deserialization.
+Upcasting transforms old versions of serialized objects (messages, documents, stateful handlers, etc.) into the current version during deserialization.
 
-When you modify the structure of a event, document, stateful handler, or searchable aggregate, you should increment its version using the `@Revision` annotation. The upcaster then handles the transformation from the old revision(s) to the new one.
-
-- **ObjectNode Upcaster**: The preferred way to modify the payload of an object.
+- **ObjectNode Upcaster**: Used for modifying the payload of an object.
   ```java
   @Revision(2)
   public record Project(...) {
@@ -644,7 +642,7 @@ When you modify the structure of a event, document, stateful handler, or searcha
   }
   ```
 
-- **Data Upcaster**: Used when you need to change the type, revision, or metadata of the serialized object.
+- **Data Upcaster**: Used for changing the type, revision, or metadata of the serialized object.
   ```java
   @Component
   public class CreateProjectUpcaster {
@@ -655,7 +653,7 @@ When you modify the structure of a event, document, stateful handler, or searcha
   }
   ```
 
-Upcasting is applied to **ALL** deserializing objects in Fluxzero, ensuring that your logic always works with the latest model regardless of when the data was originally stored.
+Upcasting is applied to **ALL** deserializing objects in Fluxzero, ensuring they always match the latest model.
 
 ## Authentication & Authorization
 
@@ -672,36 +670,36 @@ Upcasting is applied to **ALL** deserializing objects in Fluxzero, ensuring that
 ```java
 public class ProjectTests {
 
-    final TestFixture fixture = TestFixture.create();
+  final TestFixture fixture = TestFixture.create();
 
-    @Test
-    void successfullyCreateProject() {
-        fixture.whenCommand("/todo/create-project.json")
-                .expectEvents("/todo/create-project.json");
-    }
+  @Test
+  void successfullyCreateProject() {
+    fixture.whenCommand("/todo/create-project.json")
+            .expectEvents("/todo/create-project.json");
+  }
 
-    @Test
-    void creatingDuplicateProjectIsRejected() {
-        fixture.givenCommands("/todo/create-project.json")
-                .whenCommand("/todo/create-project.json")
-                .expectExceptionalResult(Entity.ALREADY_EXISTS_EXCEPTION);
-    }
+  @Test
+  void creatingDuplicateProjectIsRejected() {
+    fixture.givenCommands("/todo/create-project.json")
+            .whenCommand("/todo/create-project.json")
+            .expectExceptionalResult(Entity.ALREADY_EXISTS_EXCEPTION);
+  }
 
-    @Test
-    void canCreateTaskForOwnedProject() {
-        fixture.givenCommands("/todo/create-project.json")
-                .whenCommand("/todo/create-task.json")
-                .expectEvents("/todo/create-task.json");
-    }
+  @Test
+  void canCreateTaskForOwnedProject() {
+    fixture.givenCommands("/todo/create-project.json")
+            .whenCommand("/todo/create-task.json")
+            .expectEvents("/todo/create-task.json");
+  }
 
-    @Test
-    void cannotAssignCompletedTask() {
-        fixture.givenCommands(
-                        "/todo/create-project.json", "/todo/create-task.json", "/todo/complete-task.json"
-                )
-                .whenCommand("/todo/assign-task.json")
-                .expectExceptionalResult(TaskErrors.alreadyCompleted);
-    }
+  @Test
+  void cannotAssignCompletedTask() {
+    fixture.givenCommands(
+                    "/todo/create-project.json", "/todo/create-task.json", "/todo/complete-task.json"
+            )
+            .whenCommand("/todo/assign-task.json")
+            .expectExceptionalResult(TaskErrors.alreadyCompleted);
+  }
 }
 ```
 
@@ -739,16 +737,16 @@ Or like this if referring from another package:
 @Test
 void listProjectsReturnsOwnedProjects() {
     fixture.givenCommands("/todo/create-project.json")
-            .whenQuery(new ListProjects())
-            .expectResult(result -> !result.isEmpty());
+           .whenQuery(new ListProjects())
+           .expectResult(result -> !result.isEmpty());
 }
 
 @Test
 void nonOwnerCannotGetProject() {
     fixture.givenCommands("/todo/create-project.json")
-            .givenCommands("/user/create-other-user.json")
-            .whenQueryByUser("otherUser", "/todo/get-project.json")
-            .expectNoResult();
+           .givenCommands("/user/create-other-user.json")
+           .whenQueryByUser("otherUser", "/todo/get-project.json")
+           .expectNoResult();
 }
 ```
 
@@ -756,26 +754,26 @@ void nonOwnerCannotGetProject() {
 
 ```java
 public class UserLifecycleTests {
-    final TestFixture testFixture = TestFixture.create(UserLifecycleHandler.class);
+  final TestFixture testFixture = TestFixture.create(UserLifecycleHandler.class);
 
-    @Test
-    void accountIsTerminatedAfterClosing() {
-        testFixture
-                .givenCommands(new CreateUser(myUserProfile),
-                               new CloseAccount(userId))
-                .whenTimeElapses(Duration.ofDays(30))
-                .expectEvents(new AccountTerminated(userId));
-    }
+  @Test
+  void accountIsTerminatedAfterClosing() {
+    testFixture
+            .givenCommands(new CreateUser(myUserProfile),
+                           new CloseAccount(userId))
+            .whenTimeElapses(Duration.ofDays(30))
+            .expectEvents(new AccountTerminated(userId));
+  }
 
-    @Test
-    void accountReopeningCancelsTermination() {
-        testFixture
-                .givenCommands(new CreateUser(myUserProfile),
-                               new CloseAccount(userId),
-                               new ReopenAccount(userId))
-                .whenTimeElapses(Duration.ofDays(30))
-                .expectNoEventsLike(AccountTerminated.class);
-    }
+  @Test
+  void accountReopeningCancelsTermination() {
+    testFixture
+            .givenCommands(new CreateUser(myUserProfile),
+                           new CloseAccount(userId),
+                           new ReopenAccount(userId))
+            .whenTimeElapses(Duration.ofDays(30))
+            .expectNoEventsLike(AccountTerminated.class);
+  }
 }
 ```
 
@@ -789,15 +787,17 @@ class ProjectsEndpointTests {
     @Test
     void createProjectViaPost() {
         fixture.whenPost("/projects", "/todo/create-project-request.json")
-                .expectResult(ProjectId.class)
-                .expectEvents(CreateProject.class);
+               .expectResult(ProjectId.class)
+               .expectEvents(CreateProject.class);
     }
 
     @Test
     void completeTaskViaEndpoint() {
         fixture.givenCommands("/todo/create-project.json", "/todo/create-task.json")
-                .whenPost("/projects/p1/tasks/t1/complete", null)
-                .expectEvents(CompleteTask.class);
+               .whenPost("/projects/p1/tasks/t1/complete", null)
+               .expectEvents(CompleteTask.class);
     }
 }
 ```
+
+
