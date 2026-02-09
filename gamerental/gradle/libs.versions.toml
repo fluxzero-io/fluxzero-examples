@@ -2,7 +2,7 @@
 
 [versions]
 jdk = "21"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 
 fluxzero = "1.73.0"
 spring-boot = "3.5.10"
