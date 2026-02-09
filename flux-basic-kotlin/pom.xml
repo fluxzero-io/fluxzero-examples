@@ -21,6 +21,7 @@
         <kotlin-logging.version>7.0.14</kotlin-logging.version>
         <detekt.version>1.23.8</detekt.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fluxzero-maven-plugin.version>0.1.0-SNAPSHOT</fluxzero-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -104,6 +105,27 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
         <plugins>
+            <plugin>
+                <groupId>io.fluxzero.tools</groupId>
+                <artifactId>fluxzero-maven-plugin</artifactId>
+                <version>${fluxzero-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sync-agent-files</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- Optional configuration (defaults work automatically) -->
+                <!--
+                <configuration>
+                    <overrideLanguage>kotlin</overrideLanguage>
+                    <overrideSdkVersion>1.0.0</overrideSdkVersion>
+                    <forceUpdate>false</forceUpdate>
+                    <skip>false</skip>
+                </configuration>
+                -->
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

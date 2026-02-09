@@ -15,6 +15,7 @@
 	<description>Game Rental sample app for Fluxzero</description>
 	<properties>
 		<java.version>25</java.version>
+		<fluxzero-maven-plugin.version>0.1.0-SNAPSHOT</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -72,6 +73,27 @@
 	<build>
 		<finalName>app</finalName>
 		<plugins>
+			<plugin>
+				<groupId>io.fluxzero.tools</groupId>
+				<artifactId>fluxzero-maven-plugin</artifactId>
+				<version>${fluxzero-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sync-agent-files</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- Optional configuration (defaults work automatically) -->
+				<!--
+                <configuration>
+                    <overrideLanguage>kotlin</overrideLanguage>
+                    <overrideSdkVersion>1.0.0</overrideSdkVersion>
+                    <forceUpdate>false</forceUpdate>
+                    <skip>false</skip>
+                </configuration>
+                -->
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
