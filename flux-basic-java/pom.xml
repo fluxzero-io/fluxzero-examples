@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>25</java.version>
+		<fluxzero-maven-plugin.version>1.0.3</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -22,7 +23,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.73.0</version>
+				<version>1.80.2</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -84,6 +85,27 @@
 	<build>
 		<finalName>app</finalName>
 		<plugins>
+			<plugin>
+				<groupId>io.fluxzero.tools</groupId>
+				<artifactId>fluxzero-maven-plugin</artifactId>
+				<version>${fluxzero-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>sync-project-files</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- Optional configuration (defaults work automatically) -->
+				<!--
+                <configuration>
+                    <overrideLanguage>kotlin</overrideLanguage>
+                    <overrideSdkVersion>1.0.0</overrideSdkVersion>
+                    <forceUpdate>false</forceUpdate>
+                    <skip>false</skip>
+                </configuration>
+                -->
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

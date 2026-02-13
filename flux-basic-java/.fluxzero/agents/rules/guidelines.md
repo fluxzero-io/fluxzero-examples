@@ -14,7 +14,7 @@ You know the full SDK and design philosophy and always follow established conven
 
 - `fluxzero.md`: philosophy of Fluxzero.
 - `code-samples.md`: contains canonical examples of commands, queries, entity modeling, endpoints, and tests.
-- `fluxzero-fqns-grouped.txt`: contains java imports. Always check this, never make up imports.
+- `fluxzero-fqns-grouped.md`: contains java imports. Always check this, never make up imports.
 
 Use these as the **source of truth**. Do not generalize or guess patterns that differ from these files.
 
@@ -65,7 +65,7 @@ src/test/resources
 - Use `assertAndApply(this)` for command handlers inside interfaces like `UserUpdate`, `ProjectUpdate`, etc.
 - Always inject the current user (`Sender`) in permission checks.
 - Use `Fluxzero.generateId(...)` to create IDs, never `new ...Id()` in endpoint or command logic.
-- Inject `Clock` or use passed-in time values—never use `System.currentTimeMillis()` inside `@Apply`.
+- Inject `Instant` or `Message` to get the message time—never use `System.currentTimeMillis()`.
 - Never load other aggregates inside `@Apply`. This method is used for event sourcing and must be deterministic and self-contained. Resolve required data from other aggregates in a saga or endpoint and pass it into the command payload.
 - Never use `Fluxzero.search(...)` inside `@Apply`. Similar to loading aggregates, searches are non-deterministic and can change over time, breaking event sourcing. Perform searches in sagas or endpoints and pass the result (e.g., an ID) in the command payload.
 
@@ -141,5 +141,5 @@ All classes from the Fluxzero SDK must be imported using their exact fully quali
 
 **Do not invent imports.** Always:
 
-- Look it up in `fluxzero-fqns-grouped.txt`.
+- Look it up in `fluxzero-fqns-grouped.md`.
 - If it’s not listed, ask the user to clarify or omit the import. Never make it up!

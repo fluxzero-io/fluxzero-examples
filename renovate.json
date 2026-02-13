@@ -40,13 +40,13 @@
       "groupSlug": "spring-boot"
     },
     {
-      "description": "Kotlin projects - limit to Java 21 compatible versions",
+      "description": "Kotlin projects - limit to Java 25 compatible versions",
       "matchPaths": [
         "flux-basic-kotlin/**",
         "flux-todo-kotlin/**"
       ],
       "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin"],
-      "groupName": "Kotlin (Java 21)",
+      "groupName": "Kotlin (Java 25)",
       "groupSlug": "kotlin"
     },
     {
