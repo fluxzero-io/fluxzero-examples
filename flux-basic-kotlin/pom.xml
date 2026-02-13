@@ -21,7 +21,7 @@
         <kotlin-logging.version>7.0.14</kotlin-logging.version>
         <detekt.version>1.23.8</detekt.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fluxzero-maven-plugin.version>1.0.1</fluxzero-maven-plugin.version>
+        <fluxzero-maven-plugin.version>1.0.2</fluxzero-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

@@ -5,7 +5,7 @@ jdk = "21"
 kotlin = "2.3.10"
 
 fluxzero = "1.78.0"
-fluxzero-gradle-plugin = "1.0.1"
+fluxzero-gradle-plugin = "1.0.2"
 spring-boot = "3.5.10"
 
 detekt = "1.23.8"

@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>25</java.version>
-		<fluxzero-maven-plugin.version>1.0.1</fluxzero-maven-plugin.version>
+		<fluxzero-maven-plugin.version>1.0.2</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
