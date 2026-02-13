@@ -278,7 +278,6 @@ jobs:
         with:
           path: staging
           pattern: template-*
-          merge-multiple: true
 
       - name: Package templates
         shell: bash
@@ -286,7 +285,20 @@ jobs:
           set -euo pipefail
           echo "Staging contents:"
           ls -la staging/
-          cd staging
+
+          # Each artifact is downloaded into staging/template-<name>/
+          # Rename to staging-final/<name>/ to strip the template- prefix
+          mkdir -p staging-final
+          for dir in staging/template-*; do
+            name="${dir#staging/template-}"
+            echo "Packaging template: $name"
+            mv "$dir" "staging-final/$name"
+          done
+
+          echo "Templates to package:"
+          ls -la staging-final/
+
+          cd staging-final
           zip -r ../templates.zip .
           cd ..
           echo "templates.zip size: $(du -h templates.zip | cut -f1)"
