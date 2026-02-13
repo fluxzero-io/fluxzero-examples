@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>25</java.version>
-		<fluxzero-maven-plugin.version>0.1.0-SNAPSHOT</fluxzero-maven-plugin.version>
+		<fluxzero-maven-plugin.version>1.0.1</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -23,7 +23,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.75.1</version>
+				<version>1.78.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
