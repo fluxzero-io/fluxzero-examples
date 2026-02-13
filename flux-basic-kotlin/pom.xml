@@ -112,7 +112,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>sync-agent-files</goal>
+                            <goal>sync-project-files</goal>
                         </goals>
                     </execution>
                 </executions>
