@@ -5,10 +5,10 @@ jdk = "25"
 kotlin = "2.3.10"
 
 fluxzero = "1.80.2"
-fluxzero-gradle-plugin = "1.0.2"
+fluxzero-gradle-plugin = "1.0.3"
 spring-boot = "3.5.10"
 
-detekt = "1.23.8"
+detekt = "2.0.0"
 logback = "1.5.28"
 
 kotlin-logging = "7.0.14"
