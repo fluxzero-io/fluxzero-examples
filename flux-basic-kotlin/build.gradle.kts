@@ -41,6 +41,13 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+// Detekt does not yet support JVM target 25, pin to latest supported version
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "22"
+}
+tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
+    jvmTarget = "22"
+}
 kotlin {
     jvmToolchain(
         libs.versions.jdk
