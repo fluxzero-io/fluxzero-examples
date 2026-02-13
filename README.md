@@ -16,7 +16,7 @@ Basic Java project demonstrating fundamental Fluxzero concepts. Shows minimal se
 Kotlin equivalent of the basic Java example with Kotlin-specific enhancements.
 
 **Features:**
-- JDK 21+ support
+- JDK 25+ support
 - Detekt code style enforcement
 - IntelliJ IDEA integration with live templates
 - Clean Gradle project using `libs.versions.toml`
@@ -55,7 +55,7 @@ For more CLI usage information, see the [Fluxzero CLI documentation](https:/flux
 
 Each example includes its own README with specific setup and running instructions. Generally:
 
-1. **Prerequisites**: JDK 21+ required for all examples
+1. **Prerequisites**: JDK 25+ required for all examples
 2. **Build**: Use provided Gradle or Maven configurations (both supported)
 3. **Run**: Examples include IntelliJ run configurations or can be started via command line
 4. **Test**: Comprehensive test suites demonstrate Fluxzero testing capabilities
