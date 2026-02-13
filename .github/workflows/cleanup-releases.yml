@@ -1,0 +1,44 @@
+name: Cleanup old releases
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    name: Delete old releases
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      KEEP: 10
+    steps:
+      - name: Delete releases beyond the last ${{ env.KEEP }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          echo "Fetching releases (keeping latest $KEEP)…"
+
+          # List all releases ordered by creation date (newest first), skip the first KEEP
+          releases=$(gh release list --limit 999 --json tagName,createdAt \
+            --jq "sort_by(.createdAt) | reverse | .[$KEEP:] | .[].tagName")
+
+          if [ -z "$releases" ]; then
+            echo "Nothing to clean up — $KEEP or fewer releases exist."
+            exit 0
+          fi
+
+          count=$(echo "$releases" | wc -l | tr -d '[:space:]')
+          echo "Deleting $count old release(s)…"
+
+          echo "$releases" | while read -r tag; do
+            echo "  Deleting release and tag: $tag"
+            gh release delete "$tag" --yes --cleanup-tag
+          done
+
+          echo "Done. Cleaned up $count release(s)."
