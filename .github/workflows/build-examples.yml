@@ -63,7 +63,7 @@ jobs:
 
           # Optionally force build all projects (workflow_dispatch input)
           force_all_flag="${FORCE_ALL:-false}"
-          if [ "$force_all_flag" = "true" ]; then
+          if [ "$force_all_flag" = "true" ] || [ "$GH_EVENT_NAME" = "push" ]; then
             echo "Force build enabled; selecting all projects."
             selected=("${PROJECTS[@]}")
           else
@@ -244,6 +244,66 @@ jobs:
           set -euo pipefail
           echo "Verifying CLI template generation for ${{ matrix.dir }}"
           ./.github/scripts/verify-templates.sh "${{ matrix.dir }}"
+
+      - name: Upload template artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: template-${{ matrix.dir }}
+          path: |
+            ${{ matrix.dir }}/
+            !${{ matrix.dir }}/build/
+            !${{ matrix.dir }}/target/
+            !${{ matrix.dir }}/.gradle/
+          retention-days: 1
+
+  release:
+    name: Publish release
+    needs: [discover, build]
+    if: >-
+      github.event_name == 'push'
+      && github.ref == 'refs/heads/main'
+      && needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all template artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: staging
+          pattern: template-*
+          merge-multiple: true
+
+      - name: Package templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Staging contents:"
+          ls -la staging/
+          cd staging
+          zip -r ../templates.zip .
+          cd ..
+          echo "templates.zip size: $(du -h templates.zip | cut -f1)"
+          echo "templates.zip contents (summary):"
+          unzip -l templates.zip | tail -5
+
+      - name: Compute version
+        id: version
+        run: |
+          version="$(date -u +%Y.%m).${{ github.run_number }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Release version: $version"
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.version }}" \
+            templates.zip \
+            --title "v${{ steps.version.outputs.version }}" \
+            --notes "FluxZero example templates (flux-basic-java, flux-basic-kotlin, gamerental)" \
+            --latest
 
   trigger-cli-build:
     name: Trigger fluxzero-cli build
