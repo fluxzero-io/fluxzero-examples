@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.fluxzero.gradle.plugin)
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.detekt)
 }
