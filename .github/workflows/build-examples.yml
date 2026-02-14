@@ -245,16 +245,25 @@ jobs:
           echo "Verifying CLI template generation for ${{ matrix.dir }}"
           ./.github/scripts/verify-templates.sh "${{ matrix.dir }}"
 
+      - name: Prepare template (git-tracked files only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p staging-template/${{ matrix.dir }}
+          # Include tracked files + untracked files that aren't gitignored (e.g. generated .fluxzero)
+          { git ls-files "${{ matrix.dir }}"; git ls-files --others --exclude-standard "${{ matrix.dir }}"; } | sort -u | while IFS= read -r f; do
+            mkdir -p "staging-template/$(dirname "$f")"
+            cp "$f" "staging-template/$f"
+          done
+
       - name: Upload template artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: template-${{ matrix.dir }}
-          path: |
-            ${{ matrix.dir }}/
-            !${{ matrix.dir }}/build/
-            !${{ matrix.dir }}/target/
-            !${{ matrix.dir }}/.gradle/
+          path: staging-template/${{ matrix.dir }}/
+          include-hidden-files: true
           retention-days: 1
 
   release:
