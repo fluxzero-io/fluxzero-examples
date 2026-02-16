@@ -32,7 +32,7 @@ dependencies {
     annotationProcessor("io.fluxzero:sdk")
 
     //Logback
-    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.28"))
+    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.31"))
 
     // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
