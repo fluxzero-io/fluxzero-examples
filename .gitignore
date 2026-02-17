@@ -1,5 +1,8 @@
 .DS_Store
 
+# Never commit the fluxzero agent files in the examples repo
+*/.fluxzero
+
 # IntelliJ IDEA
 .idea
 .output.txt
