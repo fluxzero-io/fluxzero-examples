@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 @RequiresRole(Role.admin)
 public record CreateUser(@NotNull UserId userId,
                          @NotNull @Valid UserDetails details,
-                         Role role) implements UserCommand {
+                         Role role) implements UserUpdate {
     @Apply
     UserProfile apply() {
         return UserProfile.builder().userId(userId).details(details).role(role).build();

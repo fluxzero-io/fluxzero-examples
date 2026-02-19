@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull
 data class SetRole(
     @field:NotNull override val userId: UserId,
     val role: Role?
-) : UserCommand {
+) : UserUpdate {
     @Apply
     fun apply(profile: UserProfile): UserProfile {
         return profile.toBuilder().role(role).build()

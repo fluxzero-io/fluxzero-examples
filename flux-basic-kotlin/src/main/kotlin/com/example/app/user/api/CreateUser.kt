@@ -13,7 +13,7 @@ data class CreateUser(
     @field:NotNull override val userId: UserId,
     @field:NotNull @field:Valid val details: UserDetails,
     val role: Role?
-) : UserCommand {
+) : UserUpdate {
     @Apply
     fun apply(): UserProfile {
         return UserProfile.builder()

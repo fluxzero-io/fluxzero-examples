@@ -5,12 +5,14 @@ import com.example.app.user.api.model.UserId;
 import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.modeling.AssertLegal;
+import io.fluxzero.sdk.tracking.Consumer;
 import io.fluxzero.sdk.tracking.TrackSelf;
 import io.fluxzero.sdk.tracking.handling.HandleCommand;
 import jakarta.validation.constraints.NotNull;
 
 @TrackSelf
-public interface UserCommand {
+@Consumer(name = "user-update")
+public interface UserUpdate {
     @NotNull
     UserId userId();
 

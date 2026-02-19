@@ -5,6 +5,7 @@ import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.modeling.AssertLegal;
 import io.fluxzero.sdk.publishing.routing.RoutingKey;
+import io.fluxzero.sdk.tracking.Consumer;
 import io.fluxzero.sdk.tracking.TrackSelf;
 import io.fluxzero.sdk.tracking.handling.HandleCommand;
 import jakarta.annotation.Nullable;
@@ -12,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 
 
 @TrackSelf
+@Consumer(name = "game-update")
 public interface GameUpdate {
     @NotNull
     @RoutingKey
