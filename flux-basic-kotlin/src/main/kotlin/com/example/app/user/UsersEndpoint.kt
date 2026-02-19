@@ -19,7 +19,7 @@ class UsersEndpoint {
     
     @HandlePost("/users")
     fun createUser(details: UserDetails): UserId {
-        val userId = UserId()
+        val userId = Fluxzero.generateId(UserId::class.java)
         Fluxzero.sendCommandAndWait<CreateUser>(CreateUser(userId, details, null))
         return userId
     }
