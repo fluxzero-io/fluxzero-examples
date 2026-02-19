@@ -1,12 +1,12 @@
 package com.example.app.gamerental;
 
 import com.example.app.gamerental.api.FindGames;
+import com.example.app.gamerental.api.GameErrors;
 import com.example.app.gamerental.api.GetGame;
 import com.example.app.gamerental.api.GetGameStats;
 import com.example.app.gamerental.api.RegisterGame;
 import com.example.app.gamerental.api.RentGame;
 import com.example.app.gamerental.api.common.Game;
-import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.common.api.search.FacetStats;
 import io.fluxzero.sdk.test.TestFixture;

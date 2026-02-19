@@ -1,6 +1,6 @@
 package com.example.app.authentication;
 
-import com.example.app.user.UserProfile;
+import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.common.MessageType;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.common.HasMessage;

@@ -1,4 +1,4 @@
-package com.example.app.user;
+package com.example.app.user.api.model;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -35,7 +35,7 @@ class UserTest {
     @Test
     fun createUserNotAllowedForNonAdmin() {
         testFixture.whenCommandByUser("viewer", "/user/create-admin.json")
-            .expectExceptionalResult(UnauthorizedException::class.java)
+            .expectExceptionalResult(UnauthorizedException::class)
     }
 
     @Test
@@ -51,7 +51,7 @@ class UserTest {
         testFixture
             .givenCommands("/user/create-user.json")
             .whenCommandByUser("viewer", "/user/make-admin.json")
-            .expectExceptionalResult(UnauthorizedException::class.java)
+            .expectExceptionalResult(UnauthorizedException::class)
     }
 
     @Test

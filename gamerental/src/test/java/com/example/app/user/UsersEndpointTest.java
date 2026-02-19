@@ -1,5 +1,8 @@
 package com.example.app.user;
 
+import com.example.app.user.api.CreateUser;
+import com.example.app.user.api.model.UserId;
+import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.test.TestFixture;
 import org.junit.jupiter.api.Test;
 

@@ -6,7 +6,6 @@ import io.fluxzero.sdk.Fluxzero
 import io.fluxzero.sdk.modeling.AssertLegal
 import io.fluxzero.sdk.tracking.TrackSelf
 import io.fluxzero.sdk.tracking.handling.HandleCommand
-import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException
 
 @TrackSelf
 interface UserCommand {
@@ -15,7 +14,7 @@ interface UserCommand {
     @AssertLegal
     fun assertAuthorized(user: UserProfile?, sender: Sender) {
         if (!sender.isAdmin() && user?.userId != sender.userId) {
-            throw UnauthorizedException("Not authorized to perform this operation")
+            throw UserErrors.unauthorized;
         }
     }
 

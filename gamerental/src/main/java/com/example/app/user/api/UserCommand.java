@@ -1,6 +1,7 @@
 package com.example.app.user.api;
 
 import com.example.app.authentication.Sender;
+import com.example.app.user.api.model.UserId;
 import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.modeling.AssertLegal;
@@ -12,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 public interface UserCommand {
     @NotNull
     UserId userId();
+
 
     @AssertLegal
     default void assertAuthorized(UserProfile user, Sender sender) {

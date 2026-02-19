@@ -1,7 +1,6 @@
 package com.example.app.gamerental.api;
 
 import com.example.app.gamerental.api.common.Game;
-import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.modeling.AssertLegal;

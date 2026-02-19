@@ -1,8 +1,8 @@
 package com.example.app.user;
 
 import com.example.app.user.api.GetUsers;
+import io.fluxzero.sdk.modeling.Entity;
 import io.fluxzero.sdk.test.TestFixture;
-import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 import io.fluxzero.sdk.tracking.handling.authentication.UnauthorizedException;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class UserTest {
         testFixture
                 .givenCommands("/user/create-user.json")
                 .whenCommand("/user/create-user.json")
-                .expectExceptionalResult(IllegalCommandException.class);
+                .expectExceptionalResult(Entity.ALREADY_EXISTS_EXCEPTION);
     }
 
     @Test

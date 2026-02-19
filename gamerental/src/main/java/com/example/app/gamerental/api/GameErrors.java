@@ -1,4 +1,4 @@
-package com.example.app.gamerental.api.common;
+package com.example.app.gamerental.api;
 
 import io.fluxzero.sdk.tracking.handling.IllegalCommandException;
 

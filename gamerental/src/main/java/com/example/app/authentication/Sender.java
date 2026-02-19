@@ -1,6 +1,6 @@
 package com.example.app.authentication;
 
-import com.example.app.user.UserId;
+import com.example.app.user.api.model.UserId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fluxzero.sdk.tracking.handling.authentication.User;
 import lombok.Builder;

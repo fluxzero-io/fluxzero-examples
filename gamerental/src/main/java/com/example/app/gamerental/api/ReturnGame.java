@@ -4,7 +4,6 @@ import com.example.app.authentication.RequiresRole;
 import com.example.app.authentication.Role;
 import com.example.app.authentication.Sender;
 import com.example.app.gamerental.api.common.Game;
-import com.example.app.gamerental.api.common.GameErrors;
 import com.example.app.gamerental.api.common.GameId;
 import io.fluxzero.sdk.modeling.AssertLegal;
 import io.fluxzero.sdk.persisting.eventsourcing.Apply;

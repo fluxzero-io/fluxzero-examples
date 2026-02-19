@@ -1,5 +1,6 @@
-package com.example.app.user;
+package com.example.app.user.api;
 
+import com.example.app.user.api.model.UserProfile;
 import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.common.serialization.FilterContent;
 import io.fluxzero.sdk.tracking.handling.HandleQuery;

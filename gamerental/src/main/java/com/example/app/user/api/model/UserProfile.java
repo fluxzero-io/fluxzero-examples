@@ -1,4 +1,4 @@
-package com.example.app.user;
+package com.example.app.user.api.model;
 
 import com.example.app.authentication.Role;
 import com.example.app.authentication.Sender;
@@ -8,7 +8,7 @@ import lombok.Builder;
 
 @Aggregate(searchable = true)
 @Builder(toBuilder = true)
-public record UserProfile(UserId userId, UserDetails details, Role role) {
+public record UserProfile(UserId userId, com.example.app.user.api.model.UserDetails details, Role role) {
     @FilterContent
     UserProfile filter(Sender sender) {
         return sender.isAuthorizedFor(userId) ? this : null;
