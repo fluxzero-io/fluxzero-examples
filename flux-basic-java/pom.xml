@@ -23,7 +23,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.89.0</version>
+				<version>1.91.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
