@@ -24,9 +24,9 @@ At the start of every new project or major project phase, the agent MUST:
 
 This backlog step may be skipped only when the user explicitly requests a different planning format.
 
-### Non-trivial Task
+### Every Slice
 
-For every non-trivial task, the agent MUST:
+For every slice, the agent MUST:
 
 1. Select the next uncompleted backlog item and work only that feature slice (typically one command, one query, one
    side-effect, or one endpoint), not waterfall batches.
@@ -34,8 +34,7 @@ For every non-trivial task, the agent MUST:
 3. Implement the selected slice.
 4. Add/update tests for all behavior rules in that slice (happy path + all invariant/authorization/error cases).
 5. Run tests and ensure both modified tests and the full relevant suite pass.
-6. Perform a final refactor/readability and guideline-conformance pass for both code and tests in the just-finished
-   feature.
+6. Perform a final refactor/readability and guideline-conformance pass for both code and tests in the current slice.
 7. Pause for review/checkpoint.
 8. Implement changes from review if needed.
 9. Report compliance checks in final output.
