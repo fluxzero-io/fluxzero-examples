@@ -28,16 +28,16 @@ This backlog step may be skipped only when the user explicitly requests a differ
 
 For every non-trivial task, the agent MUST:
 
-1. Confirm applicable non-negotiable rules.
-2. Update the active project/phase backlog for this task (if such a backlog exists).
-3. Implement using the Fluxzero inside-out method from `.fluxzero/agents/rules/guidelines.md` (domain model and
-   commands/handlers/tests before transport endpoints).
-4. Work one feature slice at a time (typically one command, one query, one side-effect, or one endpoint), not in
-   waterfall batches.
-5. Add/update tests for all behavior rules in that slice (happy path + all invariant/authorization/error cases).
-6. Run relevant tests for that slice.
-7. Pause after each completed slice for review/checkpoint before proceeding to the next slice.
-8. Implement changes.
-9. Perform a final refactor/readability pass for the code written for the just-finished feature when the feature is
-   non-trivial. Do not expand to unrelated project-wide cleanup unless explicitly requested.
-10. Report compliance checks in final output.
+1. Select the next uncompleted backlog item and work only that feature slice (typically one command, one query, one
+   side-effect, or one endpoint), not waterfall batches.
+2. Refresh on applicable non-negotiable rules from `.fluxzero/agents/rules/guidelines.md` for the selected slice.
+3. Implement the selected slice.
+4. Add/update tests for all behavior rules in that slice (happy path + all invariant/authorization/error cases).
+5. Run tests and ensure both modified tests and the full relevant suite pass.
+6. Perform a final refactor/readability and guideline-conformance pass for both code and tests in the just-finished
+   feature.
+7. Pause for review/checkpoint.
+8. Implement changes from review if needed.
+9. Report compliance checks in final output.
+10. Update the active project/phase backlog after finishing/reporting the slice.
+11. Optionally commit if the user prefers; when unclear, ask the user whether to commit.
