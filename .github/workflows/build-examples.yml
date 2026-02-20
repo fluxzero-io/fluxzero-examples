@@ -251,8 +251,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p staging-template/${{ matrix.dir }}
-          # Include tracked files + untracked files that aren't gitignored (e.g. generated .fluxzero)
-          { git ls-files "${{ matrix.dir }}"; git ls-files --others --exclude-standard "${{ matrix.dir }}"; } | sort -u | while IFS= read -r f; do
+          # Include tracked files + untracked non-ignored files + explicitly include .fluxzero (gitignored but required in templates)
+          { git ls-files "${{ matrix.dir }}"; git ls-files --others --exclude-standard "${{ matrix.dir }}"; find "${{ matrix.dir }}" -path '*/.fluxzero/*' -type f 2>/dev/null; } | sort -u | while IFS= read -r f; do
             mkdir -p "staging-template/$(dirname "$f")"
             cp "$f" "staging-template/$f"
           done
