@@ -15,7 +15,7 @@
 	<description>Game Rental sample app for Fluxzero</description>
 	<properties>
 		<java.version>25</java.version>
-		<fluxzero-maven-plugin.version>1.1.3</fluxzero-maven-plugin.version>
+		<fluxzero-maven-plugin.version>1.1.14</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
