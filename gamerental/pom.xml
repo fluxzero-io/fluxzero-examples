@@ -15,7 +15,7 @@
 	<description>Game Rental sample app for Fluxzero</description>
 	<properties>
 		<java.version>25</java.version>
-		<fluxzero-maven-plugin.version>1.1.14</fluxzero-maven-plugin.version>
+		<fluxzero-maven-plugin.version>1.1.19</fluxzero-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -23,7 +23,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.93.0</version>
+				<version>1.94.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
