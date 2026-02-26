@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.fluxzero.tools.gradle.plugin") version "1.1.19"
+    id("io.fluxzero.tools.gradle.plugin") version "1.1.23"
     id("org.springframework.boot") version "3.5.10"
     id("io.spring.dependency-management") version "1.1.7"
 }
