@@ -62,11 +62,19 @@ When it makes sense for the project, include a UI track.
 - Treat the first functional frontend as its own phase.
 - After that, include frontend updates within relevant feature slices.
 
-### UI Quality (Lightweight)
+### UI Quality
 
 - Before implementation, align on a visual direction (or provide 2 quick mockup options).
 - Define and reuse basic design tokens (typography, spacing, colors) for consistency.
 - Validate both desktop and mobile early, then iterate once with user feedback.
+
+### UI Test Data on Startup
+
+- When a UI is present, usually add a useful default test dataset loaded at application startup.
+- Use real world-like data values (for example `name = John Barnes`, `id = <uuid-without-dashes>`), not placeholders like `test-user` or `test`.
+- Implement this in the TestApp initialization step by loading JSON command files from test resources.
+- Preferred pattern: `JsonUtils.fromFile("/project/create-project.json")` and then send the loaded commands.
+- MUST keep launch commands idempotent (for example via `@InterceptApply`) because the app is commonly restarted.
 
 ## Codex for macOS: Java Requirement
 
