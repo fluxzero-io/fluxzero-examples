@@ -48,6 +48,26 @@ For every slice, the agent MUST:
 10. Update the active project/phase backlog after finishing/reporting the slice.
 11. Optionally commit if the user prefers; when unclear, ask the user whether to commit.
 
+## Frontend UI (Default Policy)
+
+When it makes sense for the project, include a UI track.
+
+- Default: include a `Create UI` backlog item.
+- If scope is unclear, ask the user during backlog planning whether UI should be included.
+- Start UI work after core backend slices are stable (typically after phase 1).
+- First UI step: create a mockup in `src/main/resources/static`.
+- If the user wants a specific visual direction, ask for up to 2 reference screenshots before finalizing the mockup.
+- Iterate mockup with user feedback.
+- Then implement a working webapp in `src/main/resources/static` wired to backend endpoints.
+- Treat the first functional frontend as its own phase.
+- After that, include frontend updates within relevant feature slices.
+
+### UI Quality (Lightweight)
+
+- Before implementation, align on a visual direction (or provide 2 quick mockup options).
+- Define and reuse basic design tokens (typography, spacing, colors) for consistency.
+- Validate both desktop and mobile early, then iterate once with user feedback.
+
 ## Codex for macOS: Java Requirement
 
 This section applies to Codex only when the host OS is macOS.
