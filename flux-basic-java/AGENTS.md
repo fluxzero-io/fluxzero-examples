@@ -29,6 +29,8 @@ At the start of every new project or major project phase, the agent MUST:
 2. Keep that backlog updated while work progresses.
 3. Always present the backlog for user review/approval before starting any implementation.
 
+For small or incremental new requests, extend the existing backlog instead of creating a new one. Create a new backlog only for a major new project or major phase reset.
+
 This backlog step may be skipped only when the user explicitly requests a different planning format.
 
 ### Backlog Output in Chat (Required)
