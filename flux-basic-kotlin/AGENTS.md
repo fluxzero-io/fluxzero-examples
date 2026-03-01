@@ -31,6 +31,16 @@ At the start of every new project or major project phase, the agent MUST:
 
 This backlog step may be skipped only when the user explicitly requests a different planning format.
 
+### Backlog Output in Chat (Required)
+
+When creating or refreshing a backlog, always show it directly in chat and not only as a file link.
+
+- Show a readability-first backlog summary focused on user-visible functionality and feature slices.
+- Keep implementation detail (commands, queries, endpoints, test matrix) in the backlog markdown file.
+- Keep a 1:1 mapping between chat items and detailed backlog items by using stable IDs (for example `P1-S1`).
+- When asked to show the backlog later, regenerate it from the current backlog file (with the same IDs), not from prior chat output.
+- If the backlog changed, update the file first. Re-show the refreshed chat backlog with an explicit update note only for major changes or when the backlog is referenced again.
+
 ### Every Slice
 
 For every slice, the agent MUST:
