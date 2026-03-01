@@ -20,7 +20,7 @@ Start the complete application stack:
 ```bash
 ./gradlew runTestApp
 # or
-mvn exec:java
+./mvnw exec:java
 ```
 
 This starts:
