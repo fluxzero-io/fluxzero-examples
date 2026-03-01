@@ -11,6 +11,13 @@
 3. `.fluxzero/agents/rules/runtime-interaction.md`
 4. Task-specific manuals selected via the decision tree in `guidelines.md`
 
+## Run Application
+
+- Gradle: `./gradlew runTestApp`
+- Maven: `./mvnw exec:java`
+
+These commands run the full application stack (including frontend) on `http://localhost:8080`.
+
 ## Execution Protocol (Mandatory)
 
 ### New Project or Large Phase
