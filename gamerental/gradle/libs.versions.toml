@@ -5,7 +5,7 @@ jdk = "25"
 kotlin = "2.3.10"
 
 fluxzero = "1.98.1"
-spring-boot = "3.5.10"
+spring-boot = "3.5.11"
 
 detekt = "1.23.8"
 logback = "1.5.32"
