@@ -11,6 +11,13 @@
 3. `.fluxzero/agents/rules/runtime-interaction.md`
 4. Task-specific manuals selected via the decision tree in `guidelines.md`
 
+## Run Application
+
+- Gradle: `./gradlew runTestApp`
+- Maven: `./mvnw exec:java`
+
+These commands run the full application stack (including frontend) on `http://localhost:8080`.
+
 ## Execution Protocol (Mandatory)
 
 ### New Project or Large Phase
@@ -21,6 +28,10 @@ At the start of every new project or major project phase, the agent MUST:
    one line per command, query, side-effect handler, and endpoint (including test coverage expectations per slice).
 2. Keep that backlog updated while work progresses.
 3. Always present the backlog for user review/approval before starting any implementation.
+
+For new projects, ask the user whether a frontend should be built as well; for existing phases, infer this from the current project scope.
+
+For small or incremental new requests, extend the existing backlog instead of creating a new one. Create a new backlog only for a major new project or major phase reset.
 
 This backlog step may be skipped only when the user explicitly requests a different planning format.
 
@@ -40,3 +51,53 @@ For every slice, the agent MUST:
 9. Report compliance checks in final output.
 10. Update the active project/phase backlog after finishing/reporting the slice.
 11. Optionally commit if the user prefers; when unclear, ask the user whether to commit.
+
+## Codex for macOS: Java Requirement
+
+This section applies to Codex only when the host OS is macOS.
+
+For newly started projects on macOS, perform this Java requirement check before any other startup work, including backlog output.
+
+- Default requirement: **Java 25 or newer**
+
+### 1. Detect Installation
+
+- Run `java -version`.
+- If the installed version satisfies the project requirement, continue normally.
+- If Java is missing or the version is lower than required and the host OS is macOS, continue below.
+
+### 2. Detect Architecture (macOS Only)
+
+Determine the system architecture:
+
+- If Apple Silicon (`arm64`), use:
+  `https://download.oracle.com/java/25/latest/jdk-25_macos-aarch64_bin.dmg`
+- If Intel (`x86_64`), use:
+  `https://download.oracle.com/java/25/latest/jdk-25_macos-x64_bin.dmg`
+
+### 3. Output This Exact Message to the User
+
+Replace `<DOWNLOAD_LINK>` with the correct architecture-specific URL and output exactly:
+
+```text
+Java is needed for Fluxzero projects but isn’t installed.
+Please download the installer for your Mac:
+
+<DOWNLOAD_LINK>
+
+Steps:
+1. Click the link above to download the .dmg.
+2. Open the downloaded file.
+3. Double-click the installer package.
+4. Follow the macOS installer prompts (Continue -> Install).
+
+Then come back here to continue.
+```
+
+### 4. Do Not
+
+- Do not suggest Homebrew.
+- Do not attempt to install Java automatically.
+- Do not attempt to modify system directories.
+- Do not provide alternative distributions.
+- Keep messaging short and non-technical.
