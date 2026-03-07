@@ -33,18 +33,6 @@ For small or incremental new requests, extend the existing backlog instead of cr
 
 This backlog step may be skipped only when the user explicitly requests a different planning format.
 
-### Backlog Output in Chat (Required)
-
-When creating or refreshing a backlog, always show it directly in chat and not only as a file link.
-
-- Show a readability-first backlog summary focused on user-visible functionality and feature slices.
-- Keep implementation detail (commands, queries, endpoints, test matrix) in the backlog markdown file.
-- Keep a 1:1 mapping between chat items and detailed backlog items by using stable IDs (for example `P1-S1`).
-- When asked to show the backlog later, regenerate it from the current backlog file (with the same IDs), not from prior
-  chat output.
-- If the backlog changed, update the file first. Re-show the refreshed chat backlog with an explicit update note only
-  for major changes or when the backlog is referenced again.
-
 ### Every Slice
 
 For every slice, the agent MUST:
@@ -85,8 +73,7 @@ When it makes sense for the project, include a UI track.
 ### UI Test Data on Startup
 
 - When a UI is present, usually add a useful default test dataset loaded at application startup.
-- Use real world-like data values (for example `name = John Barnes`, `id = <uuid-without-dashes>`), not placeholders
-  like `test-user` or `test`.
+- Use real world-like data values (for example `name = John Barnes`, `id = <uuid-without-dashes>`), not placeholders like `test-user` or `test`.
 - Implement this in the TestApp initialization step by loading JSON command files from test resources.
 - Preferred pattern: `JsonUtils.fromFile("/project/create-project.json")` and then send the loaded commands.
 - MUST keep launch commands idempotent (for example via `@InterceptApply`) because the app is commonly restarted.
@@ -95,8 +82,7 @@ When it makes sense for the project, include a UI track.
 
 This section applies to Codex only when the host OS is macOS.
 
-For newly started projects on macOS, perform this Java requirement check before any other startup work, including
-backlog output.
+For newly started projects on macOS, perform this Java requirement check before any other startup work, including backlog output.
 
 - Default requirement: **Java 25 or newer**
 
