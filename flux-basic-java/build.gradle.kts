@@ -15,7 +15,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("io.fluxzero:fluxzero-bom:1.101.5")
+        mavenBom("io.fluxzero:fluxzero-bom:1.108.0")
     }
 }
 
