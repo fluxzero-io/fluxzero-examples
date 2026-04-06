@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.fluxzero.tools.gradle.plugin") version "1.1.36"
+    id("io.fluxzero.tools.gradle.plugin") version "1.1.41"
     id("org.springframework.boot") version "3.5.13"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -15,7 +15,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("io.fluxzero:fluxzero-bom:1.118.1")
+        mavenBom("io.fluxzero:fluxzero-bom:1.144.0")
     }
 }
 
