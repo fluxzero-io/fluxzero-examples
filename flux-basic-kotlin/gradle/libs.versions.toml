@@ -8,7 +8,7 @@ fluxzero = "1.149.0"
 fluxzero-gradle-plugin = "1.1.41"
 spring-boot = "3.5.13"
 
-detekt = "1.23.8"
+detekt = "2.0.0"
 logback = "1.5.32"
 
 kotlin-logging = "7.0.14"
