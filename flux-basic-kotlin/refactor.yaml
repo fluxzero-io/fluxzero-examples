@@ -6,6 +6,12 @@ operations:
     replace: "package ${package}"
     regex: true
 
+  # Update Kotlin type registry root in App.kt
+  - type: replace
+    files: [ "src/main/kotlin/com/example/app/App.kt" ]
+    find: '@RegisterType(root = "com.example.app")'
+    replace: '@RegisterType(root = "${package}")'
+
   # Update intellij run files
   - type: replace
     files: [ ".run/*.xml" ]

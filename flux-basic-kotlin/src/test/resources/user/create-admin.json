@@ -1,5 +1,5 @@
 {
-  "@class" : "com.example.app.user.api.CreateUser",
+  "@class" : "CreateUser",
   "userId": "admin",
   "details": {
     "name": "An admin"

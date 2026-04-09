@@ -4,33 +4,42 @@
 jdk = "25"
 kotlin = "2.3.20"
 
-fluxzero = "1.144.0"
+fluxzero = "1.149.0"
 fluxzero-gradle-plugin = "1.1.41"
 spring-boot = "3.5.13"
 
-detekt = "2.0.0"
+detekt = "1.23.8"
 logback = "1.5.32"
 
 kotlin-logging = "7.0.14"
 
 [libraries]
-
-# Spring
-spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
-
 # Flux
+fluxzero-bom = { module = "io.fluxzero:fluxzero-bom", version.ref = "fluxzero" }
 fluxzero-sdk = { module = "io.fluxzero:sdk", version.ref = "fluxzero" }
+fluxzero-common = { module = "io.fluxzero:common", version.ref = "fluxzero" }
 fluxzero-test-server = { module = "io.fluxzero:test-server", version.ref = "fluxzero" }
 fluxzero-proxy = { module = "io.fluxzero:proxy", version.ref = "fluxzero" }
 
-# Monitoring
+# Spring
+spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
+
+# Jackson
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+
+# Logback
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm" , version.ref = "kotlin-logging"}
+
+# Kotlin
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
 
 [plugins]
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 fluxzero-gradle-plugin = { id = "io.fluxzero.tools.gradle.plugin", version.ref = "fluxzero-gradle-plugin" }
