@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.fluxzero.gradle.plugin)
     alias(libs.plugins.spring.boot)
-    alias(libs.plugins.detekt)
+    // TODO: re-enable when detekt 2.0.0 is released (requires JDK 25 support)
+    // alias(libs.plugins.detekt)
 }
 
 group = "com.example.flux"
