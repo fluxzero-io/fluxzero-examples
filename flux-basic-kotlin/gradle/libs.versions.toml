@@ -6,7 +6,7 @@ kotlin = "2.3.20"
 
 fluxzero = "1.149.8"
 fluxzero-gradle-plugin = "1.1.41"
-spring-boot = "3.5.13"
+spring-boot = "4.0.5"
 
 detekt = "2.0.0"
 logback = "1.5.32"
