@@ -22,7 +22,7 @@
         <detekt.version>1.23.8</detekt.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fluxzero-maven-plugin.version>1.1.41</fluxzero-maven-plugin.version>
-        <fluxzero-sdk-version>1.149.0</fluxzero-sdk-version>
+        <fluxzero-sdk-version>1.149.8</fluxzero-sdk-version>
     </properties>
 
     <dependencyManagement>

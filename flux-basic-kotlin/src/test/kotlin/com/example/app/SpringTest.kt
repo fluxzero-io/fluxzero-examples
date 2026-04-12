@@ -27,6 +27,6 @@ class SpringTest {
     fun getUsers() {
         testFixture.givenCommands("/user/create-user.json")
             .whenQuery(GetUsers())
-            .expectResult<List<UserProfile>> { r: List<UserProfile> -> r.size == 1 }
+            .expectResult { r: List<UserProfile> -> r.size == 1 }
     }
 }
