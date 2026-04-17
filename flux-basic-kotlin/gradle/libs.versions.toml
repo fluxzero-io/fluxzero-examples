@@ -11,7 +11,7 @@ spring-boot = "3.5.13"
 detekt = "2.0.0"
 logback = "1.5.32"
 
-kotlin-logging = "7.0.14"
+kotlin-logging = "8.0.01"
 
 [libraries]
 # Flux
