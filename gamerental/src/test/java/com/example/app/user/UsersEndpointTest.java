@@ -25,4 +25,18 @@ class UsersEndpointTest {
                 .whenGet("/users")
                 .<List<UserProfile>>expectResult(r -> r.size() == 1);
     }
+
+    @Test
+    void openApiDocumentsUsersEndpoint() {
+        testFixture.whenGet("/openapi.json")
+                .expectWebResult(response -> {
+                    String payload = response.getPayloadAs(String.class);
+                    return response.getStatus() == 200
+                           && "application/json".equals(response.getContentType())
+                           && payload.contains("Game Rental API")
+                           && payload.contains("\"/users\"")
+                           && payload.contains("\"createUser\"")
+                           && payload.contains("\"getUsers\"");
+                });
+    }
 }

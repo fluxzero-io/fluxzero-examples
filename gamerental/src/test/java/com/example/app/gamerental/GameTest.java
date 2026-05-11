@@ -160,6 +160,21 @@ class GameTest {
                     .whenPost("/games/{gameId}/rent")
                     .expectEvents(RentGame.class);
         }
+
+        @Test
+        void openApiDocumentsGameEndpoints() {
+            testFixture.whenGet("/openapi.json")
+                    .expectWebResult(response -> {
+                        String payload = response.getPayloadAs(String.class);
+                        return response.getStatus() == 200
+                               && "application/json".equals(response.getContentType())
+                               && payload.contains("Game Rental API")
+                               && payload.contains("\"/games\"")
+                               && payload.contains("\"/games/{gameId}/rent\"")
+                               && payload.contains("\"registerGame\"")
+                               && payload.contains("\"rentGame\"");
+                    });
+        }
     }
 
     @Nested

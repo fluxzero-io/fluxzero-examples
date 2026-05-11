@@ -1,4 +1,3 @@
-@RegisterType
 @ApiDoc
 @ApiDocInfo(
         title = "User Management API",
@@ -10,12 +9,9 @@
                 """,
         serveOpenApi = true,
         serveApiReference = true)
-@RequiresUser
 @Path("/api")
 package com.example.app;
 
-import io.fluxzero.common.serialization.RegisterType;
-import io.fluxzero.sdk.tracking.handling.authentication.RequiresUser;
 import io.fluxzero.sdk.web.ApiDoc;
 import io.fluxzero.sdk.web.ApiDocInfo;
 import io.fluxzero.sdk.web.Path;

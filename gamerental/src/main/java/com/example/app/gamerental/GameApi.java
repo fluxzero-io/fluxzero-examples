@@ -15,35 +15,77 @@ import java.util.concurrent.CompletableFuture;
 @Component
 @Path("/games")
 @ServeStatic(value = "/static")
+@ApiDoc(tags = "Games", description = "Game catalog and rental endpoints.")
 public class GameApi {
 
     @HandlePost
-    CompletableFuture<GameId> registerGame(GameDetails details) {
+    @ApiDoc(
+            summary = "Register game",
+            operationId = "registerGame",
+            description = "Adds a game to the catalog and returns the generated game id.")
+    CompletableFuture<GameId> registerGame(
+            @ApiDoc(description = "Game details to add to the catalog.") GameDetails details) {
         return Fluxzero.sendCommand(new RegisterGame(details));
     }
 
     @HandleGet("/{gameId}")
-    CompletableFuture<Game> getGame(@PathParam GameId gameId) {
+    @ApiDoc(
+            summary = "Get game",
+            operationId = "getGame",
+            description = "Returns a single game from the catalog.")
+    CompletableFuture<Game> getGame(
+            @PathParam
+            @ApiDoc(description = "Identifier of the game to retrieve.", example = "myGame")
+            GameId gameId) {
         return Fluxzero.query(new GetGame(gameId));
     }
 
     @HandleGet
-    CompletableFuture<List<Game>> getGames(@QueryParam String term) {
+    @ApiDoc(
+            summary = "Find games",
+            operationId = "findGames",
+            description = "Searches the game catalog. When no term is provided, the catalog is returned.")
+    CompletableFuture<List<Game>> getGames(
+            @QueryParam
+            @ApiDoc(description = "Optional search term matched against game details.",
+                    example = "cryptographic mysteries")
+            String term) {
         return Fluxzero.query(new FindGames(term));
     }
 
     @HandleGet("/stats")
-    CompletableFuture<List<FacetStats>> getGameStats(@QueryParam String name) {
+    @ApiDoc(
+            summary = "Get game statistics",
+            operationId = "getGameStats",
+            description = "Returns facet statistics for a game catalog field, such as stock or tags.")
+    CompletableFuture<List<FacetStats>> getGameStats(
+            @QueryParam
+            @ApiDoc(description = "Facet field name to aggregate.", example = "stock")
+            String name) {
         return Fluxzero.query(new GetGameStats(name));
     }
 
     @HandlePost("/{gameId}/rent")
-    CompletableFuture<Void> rentGame(@PathParam GameId gameId) {
+    @ApiDoc(
+            summary = "Rent game",
+            operationId = "rentGame",
+            description = "Rents an available game for the current sender.")
+    CompletableFuture<Void> rentGame(
+            @PathParam
+            @ApiDoc(description = "Identifier of the game to rent.", example = "myGame")
+            GameId gameId) {
         return Fluxzero.sendCommand(new RentGame(gameId));
     }
 
     @HandlePost("/{gameId}/return")
-    CompletableFuture<Void> returnGame(@PathParam GameId gameId) {
+    @ApiDoc(
+            summary = "Return game",
+            operationId = "returnGame",
+            description = "Returns a game currently rented by the current sender.")
+    CompletableFuture<Void> returnGame(
+            @PathParam
+            @ApiDoc(description = "Identifier of the game to return.", example = "myGame")
+            GameId gameId) {
         return Fluxzero.sendCommand(new ReturnGame(gameId));
     }
 
