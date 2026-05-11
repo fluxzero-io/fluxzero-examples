@@ -40,6 +40,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    systemProperty("fluxzero.maven.enabled", "true")
 }
 
 kotlin {

@@ -51,6 +51,7 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("fluxzero.maven.enabled", "true")
 }
 
 tasks.jar {
