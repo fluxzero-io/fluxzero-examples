@@ -4,7 +4,7 @@
       <env name="ENVIRONMENT" value="local" />
     </envs>
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="flux-basic-java" />
+    <module name="gamerental" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.app.TestApp" />
     <option name="VM_PARAMETERS" value="-Xms8g -Xmx8g" />
     <method v="2">

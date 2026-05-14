@@ -1,6 +1,8 @@
 # Fluxzero Examples
 
-A collection of example projects demonstrating the capabilities of the [Fluxzero SDK](https://fluxzero.io). These examples serve as both learning resources and project templates for the Fluxzero CLI (`fz init`).
+A collection of starter projects demonstrating the capabilities of the [Fluxzero SDK](https://fluxzero.io). These examples serve as both learning resources and source templates for the Fluxzero CLI (`fz init`).
+
+These projects are designed to become the first commit of real customer applications. Many builders start from them with AI assistance and only light technical background, so the templates favor clear, explicit, single-project setup over build-system abstraction. A human developer or agent can always evolve a generated project into a multi-module build, add shared build logic, or introduce stricter tooling later.
 
 ## 🚀 Available Examples
 
@@ -11,16 +13,16 @@ Basic Java project demonstrating fundamental Fluxzero concepts. Shows minimal se
 - Basic project structure
 - Essential Fluxzero components
 - Ready-to-run configuration
+- Deliberately simple Java-first starter setup
 
 ### [`flux-basic-kotlin`](./flux-basic-kotlin/)
 Kotlin equivalent of the basic Java example with Kotlin-specific enhancements.
 
 **Features:**
 - JDK 25+ support
-- Detekt code style enforcement
 - IntelliJ IDEA integration with live templates
-- Clean Gradle project using `libs.versions.toml`
-- Example HTTP requests in `.test/requests`
+- Clear single-project Gradle and Maven setup
+- HTTP client environment for local API calls
 
 ### [`gamerental`](./gamerental/)
 Comprehensive game rental system showcasing advanced Fluxzero features and production-ready patterns.
@@ -49,7 +51,15 @@ fz init --template flux-kotlin-single --name my-app
 fz init
 ```
 
-For more CLI usage information, see the [Fluxzero CLI documentation](https:/fluxzero.io/docs).
+For more CLI usage information, see the [Fluxzero CLI documentation](https://fluxzero.io/docs).
+
+## 🧭 Template Design Principles
+
+- **Start simple**: generated applications should be easy to understand before they are easy to abstract.
+- **Keep build files readable**: versions and dependencies should usually appear where customers and agents edit them.
+- **Prefer boring defaults**: avoid optional tooling that can break first builds unless it provides clear starter value.
+- **Stay extensible**: templates should not prevent teams from adding multi-module structure, shared Gradle conventions, stricter linting, or organization-specific build policy later.
+- **Protect the Java path**: `flux-basic-java` is the most important starter template and should remain especially small, reliable, and obvious.
 
 ## 🏃‍♂️ Running Examples
 
@@ -77,6 +87,7 @@ We welcome community contributions! To submit your example:
 - **Tested**: Include comprehensive tests
 - **Multi-build support**: Must support both Maven and Gradle build systems
 - **Template configuration**: Must include `refactor.yaml` to instruct the Fluxzero CLI how to customize the template for users
+- **Supporting files**: Include useful HTTP request files, run configs, and local tooling files when they improve the generated starter project
 - **License agreement**: By contributing, you agree that your example will be published under the same license as this repository
 
 ### Example Structure
@@ -89,8 +100,8 @@ your-example/
 ├── pom.xml                  # Maven build configuration
 ├── src/
 │   ├── main/               # Source code
-│   └── test/               # Tests
-└── .test/                  # HTTP requests, test data, etc.
+│   └── test/               # Tests and optional HTTP request examples
+└── http-client.env.json    # Optional local HTTP client environment
 ```
 
 ## 📋 Template Integration

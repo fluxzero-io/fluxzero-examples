@@ -55,10 +55,7 @@
         "flux-basic-kotlin/**",
         "flux-todo-kotlin/**"
       ],
-      "matchPackagePatterns": [
-        "^io\\.gitlab\\.arturbosch\\.detekt",
-        "^io\\.github\\.oshai:kotlin-logging"
-      ],
+      "matchPackagePatterns": ["^io\\.github\\.oshai:kotlin-logging"],
       "groupName": "Kotlin tooling",
       "groupSlug": "kotlin-tooling"
     },

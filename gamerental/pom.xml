@@ -2,20 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.13</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>gamerental</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Game Rental Demo</name>
 	<description>Game Rental sample app for Fluxzero</description>
 	<properties>
+		<spring-boot.version>3.5.14</spring-boot.version>
 		<java.version>25</java.version>
-		<fluxzero-maven-plugin.version>1.1.41</fluxzero-maven-plugin.version>
+		<argLine></argLine>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencyManagement>
@@ -27,16 +24,23 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.44</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<!--fluxzero -->
 		<dependency>
 			<groupId>io.fluxzero</groupId>
 			<artifactId>sdk</artifactId>
@@ -57,16 +61,23 @@
 			<artifactId>proxy</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -80,10 +91,71 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.5.5</version>
 					<configuration>
+						<argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar}</argLine>
 						<systemPropertyVariables>
 							<fluxzero.maven.enabled>true</fluxzero.maven.enabled>
 						</systemPropertyVariables>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.4.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.14.1</version>
+					<configuration>
+						<release>${java.version}</release>
+						<parameters>true</parameters>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>3.8.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>3.5.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.4.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>3.1.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.1.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.3.1</version>
+					<configuration>
+						<propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
+					<executions>
+						<execution>
+							<id>repackage</id>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -92,7 +164,7 @@
 			<plugin>
 				<groupId>io.fluxzero.tools</groupId>
 				<artifactId>fluxzero-maven-plugin</artifactId>
-				<version>${fluxzero-maven-plugin.version}</version>
+				<version>1.1.41</version>
 				<executions>
 					<execution>
 						<goals>
@@ -100,15 +172,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- Optional configuration (defaults work automatically) -->
-				<!--
-                <configuration>
-                    <overrideLanguage>kotlin</overrideLanguage>
-                    <overrideSdkVersion>1.0.0</overrideSdkVersion>
-                    <forceUpdate>false</forceUpdate>
-                    <skip>false</skip>
-                </configuration>
-                -->
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -151,6 +214,9 @@
 								<requireMavenVersion>
 									<version>3.6.3</version>
 								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>[25,)</version>
+								</requireJavaVersion>
 							</rules>
 						</configuration>
 					</execution>
@@ -161,10 +227,17 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>set-dependency-properties</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>download-sources</id>
 						<phase>clean</phase>
 						<goals>
-							<goal>sources</goal>
+							<goal>resolve-sources</goal>
 						</goals>
 						<configuration>
 							<includeGroupIds>io.fluxzero</includeGroupIds>

@@ -1,40 +1,50 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     java
     id("io.fluxzero.tools.gradle.plugin") version "1.1.41"
-    id("org.springframework.boot") version "3.5.13"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") version "3.5.14"
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_25
+
+val fluxzeroVersion = "1.162.4"
+val lombokVersion = "1.18.44"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("io.fluxzero:fluxzero-bom:1.162.4")
+fluxzero {
+    projectFiles {
+        overrideSdkVersion.set(fluxzeroVersion)
     }
 }
 
 dependencies {
-    // Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter")
+    implementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    developmentOnly(platform(SpringBootPlugin.BOM_COORDINATES))
+    annotationProcessor(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    testImplementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    testImplementation(platform(SpringBootPlugin.BOM_COORDINATES))
 
-    // Fluxzero
+    implementation("org.springframework.boot:spring-boot-starter")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
     implementation("io.fluxzero:sdk")
 
-    // Lombok
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("io.fluxzero:sdk")
 
-    //Logback
-    testImplementation(enforcedPlatform("ch.qos.logback:logback-core:1.5.32"))
-
-    // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.fluxzero:sdk") {
         artifact {
@@ -43,10 +53,10 @@ dependencies {
     }
     testImplementation("io.fluxzero:test-server")
     testImplementation("io.fluxzero:proxy")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.5.32")
 
-    // Lombok for tests
-    testCompileOnly("org.projectlombok:lombok")
-    testAnnotationProcessor("org.projectlombok:lombok")
+    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 }
 
 tasks.withType<Test> {
@@ -54,7 +64,7 @@ tasks.withType<Test> {
     systemProperty("fluxzero.maven.enabled", "true")
 }
 
-tasks.jar {
+tasks.bootJar {
     archiveFileName.set("app.jar")
 }
 

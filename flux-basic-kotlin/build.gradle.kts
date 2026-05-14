@@ -1,41 +1,56 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.fluxzero.gradle.plugin)
-    alias(libs.plugins.spring.boot)
-    // TODO: re-enable when detekt 2.0.0 is released (requires JDK 25 support)
-    // alias(libs.plugins.detekt)
+    id("org.jetbrains.kotlin.jvm") version "2.3.20"
+    id("org.jetbrains.kotlin.plugin.spring") version "2.3.20"
+    id("org.jetbrains.kotlin.kapt") version "2.3.20"
+    id("io.fluxzero.tools.gradle.plugin") version "1.1.41"
+    id("org.springframework.boot") version "3.5.14"
 }
 
 group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
+val fluxzeroVersion = "1.162.4"
+
 repositories {
     mavenCentral()
 }
 
+fluxzero {
+    projectFiles {
+        overrideSdkVersion.set(fluxzeroVersion)
+    }
+}
+
 dependencies {
-    implementation(platform(libs.spring.boot.bom))
-    implementation(platform(libs.fluxzero.bom))
+    implementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.20"))
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    developmentOnly(platform(SpringBootPlugin.BOM_COORDINATES))
+    kapt(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    testImplementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    testImplementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.20"))
+    testImplementation(platform(SpringBootPlugin.BOM_COORDINATES))
 
-    implementation(libs.spring.boot.starter)
+    implementation("org.springframework.boot:spring-boot-starter")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    implementation(libs.fluxzero.sdk)
-    implementation(libs.jackson.module.kotlin)
-    kapt(libs.fluxzero.common)
+    implementation("io.fluxzero:sdk")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    kapt("io.fluxzero:common")
 
-    implementation(libs.kotlin.logging)
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.14")
 
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.fluxzero.sdk) {
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.fluxzero:sdk") {
         artifact {
             classifier = "tests"
         }
     }
-    testImplementation(libs.fluxzero.test.server)
-    testImplementation(libs.fluxzero.proxy)
+    testImplementation("io.fluxzero:test-server")
+    testImplementation("io.fluxzero:proxy")
 }
 
 tasks.test {
@@ -43,12 +58,12 @@ tasks.test {
     systemProperty("fluxzero.maven.enabled", "true")
 }
 
+tasks.bootJar {
+    archiveFileName.set("app.jar")
+}
+
 kotlin {
-    jvmToolchain(
-        libs.versions.jdk
-            .get()
-            .toInt(),
-    )
+    jvmToolchain(25)
 }
 
 tasks.register<JavaExec>("runTestApp") {
