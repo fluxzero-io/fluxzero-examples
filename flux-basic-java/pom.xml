@@ -166,7 +166,10 @@
 			<plugin>
 				<groupId>io.fluxzero.tools</groupId>
 				<artifactId>fluxzero-maven-plugin</artifactId>
-				<version>1.1.47</version>
+				<version>1.1.49</version>
+				<configuration>
+					<forceUpdate>true</forceUpdate>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
