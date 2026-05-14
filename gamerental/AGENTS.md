@@ -101,3 +101,12 @@ Then come back here to continue.
 - Do not attempt to modify system directories.
 - Do not provide alternative distributions.
 - Keep messaging short and non-technical.
+
+## Commit Messages
+
+- Use Conventional Commits for human-authored commits.
+- Format: `<type>(<scope>): <short imperative summary>`.
+- Choose a scope that names the feature, domain area, or technical area being changed.
+- Useful scopes in this project include `games`, `rentals`, `users`, `announcer`, `api`, `websocket`, `docs`, `build`, `test`, `deps`, and `config`.
+- Good examples: `feat(games): add availability query`, `fix(rentals): reject overlapping rental period`, `test(announcer): cover retry behavior`.
+- For non-trivial commits, include a body that explains why the change is needed, the behavioral impact, and the tests that were run.

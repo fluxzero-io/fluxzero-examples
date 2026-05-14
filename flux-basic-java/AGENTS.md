@@ -101,3 +101,12 @@ Then come back here to continue.
 - Do not attempt to modify system directories.
 - Do not provide alternative distributions.
 - Keep messaging short and non-technical.
+
+## Commit Messages
+
+- Use Conventional Commits for human-authored commits.
+- Format: `<type>(<scope>): <short imperative summary>`.
+- Choose a scope that names the feature, domain area, or technical area being changed.
+- Common generic scopes include `api`, `domain`, `ui`, `docs`, `build`, `test`, `deps`, and `config`.
+- Good examples: `feat(api): add search endpoint`, `fix(domain): reject invalid status change`, `test(users): cover duplicate email`.
+- For non-trivial commits, include a body that explains why the change is needed, the behavioral impact, and the tests that were run.
