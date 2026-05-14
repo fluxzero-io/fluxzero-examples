@@ -2,7 +2,7 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    id("io.fluxzero.tools.gradle.plugin") version "1.1.41"
+    id("io.fluxzero.tools.gradle.plugin") version "1.1.47"
     id("org.springframework.boot") version "3.5.14"
 }
 
