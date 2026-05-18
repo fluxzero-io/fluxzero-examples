@@ -10,7 +10,7 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 val fluxzeroVersion = "1.162.4"
-val lombokVersion = "1.18.44"
+val lombokVersion = "1.18.46"
 
 java {
     toolchain {
