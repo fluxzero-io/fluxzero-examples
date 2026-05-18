@@ -9,7 +9,7 @@ plugins {
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-val fluxzeroVersion = "1.162.4"
+val fluxzeroVersion = "1.174.0"
 val lombokVersion = "1.18.44"
 
 java {

@@ -21,14 +21,14 @@ public class TestApp {
         int fluxPort = ApplicationProperties.getIntegerProperty("FLUX_PORT");
         System.setProperty("FLUX_BASE_URL", "ws://localhost:" + fluxPort);
         if (availablePort(fluxPort)) {
-            TestServer.main(new String[0]);
+            TestServer.startServer();
         }
 
         // start Flux Proxy
         System.setProperty("PROXY_PORT", ApplicationProperties.getProperty("PROXY_PORT", "8080"));
         int proxyPort = ApplicationProperties.getIntegerProperty("PROXY_PORT");
         if (availablePort(proxyPort)) {
-            ProxyServer.main(new String[0]);
+            ProxyServer.start();
         }
 
         // start application

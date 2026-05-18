@@ -22,14 +22,14 @@ class TestApp {
             val fluxPort = ApplicationProperties.getIntegerProperty("FLUX_PORT")
             System.setProperty("FLUX_BASE_URL", "ws://localhost:$fluxPort")
             if (availablePort(fluxPort)) {
-                TestServer.main(arrayOf())
+                TestServer.startServer()
             }
 
             // start Flux Proxy
             System.setProperty("PROXY_PORT", ApplicationProperties.getProperty("PROXY_PORT", "8080"))
             val proxyPort = ApplicationProperties.getIntegerProperty("PROXY_PORT")
             if (availablePort(proxyPort)) {
-                ProxyServer.main(arrayOf())
+                ProxyServer.start()
             }
 
 
