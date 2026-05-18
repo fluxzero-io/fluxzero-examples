@@ -13,7 +13,7 @@
         <java.version>25</java.version>
         <kotlin.version>2.3.20</kotlin.version>
         <kotlin.compiler.jvmTarget>25</kotlin.compiler.jvmTarget>
-        <kotlin-logging.version>7.0.14</kotlin-logging.version>
+        <kotlin-logging.version>8.0.02</kotlin-logging.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <fluxzero.version>1.162.4</fluxzero.version>
