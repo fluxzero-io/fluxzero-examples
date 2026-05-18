@@ -6,9 +6,10 @@ import io.fluxzero.sdk.Fluxzero;
 import io.fluxzero.sdk.common.HasMessage;
 import io.fluxzero.sdk.common.serialization.DeserializingMessage;
 import io.fluxzero.sdk.tracking.handling.authentication.AbstractUserProvider;
+import io.fluxzero.sdk.tracking.handling.authentication.RefreshingUserProvider;
 import io.fluxzero.sdk.tracking.handling.authentication.User;
 
-public class SenderProvider extends AbstractUserProvider {
+public class SenderProvider extends AbstractUserProvider implements RefreshingUserProvider<Sender> {
 
     public SenderProvider() {
         super(Sender.class);
@@ -33,5 +34,11 @@ public class SenderProvider extends AbstractUserProvider {
     @Override
     public User getSystemUser() {
         return Sender.system;
+    }
+
+
+    @Override
+    public Sender refreshUser(Sender user, HasMessage message) {
+        return user == null ? null : (Sender) getUserById(user.userId());
     }
 }

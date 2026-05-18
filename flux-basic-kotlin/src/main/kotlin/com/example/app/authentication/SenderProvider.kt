@@ -7,9 +7,10 @@ import io.fluxzero.sdk.Fluxzero
 import io.fluxzero.sdk.common.HasMessage
 import io.fluxzero.sdk.common.serialization.DeserializingMessage
 import io.fluxzero.sdk.tracking.handling.authentication.AbstractUserProvider
+import io.fluxzero.sdk.tracking.handling.authentication.RefreshingUserProvider
 import io.fluxzero.sdk.tracking.handling.authentication.User
 
-class SenderProvider : AbstractUserProvider(Sender::class.java) {
+class SenderProvider : AbstractUserProvider(Sender::class.java), RefreshingUserProvider<Sender> {
 
     override fun fromMessage(message: HasMessage): User? {
         if (message is DeserializingMessage && message.messageType == MessageType.WEBREQUEST) {
@@ -20,7 +21,7 @@ class SenderProvider : AbstractUserProvider(Sender::class.java) {
         return super.fromMessage(message)
     }
 
-    override fun getUserById(userId: Any): User? {
+    override fun getUserById(userId: Any): Sender {
         val userProfile = Fluxzero.loadAggregate(userId, UserProfile::class.java).get()
         if (userProfile == null) {
             //return a new unprivileged user if the user doesn't exist yet
@@ -32,5 +33,12 @@ class SenderProvider : AbstractUserProvider(Sender::class.java) {
 
     override fun getSystemUser(): User {
         return Sender.system
+    }
+
+    override fun refreshUser(user: Sender?, message: HasMessage?): Sender? {
+        return when (user) {
+            null -> null
+            else -> getUserById(user.userId)
+        }
     }
 }
