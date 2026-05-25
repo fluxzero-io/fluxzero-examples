@@ -19,7 +19,7 @@
 			<dependency>
 				<groupId>io.fluxzero</groupId>
 				<artifactId>fluxzero-bom</artifactId>
-				<version>1.180.0</version>
+				<version>1.184.1</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -168,7 +168,7 @@
 			<plugin>
 				<groupId>io.fluxzero.tools</groupId>
 				<artifactId>fluxzero-maven-plugin</artifactId>
-				<version>1.1.49</version>
+				<version>1.1.57</version>
 				<executions>
 					<execution>
 						<goals>
