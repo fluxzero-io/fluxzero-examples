@@ -1,9 +1,9 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.3.20"
-    id("org.jetbrains.kotlin.plugin.spring") version "2.3.20"
-    id("org.jetbrains.kotlin.kapt") version "2.3.20"
+    id("org.jetbrains.kotlin.jvm") version "2.3.21"
+    id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
+    id("org.jetbrains.kotlin.kapt") version "2.3.21"
     id("io.fluxzero.tools.gradle.plugin") version "1.1.57"
     id("org.springframework.boot") version "3.5.14"
 }
@@ -25,12 +25,12 @@ fluxzero {
 
 dependencies {
     implementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.20"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.21"))
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     developmentOnly(platform(SpringBootPlugin.BOM_COORDINATES))
     kapt(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
     testImplementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
-    testImplementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.20"))
+    testImplementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.21"))
     testImplementation(platform(SpringBootPlugin.BOM_COORDINATES))
 
     implementation("org.springframework.boot:spring-boot-starter")
