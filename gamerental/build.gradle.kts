@@ -2,14 +2,14 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    id("io.fluxzero.tools.gradle.plugin") version "1.1.49"
+    id("io.fluxzero.tools.gradle.plugin") version "1.1.57"
     id("org.springframework.boot") version "3.5.14"
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-val fluxzeroVersion = "1.180.0"
+val fluxzeroVersion = "1.184.1"
 val lombokVersion = "1.18.46"
 
 java {
