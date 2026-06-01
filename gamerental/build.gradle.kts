@@ -53,7 +53,7 @@ dependencies {
     }
     testImplementation("io.fluxzero:test-server")
     testImplementation("io.fluxzero:proxy")
-    testRuntimeOnly("ch.qos.logback:logback-classic:1.5.32")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.5.33")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
