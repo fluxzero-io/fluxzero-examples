@@ -3,7 +3,7 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     java
     id("io.fluxzero.tools.gradle.plugin") version "1.1.66"
-    id("org.springframework.boot") version "3.5.14"
+    id("org.springframework.boot") version "3.5.15"
 }
 
 group = "com.example"

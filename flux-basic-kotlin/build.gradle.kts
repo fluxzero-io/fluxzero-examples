@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
     id("org.jetbrains.kotlin.kapt") version "2.3.21"
     id("io.fluxzero.tools.gradle.plugin") version "1.1.66"
-    id("org.springframework.boot") version "3.5.14"
+    id("org.springframework.boot") version "3.5.15"
 }
 
 group = "com.example.flux"
