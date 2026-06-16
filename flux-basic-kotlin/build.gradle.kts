@@ -11,7 +11,7 @@ plugins {
 group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
-val fluxzeroVersion = "1.195.4"
+val fluxzeroVersion = "1.205.0"
 
 repositories {
     mavenCentral()
