@@ -3,6 +3,7 @@ package com.example.app
 import com.example.app.user.api.GetUsers
 import com.example.app.user.api.model.UserProfile
 import io.fluxzero.sdk.test.TestFixture
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -16,6 +17,11 @@ class SpringTest {
 
     @Autowired
     lateinit var testFixture: TestFixture
+
+    @AfterEach
+    fun shutDownFixture() {
+        TestFixture.shutDownActiveFixtures()
+    }
 
     @Test
     fun createUser() {

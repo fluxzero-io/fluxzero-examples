@@ -10,6 +10,8 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 val fluxzeroVersion = "1.211.1"
+val fluxzeroIdpVersion = "0.1.0"
+val jettyVersion = "12.1.10"
 val lombokVersion = "1.18.46"
 
 java {
@@ -20,6 +22,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 fluxzero {
@@ -30,17 +33,19 @@ fluxzero {
 
 dependencies {
     implementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    implementation(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     developmentOnly(platform(SpringBootPlugin.BOM_COORDINATES))
     annotationProcessor(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
     testImplementation(platform("io.fluxzero:fluxzero-bom:$fluxzeroVersion"))
+    testImplementation(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
     testImplementation(platform(SpringBootPlugin.BOM_COORDINATES))
 
     implementation("org.springframework.boot:spring-boot-starter")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("io.fluxzero:sdk")
-
+    implementation("io.fluxzero.idp:client:$fluxzeroIdpVersion")
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("io.fluxzero:sdk")
@@ -53,6 +58,7 @@ dependencies {
     }
     testImplementation("io.fluxzero:test-server")
     testImplementation("io.fluxzero:proxy")
+    testImplementation("io.fluxzero.idp:test-support:$fluxzeroIdpVersion")
     testRuntimeOnly("ch.qos.logback:logback-classic:1.5.34")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")

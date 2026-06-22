@@ -2,6 +2,7 @@ package com.example.app;
 
 import com.example.app.user.api.GetUsers;
 import io.fluxzero.sdk.test.TestFixture;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,11 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 class SpringTest {
 
 	@Autowired TestFixture testFixture;
+
+	@AfterEach
+	void shutDownFixture() {
+		TestFixture.shutDownActiveFixtures();
+	}
 
 	@Test
 	void createUser() {

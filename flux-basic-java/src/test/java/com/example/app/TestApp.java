@@ -1,11 +1,13 @@
 package com.example.app;
 
+import io.fluxzero.idp.testsupport.localstub.FluxzeroIdpStub;
 import io.fluxzero.proxy.ProxyServer;
 import io.fluxzero.sdk.configuration.ApplicationProperties;
 import io.fluxzero.testserver.TestServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,6 +15,7 @@ import java.net.ServerSocket;
 import static io.fluxzero.sdk.configuration.ApplicationProperties.getProperty;
 
 @SpringBootApplication
+@Import(FluxzeroIdpStub.class)
 @Slf4j
 public class TestApp {
     public static void main(String[] args) {
@@ -33,13 +36,15 @@ public class TestApp {
 
         // start application
         System.setProperty("FLUX_APPLICATION_NAME", getProperty("FLUX_APPLICATION_NAME", "Example"));
-        SpringApplication app = new SpringApplication(App.class);
+        SpringApplication app = new SpringApplication(TestApp.class);
         app.setAdditionalProfiles("main");
         app.run(args);
 
         // initialize
         initializeApp();
-        log.info("Application started successfully. Visit at: http://localhost:8080/");
+        String localIdpIssuer = FluxzeroIdpStub.currentIssuer().orElse("not initialized");
+        log.info("Application started successfully. Visit at: http://localhost:8080/ (local IDP: {})",
+                localIdpIssuer);
     }
 
     static void initializeApp() {

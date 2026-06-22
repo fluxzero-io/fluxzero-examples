@@ -12,9 +12,11 @@ group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
 val fluxzeroVersion = "1.211.1"
+val fluxzeroIdpVersion = "0.1.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 fluxzero {
@@ -37,6 +39,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("io.fluxzero:sdk")
+    implementation("io.fluxzero.idp:client:$fluxzeroIdpVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     kapt("io.fluxzero:common")
 
@@ -51,6 +54,7 @@ dependencies {
     }
     testImplementation("io.fluxzero:test-server")
     testImplementation("io.fluxzero:proxy")
+    testImplementation("io.fluxzero.idp:test-support:$fluxzeroIdpVersion")
 }
 
 tasks.test {

@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <fluxzero.version>1.211.1</fluxzero.version>
+        <fluxzero-idp.version>0.1.0</fluxzero-idp.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +56,11 @@
         <dependency>
             <groupId>io.fluxzero</groupId>
             <artifactId>sdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.fluxzero.idp</groupId>
+            <artifactId>client</artifactId>
+            <version>${fluxzero-idp.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -103,6 +109,12 @@
         <dependency>
             <groupId>io.fluxzero</groupId>
             <artifactId>proxy</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.fluxzero.idp</groupId>
+            <artifactId>test-support</artifactId>
+            <version>${fluxzero-idp.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

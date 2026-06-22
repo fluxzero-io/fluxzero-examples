@@ -1,193 +1,305 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fluxzero App</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-    </style>
-</head>
-<body class="bg-slate-50 min-h-screen text-slate-800">
-    <nav class="bg-white border-b border-slate-200 py-4 mb-8 sticky top-0 z-10 glass-effect">
-        <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-indigo-600 p-2 rounded-lg">
-                    <i class="fas fa-users text-white"></i>
-                </div>
-                <h1 class="text-xl font-bold tracking-tight">UserHub</h1>
-            </div>
-            <div class="text-sm text-slate-500 font-medium">
-                Flux Basic Java Example
-            </div>
-        </div>
-    </nav>
-
-    <main class="max-w-5xl mx-auto px-6 pb-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Sidebar / Add User Form -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-24">
-                    <h2 class="text-lg font-semibold mb-6 flex items-center gap-2">
-                        <i class="fas fa-user-plus text-indigo-500"></i>
-                        Add New User
-                    </h2>
-                    <form id="userForm" class="space-y-4">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                            <input type="text" id="name" placeholder="John Doe" required
-                                class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-                            <input type="email" id="email" placeholder="john@example.com" required
-                                class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                        <button type="submit" 
-                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 shadow-md shadow-indigo-200">
-                            Create User
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Content Area / User List -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="flex items-center justify-between mb-2">
-                    <h2 class="text-2xl font-bold tracking-tight">Registered Users</h2>
-                    <span id="userCount" class="bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">0 Users</span>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table id="userTable" class="w-full text-left">
-                            <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200">
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">User Info</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
-                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Role</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <!-- Users will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Empty State -->
-                    <div id="emptyState" class="hidden py-12 text-center">
-                        <div class="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-user-slash text-slate-300 text-2xl"></i>
-                        </div>
-                        <p class="text-slate-500 font-medium">No users found</p>
-                    </div>
-
-                    <!-- Loading State -->
-                    <div id="loadingState" class="py-12 text-center">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-                        <p class="text-slate-500 animate-pulse">Fetching users...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        const userForm = document.getElementById('userForm');
-        const userTableBody = document.querySelector('#userTable tbody');
-        const userCountSpan = document.getElementById('userCount');
-        const emptyState = document.getElementById('emptyState');
-        const loadingState = document.getElementById('loadingState');
-
-        async function fetchUsers() {
-            loadingState.classList.remove('hidden');
-            emptyState.classList.add('hidden');
-            
-            try {
-                const response = await fetch('/api/users');
-                const users = await response.json();
-                
-                userCountSpan.textContent = `${users.length} User${users.length !== 1 ? 's' : ''}`;
-                userTableBody.innerHTML = '';
-                
-                if (users.length === 0) {
-                    emptyState.classList.remove('hidden');
-                } else {
-                    users.forEach(user => {
-                        const row = document.createElement('tr');
-                        row.className = 'hover:bg-slate-50 transition-colors duration-150';
-                        row.innerHTML = `
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="h-10 w-10 flex-shrink-0 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
-                                        ${user.details.name.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-semibold text-slate-900">${user.details.name}</div>
-                                        <div class="text-sm text-slate-500">${user.details.email || '-'}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-100">
-                                    ${user.userId.substring(0, 8)}...
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700' : 'bg-emerald-100 text-emerald-700'}">
-                                    ${user.role || 'User'}
-                                </span>
-                            </td>
-                        `;
-                        userTableBody.appendChild(row);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            } finally {
-                loadingState.classList.add('hidden');
-            }
+        :root {
+            color-scheme: light;
+            --ink: #132033;
+            --muted: #637086;
+            --line: #d8e0ea;
+            --paper: #ffffff;
+            --wash: #f4f7fb;
+            --teal: #176b87;
+            --teal-strong: #0f5268;
         }
 
-        userForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = userForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            
-            // UI Feedback
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Creating...';
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+        * {
+            box-sizing: border-box;
+        }
 
-            try {
-                const response = await fetch('/api/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email })
-                });
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--wash);
+            color: var(--ink);
+        }
 
-                if (response.ok) {
-                    userForm.reset();
-                    await fetchUsers();
-                } else {
-                    alert('Error creating user');
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+        header {
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, .94);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .bar,
+        main {
+            width: min(880px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .bar {
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 7px;
+            background: var(--teal);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 900;
+        }
+
+        h1,
+        h2,
+        p {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 18px;
+        }
+
+        .tenant {
+            color: var(--muted);
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        main {
+            padding: 32px 0 56px;
+        }
+
+        .panel {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 18px 52px rgba(19, 32, 51, .08);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: flex-start;
+        }
+
+        .panel-head h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .panel-head p {
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: #e8f3f6;
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .body {
+            padding: 24px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 12px 18px;
+            margin: 0;
+        }
+
+        .details dt {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .details dd {
+            margin: 0;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .actions {
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            min-height: 40px;
+            border: 0;
+            border-radius: 6px;
+            padding: 10px 14px;
+            background: var(--teal);
+            color: #fff;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button:hover {
+            background: var(--teal-strong);
+        }
+
+        .secondary {
+            background: #edf2f7;
+            color: var(--ink);
+        }
+
+        .secondary:hover {
+            background: #dfe8f1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 680px) {
+            .bar,
+            .panel-head {
+                align-items: stretch;
+                flex-direction: column;
             }
-        });
 
-        // Initial load
-        fetchUsers();
-    </script>
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="bar">
+        <div class="brand">
+            <div class="mark">FZ</div>
+            <div>
+                <h1>Fluxzero App</h1>
+                <div class="tenant" id="tenantLine">tenant</div>
+            </div>
+        </div>
+        <a id="logoutLink" class="button secondary hidden" href="/app/logout">Sign out</a>
+    </div>
+</header>
+
+<main>
+    <section id="signedOut" class="panel hidden">
+        <div class="panel-head">
+            <div>
+                <h2>Signed out</h2>
+                <p>Start a Fluxzero IDP session for this application.</p>
+            </div>
+            <span class="status">no session</span>
+        </div>
+        <div class="body">
+            <a class="button" href="/app/login">Sign in</a>
+        </div>
+    </section>
+
+    <section id="sessionPanel" class="panel hidden">
+        <div class="panel-head">
+            <div>
+                <h2>Signed in</h2>
+                <p id="subjectLine">Authenticated through Fluxzero IDP.</p>
+            </div>
+            <span class="status">BFF session</span>
+        </div>
+        <div class="body">
+            <dl class="details">
+                <dt>Subject</dt>
+                <dd id="subjectValue"></dd>
+                <dt>Role</dt>
+                <dd id="roleValue"></dd>
+                <dt>Name</dt>
+                <dd id="nameValue"></dd>
+                <dt>Email</dt>
+                <dd id="emailValue"></dd>
+                <dt>Issuer</dt>
+                <dd id="issuerValue"></dd>
+            </dl>
+            <div class="actions">
+                <a class="button secondary" href="/app/logout">Sign out</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    const signedOut = document.getElementById('signedOut');
+    const sessionPanel = document.getElementById('sessionPanel');
+    const logoutLink = document.getElementById('logoutLink');
+    const tenantLine = document.getElementById('tenantLine');
+    const subjectLine = document.getElementById('subjectLine');
+    const subjectValue = document.getElementById('subjectValue');
+    const roleValue = document.getElementById('roleValue');
+    const nameValue = document.getElementById('nameValue');
+    const emailValue = document.getElementById('emailValue');
+    const issuerValue = document.getElementById('issuerValue');
+
+    async function loadSession() {
+        const response = await fetch('/app/auth/session', { credentials: 'same-origin' });
+        if (!response.ok) {
+            signedOut.classList.remove('hidden');
+            sessionPanel.classList.add('hidden');
+            logoutLink.classList.add('hidden');
+            return;
+        }
+        const session = await response.json();
+        tenantLine.textContent = `tenant ${session.tenantId || 'default'}`;
+        subjectLine.textContent = `Subject ${session.subject}`;
+        subjectValue.textContent = session.subject || '-';
+        roleValue.textContent = session.role || '-';
+        nameValue.textContent = session.name || '-';
+        emailValue.textContent = session.email || '-';
+        issuerValue.textContent = session.issuer || '-';
+        logoutLink.classList.remove('hidden');
+        signedOut.classList.add('hidden');
+        sessionPanel.classList.remove('hidden');
+    }
+
+    loadSession().catch(error => {
+        console.error(error);
+        signedOut.classList.remove('hidden');
+    });
+</script>
 </body>
 </html>

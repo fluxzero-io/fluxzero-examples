@@ -1,5 +1,6 @@
 package com.example.app.user;
 
+import com.example.app.authentication.Sender;
 import com.example.app.user.api.CreateUser;
 import com.example.app.user.api.UserId;
 import com.example.app.user.api.model.UserProfile;
@@ -14,15 +15,15 @@ class UsersEndpointTest {
 
     @Test
     void createUser() {
-        testFixture.whenPost("/api/users", "/user/create-user-request.json")
+        testFixture.whenPostByUser(Sender.system, "/api/users", "/user/create-user-request.json")
                 .expectResult(UserId.class)
                 .expectEvents(CreateUser.class);
     }
 
     @Test
     void getUsers() {
-        testFixture.givenPost("/api/users", "/user/create-user-request.json")
-                .whenGet("/api/users")
+        testFixture.givenPostByUser(Sender.system, "/api/users", "/user/create-user-request.json")
+                .whenGetByUser(Sender.system, "/api/users")
                 .<List<UserProfile>>expectResult(r -> r.size() == 1);
     }
 
