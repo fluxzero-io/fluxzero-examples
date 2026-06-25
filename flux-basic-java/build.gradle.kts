@@ -10,7 +10,7 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 val fluxzeroVersion = "1.211.1"
-val fluxzeroIdpVersion = "0.1.0"
+val fluxzeroIdpVersion = "0.3.0"
 val jettyVersion = "12.1.10"
 val lombokVersion = "1.18.46"
 

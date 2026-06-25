@@ -10,7 +10,7 @@
 	<properties>
 		<spring-boot.version>3.5.15</spring-boot.version>
 		<jetty.version>12.1.10</jetty.version>
-		<fluxzero-idp.version>0.1.0</fluxzero-idp.version>
+		<fluxzero-idp.version>0.3.0</fluxzero-idp.version>
 		<java.version>25</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

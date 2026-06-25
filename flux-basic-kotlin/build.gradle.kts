@@ -12,7 +12,7 @@ group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
 val fluxzeroVersion = "1.211.1"
-val fluxzeroIdpVersion = "0.1.0"
+val fluxzeroIdpVersion = "0.3.0"
 
 repositories {
     mavenCentral()
