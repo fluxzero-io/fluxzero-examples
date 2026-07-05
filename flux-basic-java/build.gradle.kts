@@ -2,15 +2,15 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    id("io.fluxzero.tools.gradle.plugin") version "1.3.5"
+    id("io.fluxzero.tools.gradle.plugin") version "1.3.25"
     id("org.springframework.boot") version "3.5.15"
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-val fluxzeroVersion = "1.211.1"
-val fluxzeroIdpVersion = "0.3.0"
+val fluxzeroVersion = "1.215.0"
+val fluxzeroIdpVersion = "0.13.0"
 val jettyVersion = "12.1.10"
 val lombokVersion = "1.18.46"
 
