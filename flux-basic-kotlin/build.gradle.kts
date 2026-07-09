@@ -4,14 +4,14 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.3.21"
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
     id("org.jetbrains.kotlin.kapt") version "2.3.21"
-    id("io.fluxzero.tools.gradle.plugin") version "1.3.25"
+    id("io.fluxzero.tools.gradle.plugin") version "1.3.29"
     id("org.springframework.boot") version "3.5.16"
 }
 
 group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
-val fluxzeroVersion = "1.215.0"
+val fluxzeroVersion = "1.215.5"
 val fluxzeroIdpVersion = "0.13.0"
 
 repositories {
