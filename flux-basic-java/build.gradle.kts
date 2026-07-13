@@ -11,7 +11,7 @@ version = "0.0.1-SNAPSHOT"
 
 val fluxzeroVersion = "1.215.5"
 val fluxzeroIdpVersion = "0.13.0"
-val jettyVersion = "12.1.10"
+val jettyVersion = "12.1.11"
 val lombokVersion = "1.18.46"
 
 java {
