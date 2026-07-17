@@ -2,9 +2,8 @@
 
 This is a foundation project for Fluxzero applications. It serves as a base for developers and agents to build new applications.
 
-## For AI Agents
-
-Please refer to `AGENTS.md` for further instructions besides this readme.
+This generated starter is intentionally generic. Replace or remove the example user mapping, authentication, endpoints,
+tests, and frontend according to the requirements of the application you are building.
 
 ## What's Included
 

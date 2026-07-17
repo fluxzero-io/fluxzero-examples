@@ -3,9 +3,10 @@
 set -euo pipefail
 
 # Configuration
+REPO_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 CLI_JAR_URL="https://github.com/fluxzero-io/fluxzero-cli/releases/latest/download/fluxzero-cli.jar"
-CLI_JAR="fluxzero-cli.jar"
-TEST_DIR="cli-verification-test"
+TEST_DIR="$REPO_ROOT/cli-verification-test"
+CLI_JAR="$TEST_DIR/fluxzero-cli.jar"
 JAVA_PACKAGE="com.example.test"
 GROUP_ID="com.example"
 ARTIFACT_ID="test-project"
@@ -28,7 +29,8 @@ log_error() {
 
 cleanup() {
     log_info "Cleaning up test directory..."
-    rm -rf "$TEST_DIR" "$CLI_JAR" 2>/dev/null || true
+    cd "$REPO_ROOT"
+    rm -rf "$TEST_DIR" 2>/dev/null || true
 }
 
 # Trap to ensure cleanup on exit
@@ -53,11 +55,10 @@ main() {
     template=$(get_template_info "$project_dir")
     project_name="test-$project_dir"
     
-    log_info "Starting FluxZero CLI template verification for $template (from $project_dir)"
+    log_info "Starting Fluxzero CLI template verification for $template (from $project_dir)"
     
     # Verify the source template directory exists
-    # The script is called from the repo root, so check directly
-    if [ ! -d "$project_dir" ]; then
+    if [ ! -d "$REPO_ROOT/$project_dir" ]; then
         log_error "Template directory $project_dir does not exist"
         exit 1
     fi
@@ -67,7 +68,7 @@ main() {
     cd "$TEST_DIR"
     
     # Download CLI JAR
-    log_info "Downloading FluxZero CLI from $CLI_JAR_URL"
+    log_info "Downloading Fluxzero CLI from $CLI_JAR_URL"
     if ! curl -L -s -o "$CLI_JAR" "$CLI_JAR_URL"; then
         log_error "Failed to download CLI JAR"
         exit 1
@@ -89,7 +90,7 @@ main() {
     log_info "Testing template: $template -> $project_name"
     
     # Generate project from local template using --template-path
-    template_path=".."  # Point to the repository root containing the template directories
+    template_path="$REPO_ROOT"
     if java -jar "$CLI_JAR" init \
         --template-path "$template_path" \
         --template "$template" \
@@ -113,7 +114,7 @@ main() {
         # Check for expected files
         cd "$project_name"
         
-        expected_files=("src" "gradlew")
+        expected_files=("src" "gradlew" "AGENTS.md")
         for file in "${expected_files[@]}"; do
             if [ -e "$file" ]; then
                 log_success "Found expected file/directory: $file"
@@ -121,7 +122,12 @@ main() {
                 log_warning "Missing expected file/directory: $file"
             fi
         done
-        
+
+        if [ -e "CLAUDE.md" ]; then
+            log_error "CLAUDE.md must not be generated before a Claude-compatible Fluxzero integration exists"
+            exit 1
+        fi
+
         # Check for build file (either Gradle or Maven)
         if [ -f "build.gradle.kts" ] || [ -f "build.gradle" ]; then
             log_success "Found Gradle build file"
@@ -140,6 +146,21 @@ main() {
         else
             log_warning "No src/main/java or src/main/kotlin directories found"
         fi
+
+        if find . -path '*/.fluxzero/agents*' -print -quit | grep -q .; then
+            log_error "Generated project contains repository-local Fluxzero manuals"
+            exit 1
+        fi
+
+        log_info "Running the generated project's Gradle tests"
+        chmod +x ./gradlew
+        ./gradlew --no-daemon test
+
+        if find . -path '*/.fluxzero/agents*' -print -quit | grep -q .; then
+            log_error "Generated project build created repository-local Fluxzero manuals"
+            exit 1
+        fi
+        log_success "Generated project builds without local manuals"
         
         cd ..
     else
