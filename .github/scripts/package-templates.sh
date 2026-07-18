@@ -7,18 +7,23 @@ staging=$(mktemp -d)
 trap 'rm -rf "$staging"' EXIT
 
 templates=(flux-basic-java flux-basic-kotlin)
-[[ ! -e "$repo_root/CLAUDE.md" ]] || {
-  echo "Root CLAUDE.md is reserved for a future Claude-compatible Fluxzero integration" >&2
-  exit 1
-}
+project_instructions=(AGENTS.md CLAUDE.md GEMINI.md)
+
+for instruction in "${project_instructions[@]}"; do
+  [[ -f "$repo_root/$instruction" ]] || { echo "Missing root $instruction" >&2; exit 1; }
+done
+
 for template in "${templates[@]}"; do
   source_dir="$repo_root/$template"
   [[ -d "$source_dir" ]] || { echo "Missing template: $template" >&2; exit 1; }
-  [[ -f "$source_dir/AGENTS.md" ]] || { echo "Missing $template/AGENTS.md" >&2; exit 1; }
-  [[ ! -e "$source_dir/CLAUDE.md" ]] || {
-    echo "$template/CLAUDE.md is reserved for a future Claude-compatible Fluxzero integration" >&2
-    exit 1
-  }
+
+  for instruction in "${project_instructions[@]}"; do
+    [[ -f "$source_dir/$instruction" ]] || { echo "Missing $template/$instruction" >&2; exit 1; }
+    cmp -s "$repo_root/$instruction" "$source_dir/$instruction" || {
+      echo "$template/$instruction differs from the reviewed root instruction" >&2
+      exit 1
+    }
+  done
 
   if find "$source_dir" -path '*/.fluxzero/agents*' -print -quit | grep -q .; then
     echo "Repository-local Fluxzero manuals are not allowed in template $template" >&2

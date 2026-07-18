@@ -20,8 +20,14 @@ fz init --template flux-basic-java --name my-app --package com.example.myapp --b
 
 Use `flux-basic-kotlin` for a Kotlin project and choose either `maven` or `gradle` for `--build`.
 
-Generated projects do not contain local Fluxzero SDK manuals. Their small agent instruction file directs coding agents
-to the installed Fluxzero plugin, which supplies the application-building workflow and current MCP documentation.
+Generated projects do not contain local Fluxzero SDK manuals. Their small agent instruction files direct Codex,
+Claude Code, Cursor, Gemini CLI, or GitHub Copilot to the matching adapter in
+[`fluxzero-agent-integrations`](https://github.com/fluxzero-io/fluxzero-agent-integrations), which supplies the shared
+application-building skill and current MCP documentation.
+
+`AGENTS.md` contains the shared rule used by Codex, Cursor, and GitHub Copilot. `CLAUDE.md` and `GEMINI.md` import that
+rule and add only the bootstrap command and reload boundary required by their own clients. The integration remains an
+agent-level installation and is not copied into generated projects, so the Fluxzero MCP server is registered only once.
 
 ## Validate templates
 

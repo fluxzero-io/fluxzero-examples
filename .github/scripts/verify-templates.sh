@@ -114,7 +114,7 @@ main() {
         # Check for expected files
         cd "$project_name"
         
-        expected_files=("src" "gradlew" "AGENTS.md")
+        expected_files=("src" "gradlew" "AGENTS.md" "CLAUDE.md" "GEMINI.md")
         for file in "${expected_files[@]}"; do
             if [ -e "$file" ]; then
                 log_success "Found expected file/directory: $file"
@@ -123,10 +123,12 @@ main() {
             fi
         done
 
-        if [ -e "CLAUDE.md" ]; then
-            log_error "CLAUDE.md must not be generated before a Claude-compatible Fluxzero integration exists"
-            exit 1
-        fi
+        for instruction in AGENTS.md CLAUDE.md GEMINI.md; do
+            if ! cmp -s "$REPO_ROOT/$instruction" "$instruction"; then
+                log_error "Generated $instruction differs from the reviewed template instruction"
+                exit 1
+            fi
+        done
 
         # Check for build file (either Gradle or Maven)
         if [ -f "build.gradle.kts" ] || [ -f "build.gradle" ]; then
