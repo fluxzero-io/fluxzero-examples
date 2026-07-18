@@ -1,8 +1,10 @@
 .DS_Store
+build/
+**/.gradle/
+**/.kotlin/
+**/build/
+**/target/
+**/.idea/
 
-# Never commit the fluxzero agent files in the examples repo
-*/.fluxzero
-
-# IntelliJ IDEA
-.idea
-.output.txt
+# Current SDK guidance is supplied by the Fluxzero plugin, never copied into a template.
+*/.fluxzero/agents/

@@ -1,0 +1,80 @@
+name: Build and release templates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        template: [flux-basic-java, flux-basic-kotlin]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+      - uses: gradle/actions/wrapper-validation@v5
+      - name: Test with Maven
+        working-directory: ${{ matrix.template }}
+        run: ./mvnw -B -ntp test
+      - name: Test with Gradle
+        working-directory: ${{ matrix.template }}
+        run: ./gradlew --no-daemon test
+      - name: Reject generated local manuals
+        run: |
+          if find "${{ matrix.template }}" -path '*/.fluxzero/agents*' -print -quit | grep -q .; then
+            echo "The build generated repository-local Fluxzero manuals" >&2
+            exit 1
+          fi
+      - name: Verify CLI generation
+        run: ./.github/scripts/verify-templates.sh "${{ matrix.template }}"
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package templates
+        run: ./.github/scripts/package-templates.sh
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="v$(date -u +%Y.%m).${{ github.run_number }}"
+          gh release create "$version" build/templates.zip --title "$version" --notes "Fluxzero Java and Kotlin project templates" --latest
+
+  trigger-cli-build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: release
+    runs-on: ubuntu-latest
+    env:
+      CLI_BUILD_DISPATCHER_APP_ID: ${{ secrets.CLI_BUILD_DISPATCHER_APP_ID }}
+      CLI_BUILD_DISPATCHER_PRIVATE_KEY: ${{ secrets.CLI_BUILD_DISPATCHER_PRIVATE_KEY }}
+    steps:
+      - name: Explain skipped CLI dispatch
+        if: env.CLI_BUILD_DISPATCHER_APP_ID == '' || env.CLI_BUILD_DISPATCHER_PRIVATE_KEY == ''
+        run: echo "CLI release dispatch is disabled until the dispatcher app secrets are configured."
+      - name: Generate GitHub App token
+        if: env.CLI_BUILD_DISPATCHER_APP_ID != '' && env.CLI_BUILD_DISPATCHER_PRIVATE_KEY != ''
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ env.CLI_BUILD_DISPATCHER_APP_ID }}
+          private-key: ${{ env.CLI_BUILD_DISPATCHER_PRIVATE_KEY }}
+          owner: fluxzero-io
+          repositories: fluxzero-cli
+      - name: Trigger CLI release
+        if: env.CLI_BUILD_DISPATCHER_APP_ID != '' && env.CLI_BUILD_DISPATCHER_PRIVATE_KEY != ''
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh api repos/fluxzero-io/fluxzero-cli/dispatches -f event_type=templates-updated -F "client_payload[sha]=${{ github.sha }}"

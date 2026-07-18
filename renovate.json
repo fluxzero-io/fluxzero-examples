@@ -42,8 +42,7 @@
     {
       "description": "Kotlin projects - limit to Java 25 compatible versions",
       "matchPaths": [
-        "flux-basic-kotlin/**",
-        "flux-todo-kotlin/**"
+        "flux-basic-kotlin/**"
       ],
       "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin"],
       "groupName": "Kotlin (Java 25)",
@@ -52,8 +51,7 @@
     {
       "description": "Kotlin tooling for Kotlin projects",
       "matchPaths": [
-        "flux-basic-kotlin/**",
-        "flux-todo-kotlin/**"
+        "flux-basic-kotlin/**"
       ],
       "matchPackagePatterns": ["^io\\.github\\.oshai:kotlin-logging"],
       "groupName": "Kotlin tooling",
@@ -62,8 +60,7 @@
     {
       "description": "Java projects - can use latest versions",
       "matchPaths": [
-        "flux-basic-java/**",
-        "gamerental/**"
+        "flux-basic-java/**"
       ],
       "matchPackagePatterns": ["^org\\.projectlombok"],
       "groupName": "Java tooling",
