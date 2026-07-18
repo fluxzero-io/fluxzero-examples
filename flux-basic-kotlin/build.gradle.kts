@@ -10,7 +10,7 @@ plugins {
 group = "com.example.flux"
 version = "1.0-SNAPSHOT"
 
-val fluxzeroVersion = "1.215.5"
+val fluxzeroVersion = "1.215.6"
 val fluxzeroIdpVersion = "0.13.0"
 
 repositories {
