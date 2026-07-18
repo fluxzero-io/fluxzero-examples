@@ -8,7 +8,7 @@ plugins {
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-val fluxzeroVersion = "1.215.5"
+val fluxzeroVersion = "1.215.6"
 val fluxzeroIdpVersion = "0.13.0"
 val jettyVersion = "12.1.11"
 val lombokVersion = "1.18.46"

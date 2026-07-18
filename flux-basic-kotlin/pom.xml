@@ -16,7 +16,7 @@
         <kotlin-logging.version>7.0.14</kotlin-logging.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <fluxzero.version>1.215.5</fluxzero.version>
+        <fluxzero.version>1.215.6</fluxzero.version>
         <fluxzero-idp.version>0.13.0</fluxzero-idp.version>
     </properties>
 
