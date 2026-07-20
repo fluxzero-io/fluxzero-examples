@@ -10,29 +10,31 @@ tests, and frontend according to the requirements of the application you are bui
 A foundational application with the following features already configured:
 - **User Mapping**: Minimal example users for authenticated sessions and RBAC
 - **Authentication**: Fluxzero IDP BFF login flow, session cookie, and role-based access control (RBAC)
-- **Fluxzero Integration**: Pre-configured proxy and test server
+- **Fluxzero Integration**: Pre-configured automated development environment
 
 ## Quick Start
 
-Start the complete application stack:
+Install the Fluxzero CLI and start the complete development environment:
 
 ```bash
-./gradlew runTestApp
-# or
-./mvnw exec:java
+fz dev
 ```
 
 This starts:
-- **Fluxzero Test Server**
-- **Fluxzero Proxy** on port 8080 (main entry point)
-- **Fluxzero Local Stub IDP** through the same proxy origin, `http://localhost:8080`
-- **Spring Boot Application**
+- the embedded Fluxzero runtime and proxy
+- the managed local identity provider
+- the Spring Boot application, with rolling replacement after source changes
+- affected tests in the background
 
 The main application code reads a normal Fluxzero IDP tenant from the `fluxzero.auth.*` properties.
 For deployed environments, provide those values through environment variables, system properties or
-`src/main/resources/application.properties`. `TestApp` runs from the test classpath and imports `FluxzeroIdpStub`.
-The `io.fluxzero.idp:test-support` dependency provides local stub defaults; override them in
-`src/test/resources/application.properties` only when this app needs different local values.
+`src/main/resources/application.properties`. The dev server supplies the local runtime, proxy, and identity provider;
+the application does not bootstrap those services from its test classpath. The `io.fluxzero.idp:test-support`
+dependency remains available for focused authentication tests.
+
+Coding agents should use the installed Fluxzero plugin's `fluxzero-dev` MCP server. It starts or reuses this
+environment and exposes cursored build, reload, problem, log, and test feedback. While it is active, do not run a
+second wrapper build, test process, application, watcher, or continuous log command.
 
 ## API Endpoints
 
@@ -44,4 +46,5 @@ The `io.fluxzero.idp:test-support` dependency provides local stub defaults; over
 
 ## Testing
 
-Run the `All tests` run configuration in your IDE.
+The development environment automatically selects affected tests after changes. Run the `All tests` IDE
+configuration or the project wrapper only for explicit full-suite, CI, or fallback verification.

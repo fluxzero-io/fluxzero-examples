@@ -21,13 +21,19 @@ fz init --template flux-basic-java --name my-app --package com.example.myapp --b
 Use `flux-basic-kotlin` for a Kotlin project and choose either `maven` or `gradle` for `--build`.
 
 Generated projects do not contain local Fluxzero SDK manuals. Their small agent instruction files direct Codex,
-Claude Code, Cursor, Gemini CLI, or GitHub Copilot to the matching adapter in
-[`fluxzero-agent-integrations`](https://github.com/fluxzero-io/fluxzero-agent-integrations), which supplies the shared
-application-building skill and current MCP documentation.
+Claude Code, Cursor, Gemini CLI, or GitHub Copilot to the matching package in
+[`fluxzero-agent-plugins`](https://github.com/fluxzero-io/fluxzero-agent-plugins), which supplies the shared
+application-building skill, current MCP documentation, and the automated local development feedback server.
 
 `AGENTS.md` contains the shared rule used by Codex, Cursor, and GitHub Copilot. `CLAUDE.md` and `GEMINI.md` import that
-rule and add only the bootstrap command and reload boundary required by their own clients. The integration remains an
-agent-level installation and is not copied into generated projects, so the Fluxzero MCP server is registered only once.
+rule and add only the bootstrap command and reload boundary required by their own clients. The plugin (or Gemini
+extension) remains an agent-level installation and is not copied into generated projects, so each Fluxzero MCP server is
+registered only once.
+
+Generated projects include tracked `.fluxzero/dev.yaml` defaults. Run `fz dev` for an interactive environment; installed
+agent plugins use `fz mcp --ensure-dev` to start or reuse that same environment automatically. It owns watching,
+compilation, application replacement, and affected-test execution so coding agents can consume structured feedback
+without launching duplicate processes.
 
 ## Validate templates
 
