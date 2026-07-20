@@ -5,10 +5,18 @@ plugins {
     id("org.jetbrains.kotlin.plugin.spring") version "2.3.21"
     id("org.jetbrains.kotlin.kapt") version "2.3.21"
     id("org.springframework.boot") version "3.5.16"
+    id("io.fluxzero.tools.gradle.plugin") version "1.4.1"
 }
 
 group = "com.example.flux"
 version = "1.0-SNAPSHOT"
+
+fluxzero {
+    projectFiles {
+        // Agent guidance comes from the installed integration. Keep the sync task available as an explicit opt-in.
+        enabled.set(false)
+    }
+}
 
 val fluxzeroVersion = "1.227.0"
 val fluxzeroIdpVersion = "0.15.0"
@@ -45,8 +53,6 @@ dependencies {
             classifier = "tests"
         }
     }
-    testImplementation("io.fluxzero:test-server")
-    testImplementation("io.fluxzero:proxy")
     testImplementation("io.fluxzero.idp:test-support:$fluxzeroIdpVersion")
 }
 
@@ -61,11 +67,4 @@ tasks.bootJar {
 
 kotlin {
     jvmToolchain(25)
-}
-
-tasks.register<JavaExec>("runTestApp") {
-    group = "application"
-    description = "Runs the TestApp"
-    classpath = sourceSets["test"].runtimeClasspath
-    mainClass.set("com.example.app.TestApp")
 }

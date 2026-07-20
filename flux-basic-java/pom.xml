@@ -60,16 +60,6 @@
 			<classifier>tests</classifier>
 		</dependency>
 		<dependency>
-			<groupId>io.fluxzero</groupId>
-			<artifactId>test-server</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.fluxzero</groupId>
-			<artifactId>proxy</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.fluxzero.idp</groupId>
 			<artifactId>client</artifactId>
 			<version>${fluxzero-idp.version}</version>
@@ -186,7 +176,7 @@
 			<plugin>
 				<groupId>io.fluxzero.tools</groupId>
 				<artifactId>fluxzero-maven-plugin</artifactId>
-				<version>1.4.0</version>
+				<version>1.4.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -261,16 +251,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.6.3</version>
-				<configuration>
-					<mainClass>com.example.app.TestApp</mainClass>
-					<includePluginDependencies>false</includePluginDependencies>
-					<classpathScope>test</classpathScope>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
