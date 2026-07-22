@@ -25,10 +25,10 @@ Claude Code, Cursor, Gemini CLI, or GitHub Copilot to the matching package in
 [`fluxzero-agent-plugins`](https://github.com/fluxzero-io/fluxzero-agent-plugins), which supplies the shared
 application-building skill, current MCP documentation, and the automated local development feedback server.
 
-`AGENTS.md` contains the shared rule used by Codex, Cursor, and GitHub Copilot. `CLAUDE.md` and `GEMINI.md` import that
-rule and add only the bootstrap command and reload boundary required by their own clients. The plugin (or Gemini
-extension) remains an agent-level installation and is not copied into generated projects, so each Fluxzero MCP server is
-registered only once.
+Each template's `AGENTS.md` contains the shared rule used by Codex, Cursor, and GitHub Copilot. Its `CLAUDE.md` and
+`GEMINI.md` import that rule and add only the bootstrap command and reload boundary required by their own clients. The
+plugin (or Gemini extension) remains an agent-level installation and is not copied into generated projects, so each
+Fluxzero MCP server is registered only once.
 
 Generated projects include tracked `.fluxzero/dev.yaml` defaults. Run `fz dev` for an interactive environment; installed
 agent plugins use `fz mcp --ensure-dev` to start or reuse that same environment automatically. It owns watching,

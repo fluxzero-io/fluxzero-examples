@@ -124,8 +124,8 @@ main() {
         done
 
         for instruction in AGENTS.md CLAUDE.md GEMINI.md; do
-            if ! cmp -s "$REPO_ROOT/$instruction" "$instruction"; then
-                log_error "Generated $instruction differs from the reviewed template instruction"
+            if ! cmp -s "$REPO_ROOT/$project_dir/$instruction" "$instruction"; then
+                log_error "Generated $instruction differs from $project_dir/$instruction"
                 exit 1
             fi
         done
