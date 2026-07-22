@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.4.10"
     id("org.jetbrains.kotlin.plugin.spring") version "2.4.10"
     id("org.jetbrains.kotlin.kapt") version "2.4.10"
-    id("org.springframework.boot") version "3.5.16"
+    id("org.springframework.boot") version "4.1.0"
     id("io.fluxzero.tools.gradle.plugin") version "1.8.0"
 }
 
