@@ -18,7 +18,7 @@ fluxzero {
     }
 }
 
-val fluxzeroVersion = "1.227.0"
+val fluxzeroVersion = "1.230.0"
 val fluxzeroIdpVersion = "0.15.0"
 
 repositories {
