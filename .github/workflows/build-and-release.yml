@@ -14,13 +14,13 @@ jobs:
       matrix:
         template: [flux-basic-java, flux-basic-kotlin]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "25"
           cache: maven
-      - uses: gradle/actions/wrapper-validation@v5
+      - uses: gradle/actions/wrapper-validation@v6
       - name: Test with Maven
         working-directory: ${{ matrix.template }}
         run: ./mvnw -B -ntp test
@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Package templates
         run: ./.github/scripts/package-templates.sh
       - name: Publish release
@@ -67,7 +67,7 @@ jobs:
       - name: Generate GitHub App token
         if: env.CLI_BUILD_DISPATCHER_APP_ID != '' && env.CLI_BUILD_DISPATCHER_PRIVATE_KEY != ''
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ env.CLI_BUILD_DISPATCHER_APP_ID }}
           private-key: ${{ env.CLI_BUILD_DISPATCHER_PRIVATE_KEY }}
