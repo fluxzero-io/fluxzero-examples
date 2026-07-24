@@ -1,56 +1,23 @@
-# Fluxzero Project Templates
+# Fluxzero Project Templates (moved)
 
-This repository contains the starter projects distributed with the
-[Fluxzero CLI](https://github.com/fluxzero-io/fluxzero-cli):
+The maintained Java and Kotlin project templates now live in the
+[Fluxzero CLI repository](https://github.com/fluxzero-io/fluxzero-cli/tree/main/templates/src/main/template-sources).
+Their packaging, validation, and release lifecycle are part of the CLI build, so a released CLI and its bundled
+templates always belong together.
 
-- `flux-basic-java`: Java starter with Maven and Gradle support.
-- `flux-basic-kotlin`: Kotlin starter with Maven and Gradle support.
-
-The templates provide a working starting point, not a prescribed application design. After generation, adapt the
-domain model, authentication, endpoints, dependencies, tests, and optional frontend to the actual product requirements.
-
-## Generate a project
-
-Install the latest Fluxzero CLI and select a template:
+Use the latest Fluxzero CLI to generate a project:
 
 ```bash
-curl -sSL https://github.com/fluxzero-io/fluxzero-cli/releases/latest/download/install.sh | sh
 fz init --template flux-basic-java --name my-app --package com.example.myapp --build maven
 ```
 
-Use `flux-basic-kotlin` for a Kotlin project and choose either `maven` or `gradle` for `--build`.
+Use `flux-basic-kotlin` for Kotlin and select either `maven` or `gradle` for `--build`. Update the CLI when you want a
+newer template version; an installed CLI deliberately keeps using the templates bundled with that CLI release.
 
-Generated projects do not contain local Fluxzero SDK manuals. Their small agent instruction files direct Codex,
-Claude Code, Cursor, Gemini CLI, or GitHub Copilot to the matching package in
-[`fluxzero-agent-plugins`](https://github.com/fluxzero-io/fluxzero-agent-plugins), which supplies the shared
-application-building skill, current MCP documentation, and the automated local development feedback server.
-
-Each template's `AGENTS.md` contains the shared rule used by Codex, Cursor, and GitHub Copilot. Its `CLAUDE.md` and
-`GEMINI.md` import that rule and add only the bootstrap command and reload boundary required by their own clients. The
-plugin (or Gemini extension) remains an agent-level installation and is not copied into generated projects, so each
-Fluxzero MCP server is registered only once.
-
-Generated projects include tracked `.fluxzero/dev.yaml` defaults. Run `fz dev` for an interactive environment; installed
-agent plugins use `fz mcp --ensure-dev` to start or reuse that same environment automatically. It owns watching,
-compilation, application replacement, and affected-test execution so coding agents can consume structured feedback
-without launching duplicate processes.
-
-## Validate templates
-
-Each template is independently buildable with both wrappers:
-
-```bash
-cd flux-basic-java
-./mvnw test
-./gradlew test
-```
-
-Create the release archive locally with:
-
-```bash
-./.github/scripts/package-templates.sh
-```
+Open template changes and issues in
+[`fluxzero-io/fluxzero-cli`](https://github.com/fluxzero-io/fluxzero-cli). This repository and its existing releases are
+retained as historical records; it no longer publishes standalone template archives.
 
 ## License
 
-Licensed under the Apache License 2.0. See [LICENSE](LICENSE).
+The historical template source is licensed under the Apache License 2.0. See [LICENSE](LICENSE).
