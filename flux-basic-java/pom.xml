@@ -14,6 +14,7 @@
 		<java.version>25</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<fluxzero.package.tag>${project.version}</fluxzero.package.tag>
 	</properties>
 
 	<dependencyManagement>
@@ -176,7 +177,24 @@
 			<plugin>
 				<groupId>io.fluxzero.tools</groupId>
 				<artifactId>fluxzero-maven-plugin</artifactId>
-				<version>1.8.0</version>
+				<version>1.10.0</version>
+				<configuration>
+					<packageName>flux-basic-java</packageName>
+					<images>
+						<image>registry.fluxzero.io/${organisationId}/${packageName}</image>
+					</images>
+					<tags>
+						<tag>${fluxzero.package.tag}</tag>
+					</tags>
+					<authentications>
+						<authentication>
+							<host>registry.fluxzero.io</host>
+							<github-oidc>
+								<audience>https://cloud.fluxzero.io</audience>
+							</github-oidc>
+						</authentication>
+					</authentications>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

@@ -52,6 +52,15 @@ operations:
     find: 'rootProject.name = "flux-basic-java"'
     replace: 'rootProject.name = "${artifactId}"'
 
+  # Keep package publishing and deployment aligned with the generated artifact id
+  - type: replace
+    files:
+      - "build.gradle.kts"
+      - ".github/workflows/deploy-to-fluxzero-cloud.yml.maven"
+      - ".github/workflows/deploy-to-fluxzero-cloud.yml.gradle"
+    find: "flux-basic-java"
+    replace: "${artifactId}"
+
   # Update package references in all resource files
   - type: replace
     files: ["src/main/resources/**/*", "src/test/resources/**/*"]
@@ -75,6 +84,15 @@ operations:
     files: ["README.md"]
     find: "src/test/java/com/example/app/"
     replace: "src/test/java/${packagePath}/"
+
+  # Keep only the workflow for the selected build system
+  - type: rename
+    from: ".github/workflows/deploy-to-fluxzero-cloud.yml.maven"
+    to: ".github/workflows/deploy-to-fluxzero-cloud.yml"
+
+  - type: rename
+    from: ".github/workflows/deploy-to-fluxzero-cloud.yml.gradle"
+    to: ".github/workflows/deploy-to-fluxzero-cloud.yml"
 
   # rename docker files
   - type: rename

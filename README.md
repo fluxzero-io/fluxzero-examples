@@ -35,6 +35,10 @@ agent plugins use `fz mcp --ensure-dev` to start or reuse that same environment 
 compilation, application replacement, and affected-test execution so coding agents can consume structured feedback
 without launching duplicate processes.
 
+The selected build system also gets a matching GitHub OIDC deployment workflow. It tests the project, publishes a
+layered image through the Fluxzero Maven or Gradle plugin, resolves the registry organisation automatically, and deploys
+the immutable commit tag without an API-key secret or hard-coded organisation id.
+
 ## Validate templates
 
 Each template is independently buildable with both wrappers:

@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.spring") version "2.4.10"
     id("org.jetbrains.kotlin.kapt") version "2.4.10"
     id("org.springframework.boot") version "3.5.16"
-    id("io.fluxzero.tools.gradle.plugin") version "1.8.0"
+    id("io.fluxzero.tools.gradle.plugin") version "1.10.0"
 }
 
 group = "com.example.flux"
@@ -15,6 +15,19 @@ fluxzero {
     projectFiles {
         // Agent guidance comes from the installed integration. Keep the sync task available as an explicit opt-in.
         enabled.set(false)
+    }
+    packagePublishing {
+        packageName.set("flux-basic-kotlin")
+        images.add("registry.fluxzero.io/\${organisationId}/\${packageName}")
+        tags.add(providers.environmentVariable("FLUXZERO_PACKAGE_VERSION").orElse(project.version.toString()))
+        authentications {
+            create("fluxzero") {
+                host.set("registry.fluxzero.io")
+                githubOidc {
+                    audience.set("https://cloud.fluxzero.io")
+                }
+            }
+        }
     }
 }
 
